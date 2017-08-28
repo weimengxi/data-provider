@@ -16,19 +16,19 @@ var _createClass2 = require("babel-runtime/helpers/createClass");
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var Deferred = function () {
     function Deferred() {
-        (0, _classCallCheck3.default)(this, Deferred);
+        (0, _classCallCheck3["default"])(this, Deferred);
 
-        this.promise = new _promise2.default(function (resolve, reject) {
+        this.promise = new _promise2["default"](function (resolve, reject) {
             this._resolve = resolve;
             this._reject = reject;
         }.bind(this));
     }
 
-    (0, _createClass3.default)(Deferred, [{
+    (0, _createClass3["default"])(Deferred, [{
         key: "resolve",
         value: function resolve(value) {
             this._resolve.call(this.promise, value);
@@ -42,5 +42,5 @@ var Deferred = function () {
     return Deferred;
 }();
 
-exports.default = Deferred;
+exports["default"] = Deferred;
 //# sourceMappingURL=Deferred.js.map

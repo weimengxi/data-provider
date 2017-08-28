@@ -56,12 +56,12 @@ var _CacheData = require('./CacheData');
 
 var _CacheData2 = _interopRequireDefault(_CacheData);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var AppCache = new _CacheData2.default('DATA_SOURCE_PROXY', 'v0.0.1');
+var AppCache = new _CacheData2['default']('DATA_SOURCE_PROXY', 'v0.0.1');
 
 function mixConfig(requestConfig) {
-    return (0, _assign2.default)({}, _config2.default, requestConfig);
+    return (0, _assign2['default'])({}, _config2['default'], requestConfig);
 }
 
 /* 生成cache key*/
@@ -73,7 +73,7 @@ function getCacheKey() {
 
     var cacheKey = null;
     if (typeof maxAge === 'number') {
-        cacheKey = url + '_' + _querystring2.default.stringify(params);
+        cacheKey = url + '_' + _querystring2['default'].stringify(params);
     }
     return cacheKey;
 }
@@ -90,9 +90,9 @@ function DataSource() {
         error: []
     };
 
-    var requestDefers = new _map2.default();
+    var requestDefers = new _map2['default']();
 
-    var httpMD = new _MissionDispatcher2.default(_Ajax2.default, workerCount);
+    var httpMD = new _MissionDispatcher2['default'](_Ajax2['default'], workerCount);
     httpMD.start();
 
     this.interceptors = {
@@ -138,7 +138,7 @@ function DataSource() {
 
     this.request = function (requestConfig) {
 
-        return new _promise2.default(function (resolve, reject) {
+        return new _promise2['default'](function (resolve, reject) {
 
             var cacheKey = getCacheKey(requestConfig);
             var maxAge = requestConfig.maxAge,
@@ -160,7 +160,7 @@ function DataSource() {
                     _this.serverRequest(requestConfig).then(function (data) {
                         cacheItem.set(data);
                         resolve(data);
-                    }).catch(function (err) {
+                    })['catch'](function (err) {
                         return reject(err);
                     });
                 } else {
@@ -174,23 +174,23 @@ function DataSource() {
     this.serverRequest = function (requestConfig) {
 
         var missionConfig = mixConfig(requestConfig || {});
-        var requestDefer = new _Deferred2.default();
+        var requestDefer = new _Deferred2['default']();
 
         // 1. requestInterceptors
         interceptors.request.reduce(function (configPromise, interceptor) {
             return configPromise.then(interceptor);
-        }, _promise2.default.resolve(missionConfig)).then(function (config) {
+        }, _promise2['default'].resolve(missionConfig)).then(function (config) {
             return config;
         }, function (interceptorError) {
             console.log('Request Intercept Fail ... ', interceptorError);
             if (!interceptorError instanceof Error) {
-                interceptorError = (0, _CreateError2.default)({ message: interceptorError });
+                interceptorError = (0, _CreateError2['default'])({ message: interceptorError });
             }
             throw interceptorError;
         })
         // 2. doRequest
         .then(function (config) {
-            var mission = new _Http2.default(config);
+            var mission = new _Http2['default'](config);
             // 2.1 doRequest
             httpMD.put(mission)
             // 2.2. response or error
@@ -200,7 +200,7 @@ function DataSource() {
                     return resultPromise.then(function (result) {
                         return interceptor(result, requestConfig);
                     });
-                }, _promise2.default.resolve(result)).then(function (result) {
+                }, _promise2['default'].resolve(result)).then(function (result) {
                     requestDefer.resolve(result);
                 }, function (error) {
                     /* 
@@ -216,14 +216,14 @@ function DataSource() {
                 if (error instanceof Error) {
                     transformedError = error;
                 } else {
-                    transformedError = (0, _CreateError2.default)({ message: error });
+                    transformedError = (0, _CreateError2['default'])({ message: error });
                 }
                 // 2.2.2. errorInterceptors
                 interceptors.error.reduce(function (errorPromise, interceptor) {
                     return errorPromise.then(function (error) {
                         return interceptor(error, requestConfig);
                     });
-                }, _promise2.default.resolve(transformedError)).then(function (errorOrData) {
+                }, _promise2['default'].resolve(transformedError)).then(function (errorOrData) {
                     /*
                      * 【注意！！！】
                      *　处理过的异常, errorInterceptor可能把error转换为正常的数据(非Error类型)
@@ -237,7 +237,7 @@ function DataSource() {
                     throw exceptionError;
                 });
             });
-        }).catch(function (err) {
+        })['catch'](function (err) {
             requestDefer.reject(err);
         });
 
@@ -245,10 +245,10 @@ function DataSource() {
     };
 }
 
-DataSource.ErrorType = _const2.default.ERROR_TYPE;
-DataSource.Deferred = _Deferred2.default;
-DataSource.createError = _CreateError2.default;
-DataSource.createComboPromise = _ComboPromise2.default;
+DataSource.ErrorType = _const2['default'].ERROR_TYPE;
+DataSource.Deferred = _Deferred2['default'];
+DataSource.createError = _CreateError2['default'];
+DataSource.createComboPromise = _ComboPromise2['default'];
 
-exports.default = DataSource;
+exports['default'] = DataSource;
 //# sourceMappingURL=index.js.map

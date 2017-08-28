@@ -24,7 +24,7 @@ var _const = require('../const');
 
 var _const2 = _interopRequireDefault(_const);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 /**
  * [Storage description]
@@ -32,12 +32,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param {Boolean} isMemory [是否使用内存级存储，默认为flase 即持久存储]
  */
 var _ins = {};
-var prefix = _const2.default.NAMESPACE;
+var prefix = _const2['default'].NAMESPACE;
 
 var Storage = function () {
     function Storage(id) {
         var isMemory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        (0, _classCallCheck3.default)(this, Storage);
+        (0, _classCallCheck3['default'])(this, Storage);
 
         // Singleton pattern
         if (!(_ins[id] instanceof Storage)) {
@@ -49,12 +49,12 @@ var Storage = function () {
         this.id = id;
         this.ns = prefix + "_" + id + "_";
 
-        this._methods = isMemory ? _Solution2.default.memory.methods : function () {
-            if (_Solution2.default.localStorage.test()) {
-                return _Solution2.default.localStorage.methods;
+        this._methods = isMemory ? _Solution2['default'].memory.methods : function () {
+            if (_Solution2['default'].localStorage.test()) {
+                return _Solution2['default'].localStorage.methods;
             }
-            if (_Solution2.default.userData.test()) {
-                return _Solution2.default.userData.methods;
+            if (_Solution2['default'].userData.test()) {
+                return _Solution2['default'].userData.methods;
             }
             return {
                 init: function init() {},
@@ -70,10 +70,10 @@ var Storage = function () {
         }
     }
 
-    (0, _createClass3.default)(Storage, [{
+    (0, _createClass3['default'])(Storage, [{
         key: 'encode',
         value: function encode(data) {
-            return window.JSON ? (0, _stringify2.default)(data) : data;
+            return window.JSON ? (0, _stringify2['default'])(data) : data;
         }
     }, {
         key: 'decode',
@@ -115,5 +115,5 @@ var Storage = function () {
     return Storage;
 }();
 
-exports.default = Storage;
+exports['default'] = Storage;
 //# sourceMappingURL=Storage.js.map

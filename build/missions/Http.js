@@ -24,18 +24,18 @@ var _Super = require('./Super');
 
 var _Super2 = _interopRequireDefault(_Super);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var HttpMission = function (_Mission) {
-    (0, _inherits3.default)(HttpMission, _Mission);
+    (0, _inherits3['default'])(HttpMission, _Mission);
 
     function HttpMission(config) {
-        (0, _classCallCheck3.default)(this, HttpMission);
-        return (0, _possibleConstructorReturn3.default)(this, (HttpMission.__proto__ || (0, _getPrototypeOf2.default)(HttpMission)).call(this, 'http', config));
+        (0, _classCallCheck3['default'])(this, HttpMission);
+        return (0, _possibleConstructorReturn3['default'])(this, (HttpMission.__proto__ || (0, _getPrototypeOf2['default'])(HttpMission)).call(this, 'http', config));
     }
 
     return HttpMission;
-}(_Super2.default);
+}(_Super2['default']);
 
-exports.default = HttpMission;
+exports['default'] = HttpMission;
 //# sourceMappingURL=Http.js.map

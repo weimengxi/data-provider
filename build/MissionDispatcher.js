@@ -28,7 +28,7 @@ var _ComboPromise = require('./utils/ComboPromise');
 
 var _events = require('events');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 // 会不会溢出？
 var serialNumber = 0;
@@ -45,12 +45,12 @@ function makeMissionKey(mission) {
 
 var MissionDispatcher = function () {
     function MissionDispatcher(WorkerFactory, count) {
-        (0, _classCallCheck3.default)(this, MissionDispatcher);
+        (0, _classCallCheck3['default'])(this, MissionDispatcher);
         this._context = {
             workers: [], // worker队列
             missionQueue: [], // 任务队列 
             // 持有相同defer的mission, 结构类似{missionDefer: mission} 
-            missionDefers: new _map2.default(),
+            missionDefers: new _map2['default'](),
             isRunning: false, // controller的运行状态 
             emitter: new _events.EventEmitter()
         };
@@ -68,13 +68,13 @@ var MissionDispatcher = function () {
     // 【!!!约定】 以下划线开头的是私有变量，请不要调用 
 
 
-    (0, _createClass3.default)(MissionDispatcher, [{
+    (0, _createClass3['default'])(MissionDispatcher, [{
         key: 'put',
         value: function put(mission) {
 
             var missionKey = makeMissionKey(mission),
                 missionDefer = (0, _ComboPromise.createComboDefer)(missionKey),
-                missionInQueue = (0, _assign2.default)({}, mission, { defer: missionDefer });
+                missionInQueue = (0, _assign2['default'])({}, mission, { defer: missionDefer });
 
             if (this._context.missionDefers.has(missionDefer) === false) {
                 this._context.missionDefers.set(missionDefer, missionInQueue);
@@ -142,10 +142,10 @@ function run() {
             context.workers.push(worker);
             context.emitter.emit("worker:add");
             // 删除 执行过的 missionDefer
-            context.missionDefers.delete(mission.defer);
+            context.missionDefers['delete'](mission.defer);
         };
 
-        worker.do(mission).then(function (data) {
+        worker['do'](mission).then(function (data) {
             mission.defer.resolve(data);
             // console.log("%cResolve: m %s, w %s ", "color:blue", mission, worker.id);
             finishHandler();
@@ -157,5 +157,5 @@ function run() {
     }
 }
 
-exports.default = MissionDispatcher;
+exports['default'] = MissionDispatcher;
 //# sourceMappingURL=MissionDispatcher.js.map

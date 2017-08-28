@@ -12,15 +12,15 @@ var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProp
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-exports.default = createError;
+exports['default'] = createError;
 
 var _const = require('../const');
 
 var _const2 = _interopRequireDefault(_const);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var ERROR_TYPE = _const2.default.ERROR_TYPE;
+var ERROR_TYPE = _const2['default'].ERROR_TYPE;
 
 var DEFAULT_ERROR_MSG = 'undefined message';
 var DEFAULT_ERROR_TYPE = ERROR_TYPE.BUSINESS;
@@ -33,14 +33,14 @@ function createError(_ref) {
         message = _ref$message === undefined ? DEFAULT_ERROR_MSG : _ref$message,
         _ref$type = _ref.type,
         type = _ref$type === undefined ? ERROR_TYPE.BUSINESS : _ref$type,
-        args = (0, _objectWithoutProperties3.default)(_ref, ['traceid', 'code', 'message', 'type']);
+        args = (0, _objectWithoutProperties3['default'])(_ref, ['traceid', 'code', 'message', 'type']);
 
     // need a real Error 
     var error = new Error(message);
     error.type = type;
     error.code = code;
     error.traceid = traceid;
-    (0, _assign2.default)(error, args);
+    (0, _assign2['default'])(error, args);
     return error;
 }
 //# sourceMappingURL=CreateError.js.map

@@ -134,5 +134,5 @@ Solution["memory"] = {
     }
 };
 
-exports.default = Solution;
+exports["default"] = Solution;
 //# sourceMappingURL=Solution.js.map

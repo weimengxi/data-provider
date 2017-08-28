@@ -13,5 +13,5 @@ var Const = {
         PARSER: "parserError"
     }
 };
-exports.default = Const;
+exports["default"] = Const;
 //# sourceMappingURL=index.js.map

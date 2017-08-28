@@ -48,5 +48,5 @@ var DefaultConfig = {
 
 };
 
-exports.default = DefaultConfig;
+exports['default'] = DefaultConfig;
 //# sourceMappingURL=index.js.map

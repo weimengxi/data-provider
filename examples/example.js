@@ -862,7 +862,7 @@ var Const = {
         PARSER: "parserError"
     }
 };
-exports.default = Const;
+exports["default"] = Const;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -1291,20 +1291,20 @@ var _createClass2 = __webpack_require__(23);
 var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { "default": obj };
 }
 
 var Deferred = function () {
     function Deferred() {
-        (0, _classCallCheck3.default)(this, Deferred);
+        (0, _classCallCheck3["default"])(this, Deferred);
 
-        this.promise = new _promise2.default(function (resolve, reject) {
+        this.promise = new _promise2["default"](function (resolve, reject) {
             this._resolve = resolve;
             this._reject = reject;
         }.bind(this));
     }
 
-    (0, _createClass3.default)(Deferred, [{
+    (0, _createClass3["default"])(Deferred, [{
         key: "resolve",
         value: function resolve(value) {
             this._resolve.call(this.promise, value);
@@ -1318,7 +1318,7 @@ var Deferred = function () {
     return Deferred;
 }();
 
-exports.default = Deferred;
+exports["default"] = Deferred;
 //# sourceMappingURL=Deferred.js.map
 
 /***/ }),
@@ -1757,17 +1757,17 @@ var _objectWithoutProperties2 = __webpack_require__(125);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-exports.default = createError;
+exports['default'] = createError;
 
 var _const = __webpack_require__(30);
 
 var _const2 = _interopRequireDefault(_const);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
-var ERROR_TYPE = _const2.default.ERROR_TYPE;
+var ERROR_TYPE = _const2['default'].ERROR_TYPE;
 
 var DEFAULT_ERROR_MSG = 'undefined message';
 var DEFAULT_ERROR_TYPE = ERROR_TYPE.BUSINESS;
@@ -1780,14 +1780,14 @@ function createError(_ref) {
         message = _ref$message === undefined ? DEFAULT_ERROR_MSG : _ref$message,
         _ref$type = _ref.type,
         type = _ref$type === undefined ? ERROR_TYPE.BUSINESS : _ref$type,
-        args = (0, _objectWithoutProperties3.default)(_ref, ['traceid', 'code', 'message', 'type']);
+        args = (0, _objectWithoutProperties3['default'])(_ref, ['traceid', 'code', 'message', 'type']);
 
     // need a real Error 
     var error = new Error(message);
     error.type = type;
     error.code = code;
     error.traceid = traceid;
-    (0, _assign2.default)(error, args);
+    (0, _assign2['default'])(error, args);
     return error;
 }
 //# sourceMappingURL=CreateError.js.map
@@ -1817,14 +1817,14 @@ var _Deferred = __webpack_require__(52);
 var _Deferred2 = _interopRequireDefault(_Deferred);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var _runnings = {};
 
-var comboDefersMap = new _map2.default();
+var comboDefersMap = new _map2['default']();
 
-var comboPromisesMap = new _map2.default();
+var comboPromisesMap = new _map2['default']();
 
 var isFunction = function isFunction(value) {
     return Object.prototype.toString.call(value) === '[object Function]';
@@ -1835,14 +1835,14 @@ function createComboPromise(key, resolver) {
 
     var promise = comboPromisesMap.get(key);
 
-    if (!(promise instanceof _promise2.default)) {
-        promise = new _promise2.default(resolver);
+    if (!(promise instanceof _promise2['default'])) {
+        promise = new _promise2['default'](resolver);
         comboPromisesMap.set(key, promise);
 
         promise.then(function (data) {
-            comboPromisesMap.delete(key);
+            comboPromisesMap['delete'](key);
         }, function (error) {
-            comboPromisesMap.delete(key);
+            comboPromisesMap['delete'](key);
         });
     }
 
@@ -1855,15 +1855,15 @@ function createComboDefer(id) {
         comboDefer = comboDefersMap.get(deferKey);
 
     if (typeof comboDefer === 'undefined') {
-        comboDefer = new _Deferred2.default();
+        comboDefer = new _Deferred2['default']();
         comboDefersMap.set(deferKey, comboDefer);
     }
 
     // 无论成功及失败， 都要删除对应的comboDefer, 然后再将成功或失败返回 
     comboDefer.promise.then(function (data) {
-        comboDefersMap.delete(deferKey);
+        comboDefersMap['delete'](deferKey);
     }, function (error) {
-        comboDefersMap.delete(deferKey);
+        comboDefersMap['delete'](deferKey);
     });
 
     return comboDefer;
@@ -1871,7 +1871,7 @@ function createComboDefer(id) {
 
 exports.createComboPromise = createComboPromise;
 exports.createComboDefer = createComboDefer;
-exports.default = createComboPromise;
+exports['default'] = createComboPromise;
 //# sourceMappingURL=ComboPromise.js.map
 
 /***/ }),
@@ -2381,7 +2381,7 @@ var _proxy = __webpack_require__(84);
 
 var _proxy2 = _interopRequireDefault(_proxy);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var API = {
     getMenu: 'api/menu.json'
@@ -2390,7 +2390,7 @@ var API = {
 var DataService = {
     // 获取最常使用的语言
     getMenu: function getMenu() {
-        var result = _proxy2.default.get(API.getMenu);
+        var result = _proxy2['default'].get(API.getMenu);
         return result;
     }
 };
@@ -2402,7 +2402,7 @@ var render = function render(data) {
 
 DataService.getMenu().then(function (data) {
     console.log(data);return data.items || [];
-}).then(render).catch(function (err) {
+}).then(render)['catch'](function (err) {
     return console.error(err);
 });
 
@@ -2437,16 +2437,16 @@ var _ErrorProcessor = __webpack_require__(183);
 
 var _ErrorProcessor2 = _interopRequireDefault(_ErrorProcessor);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var baseURL = _config2.default.BASE_URL;
+var baseURL = _config2['default'].BASE_URL;
 
-var dataSource = new _index2.default();
+var dataSource = new _index2['default']();
 
 // 面向切面: 按顺序组装拦截器
 
 
-dataSource.interceptors.request.use(_FixParams2.default.request).interceptors.error.use(_ErrorProcessor2.default.error);
+dataSource.interceptors.request.use(_FixParams2['default'].request).interceptors.error.use(_ErrorProcessor2['default'].error);
 
 var DataSourceProxy = {
 
@@ -2505,7 +2505,7 @@ var DataSourceProxy = {
 
     // let {url, baseURL, method, params, comboRequestEnabled, maxAge, ignoreExpires} = config
     request: function request(config) {
-        return new _promise2.default(function (resolve, reject) {
+        return new _promise2['default'](function (resolve, reject) {
             dataSource.request(config).then(function (data) {
                 resolve(data);
             }, function (err) {
@@ -2521,10 +2521,10 @@ var DataSourceProxy = {
     }
 
     // 错误类型的定义
-};DataSourceProxy.ErrorType = _index2.default.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-DataSourceProxy.createError = _index2.default.createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+};DataSourceProxy.ErrorType = _index2['default'].ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+DataSourceProxy.createError = _index2['default'].createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
 
-exports.default = DataSourceProxy;
+exports['default'] = DataSourceProxy;
 
 /***/ }),
 /* 85 */
@@ -3218,7 +3218,7 @@ var config = {
 	BASE_URL: 'https://www.easy-mock.com/mock/58ff1ae35e43ae5dbea5ef8c/'
 };
 
-exports.default = config;
+exports['default'] = config;
 
 /***/ }),
 /* 103 */
@@ -3284,13 +3284,13 @@ var _CacheData = __webpack_require__(175);
 var _CacheData2 = _interopRequireDefault(_CacheData);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
-var AppCache = new _CacheData2.default('DATA_SOURCE_PROXY', 'v0.0.1');
+var AppCache = new _CacheData2['default']('DATA_SOURCE_PROXY', 'v0.0.1');
 
 function mixConfig(requestConfig) {
-    return (0, _assign2.default)({}, _config2.default, requestConfig);
+    return (0, _assign2['default'])({}, _config2['default'], requestConfig);
 }
 
 /* 生成cache key*/
@@ -3302,7 +3302,7 @@ function getCacheKey() {
 
     var cacheKey = null;
     if (typeof maxAge === 'number') {
-        cacheKey = url + '_' + _querystring2.default.stringify(params);
+        cacheKey = url + '_' + _querystring2['default'].stringify(params);
     }
     return cacheKey;
 }
@@ -3318,9 +3318,9 @@ function DataSource() {
         error: []
     };
 
-    var requestDefers = new _map2.default();
+    var requestDefers = new _map2['default']();
 
-    var httpMD = new _MissionDispatcher2.default(_Ajax2.default, workerCount);
+    var httpMD = new _MissionDispatcher2['default'](_Ajax2['default'], workerCount);
     httpMD.start();
 
     this.interceptors = {
@@ -3366,7 +3366,7 @@ function DataSource() {
 
     this.request = function (requestConfig) {
 
-        return new _promise2.default(function (resolve, reject) {
+        return new _promise2['default'](function (resolve, reject) {
 
             var cacheKey = getCacheKey(requestConfig);
             var maxAge = requestConfig.maxAge,
@@ -3388,7 +3388,7 @@ function DataSource() {
                     _this.serverRequest(requestConfig).then(function (data) {
                         cacheItem.set(data);
                         resolve(data);
-                    }).catch(function (err) {
+                    })['catch'](function (err) {
                         return reject(err);
                     });
                 } else {
@@ -3402,23 +3402,23 @@ function DataSource() {
     this.serverRequest = function (requestConfig) {
 
         var missionConfig = mixConfig(requestConfig || {});
-        var requestDefer = new _Deferred2.default();
+        var requestDefer = new _Deferred2['default']();
 
         // 1. requestInterceptors
         interceptors.request.reduce(function (configPromise, interceptor) {
             return configPromise.then(interceptor);
-        }, _promise2.default.resolve(missionConfig)).then(function (config) {
+        }, _promise2['default'].resolve(missionConfig)).then(function (config) {
             return config;
         }, function (interceptorError) {
             console.log('Request Intercept Fail ... ', interceptorError);
             if (!interceptorError instanceof Error) {
-                interceptorError = (0, _CreateError2.default)({ message: interceptorError });
+                interceptorError = (0, _CreateError2['default'])({ message: interceptorError });
             }
             throw interceptorError;
         })
         // 2. doRequest
         .then(function (config) {
-            var mission = new _Http2.default(config);
+            var mission = new _Http2['default'](config);
             // 2.1 doRequest
             httpMD.put(mission)
             // 2.2. response or error
@@ -3428,7 +3428,7 @@ function DataSource() {
                     return resultPromise.then(function (result) {
                         return interceptor(result, requestConfig);
                     });
-                }, _promise2.default.resolve(result)).then(function (result) {
+                }, _promise2['default'].resolve(result)).then(function (result) {
                     requestDefer.resolve(result);
                 }, function (error) {
                     /* 
@@ -3444,14 +3444,14 @@ function DataSource() {
                 if (error instanceof Error) {
                     transformedError = error;
                 } else {
-                    transformedError = (0, _CreateError2.default)({ message: error });
+                    transformedError = (0, _CreateError2['default'])({ message: error });
                 }
                 // 2.2.2. errorInterceptors
                 interceptors.error.reduce(function (errorPromise, interceptor) {
                     return errorPromise.then(function (error) {
                         return interceptor(error, requestConfig);
                     });
-                }, _promise2.default.resolve(transformedError)).then(function (errorOrData) {
+                }, _promise2['default'].resolve(transformedError)).then(function (errorOrData) {
                     /*
                      * 【注意！！！】
                      *　处理过的异常, errorInterceptor可能把error转换为正常的数据(非Error类型)
@@ -3465,7 +3465,7 @@ function DataSource() {
                     throw exceptionError;
                 });
             });
-        }).catch(function (err) {
+        })['catch'](function (err) {
             requestDefer.reject(err);
         });
 
@@ -3473,12 +3473,12 @@ function DataSource() {
     };
 }
 
-DataSource.ErrorType = _const2.default.ERROR_TYPE;
-DataSource.Deferred = _Deferred2.default;
-DataSource.createError = _CreateError2.default;
-DataSource.createComboPromise = _ComboPromise2.default;
+DataSource.ErrorType = _const2['default'].ERROR_TYPE;
+DataSource.Deferred = _Deferred2['default'];
+DataSource.createError = _CreateError2['default'];
+DataSource.createComboPromise = _ComboPromise2['default'];
 
-exports.default = DataSource;
+exports['default'] = DataSource;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -4268,7 +4268,7 @@ var DefaultConfig = {
 
 };
 
-exports.default = DefaultConfig;
+exports['default'] = DefaultConfig;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -4319,12 +4319,12 @@ var _CreateError = __webpack_require__(72);
 var _CreateError2 = _interopRequireDefault(_CreateError);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 // import 'axios-response-logger';
 
-var ERROR_TYPE = _const2.default.ERROR_TYPE;
+var ERROR_TYPE = _const2['default'].ERROR_TYPE;
 
 var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
 
@@ -4336,15 +4336,15 @@ var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
  * @refer https://github.com/mzabriskie/axios/blob/master/lib/utils.js
  */
 function isObject(val) {
-    return val !== null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object';
+    return val !== null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3['default'])(val)) === 'object';
 }
 
 function transformMissionConfig(config) {
 
-    var transformedConfig = (0, _assign2.default)({}, config);
+    var transformedConfig = (0, _assign2['default'])({}, config);
 
     if (config.method === 'post' && isObject(transformedConfig.data)) {
-        transformedConfig.data = _querystring2.default.stringify(transformedConfig.data);
+        transformedConfig.data = _querystring2['default'].stringify(transformedConfig.data);
     }
 
     return transformedConfig;
@@ -4352,17 +4352,17 @@ function transformMissionConfig(config) {
 
 var AjaxWorkerFactory = function () {
     function AjaxWorkerFactory() {
-        (0, _classCallCheck3.default)(this, AjaxWorkerFactory);
+        (0, _classCallCheck3['default'])(this, AjaxWorkerFactory);
     }
 
-    (0, _createClass3.default)(AjaxWorkerFactory, [{
+    (0, _createClass3['default'])(AjaxWorkerFactory, [{
         key: 'do',
         value: function _do(mission) {
-            return new _promise2.default(function (resolve, reject) {
+            return new _promise2['default'](function (resolve, reject) {
                 // axiosSchema: https://github.com/mzabriskie/axios
                 var transformedConfig = transformMissionConfig(mission.config);
 
-                _axios2.default.request(transformedConfig).then(function (_ref) {
+                _axios2['default'].request(transformedConfig).then(function (_ref) {
                     var data = _ref.data,
                         status = _ref.status,
                         statusText = _ref.statusText,
@@ -4376,7 +4376,7 @@ var AjaxWorkerFactory = function () {
                         } catch (e) {
                             var message = "response is not a instance of JSON ";
                             console.error("response of '%s' is not JSON ", config.url);
-                            var parserError = (0, _CreateError2.default)({ message: message, type: ERROR_TYPE.PARSER });
+                            var parserError = (0, _CreateError2['default'])({ message: message, type: ERROR_TYPE.PARSER });
                             reject(parserError);
                         }
                     }
@@ -4386,20 +4386,20 @@ var AjaxWorkerFactory = function () {
                     if (data.error || data.code) {
                         // 2. bizError
                         var rawError = data.error || data;
-                        var businessError = (0, _CreateError2.default)(rawError);
+                        var businessError = (0, _CreateError2['default'])(rawError);
                         reject(businessError);
                     } else {
                         resolve(data);
                     }
                 }, function (error) {
-                    if (_axios2.default.isCancel(error)) {
+                    if (_axios2['default'].isCancel(error)) {
                         // abort error
                         console.log('Request canceled', error.message);
-                        var abortError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code, subcode: error.subcode });
+                        var abortError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code, subcode: error.subcode });
                         reject(abortError);
                     } else if (error.code === 'ECONNABORTED') {
                         // timeout error
-                        var timeoutError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code, subcode: error.subcode });
+                        var timeoutError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code, subcode: error.subcode });
                         reject(timeoutError);
                     } else if (error.response) {
                         // network error 
@@ -4411,11 +4411,11 @@ var AjaxWorkerFactory = function () {
                             headers = _error$response.headers,
                             config = _error$response.config;
 
-                        var networkError = (0, _CreateError2.default)({ message: statusText, type: ERROR_TYPE.NETWORK, code: status, subcode: error.subcode });
+                        var networkError = (0, _CreateError2['default'])({ message: statusText, type: ERROR_TYPE.NETWORK, code: status, subcode: error.subcode });
                         reject(networkError);
                     } else {
                         console.error("another error: ", error);
-                        var networkError1 = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.NETWORK });
+                        var networkError1 = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.NETWORK });
                         reject(networkError1);
                     }
                 });
@@ -4425,7 +4425,7 @@ var AjaxWorkerFactory = function () {
     return AjaxWorkerFactory;
 }();
 
-exports.default = AjaxWorkerFactory;
+exports['default'] = AjaxWorkerFactory;
 //# sourceMappingURL=Ajax.js.map
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(128)))
 
@@ -5679,21 +5679,21 @@ var _Super = __webpack_require__(171);
 var _Super2 = _interopRequireDefault(_Super);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var HttpMission = function (_Mission) {
-    (0, _inherits3.default)(HttpMission, _Mission);
+    (0, _inherits3['default'])(HttpMission, _Mission);
 
     function HttpMission(config) {
-        (0, _classCallCheck3.default)(this, HttpMission);
-        return (0, _possibleConstructorReturn3.default)(this, (HttpMission.__proto__ || (0, _getPrototypeOf2.default)(HttpMission)).call(this, 'http', config));
+        (0, _classCallCheck3['default'])(this, HttpMission);
+        return (0, _possibleConstructorReturn3['default'])(this, (HttpMission.__proto__ || (0, _getPrototypeOf2['default'])(HttpMission)).call(this, 'http', config));
     }
 
     return HttpMission;
-}(_Super2.default);
+}(_Super2['default']);
 
-exports.default = HttpMission;
+exports['default'] = HttpMission;
 //# sourceMappingURL=Http.js.map
 
 /***/ }),
@@ -5903,20 +5903,20 @@ var _classCallCheck2 = __webpack_require__(15);
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { "default": obj };
 }
 
 var Mission = function Mission(type, config) {
-    (0, _classCallCheck3.default)(this, Mission);
+    (0, _classCallCheck3["default"])(this, Mission);
 
     this.type = type;
     this.config = config;
     //假设JSON.stringify序列化结果是稳定得
-    this.signature = (0, _stringify2.default)({ type: type, config: config });
+    this.signature = (0, _stringify2["default"])({ type: type, config: config });
     this.createTime = Date.now();
 };
 
-exports.default = Mission;
+exports["default"] = Mission;
 //# sourceMappingURL=Super.js.map
 
 /***/ }),
@@ -5966,7 +5966,7 @@ var _ComboPromise = __webpack_require__(73);
 var _events = __webpack_require__(174);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 // 会不会溢出？
@@ -5984,12 +5984,12 @@ function makeMissionKey(mission) {
 
 var MissionDispatcher = function () {
     function MissionDispatcher(WorkerFactory, count) {
-        (0, _classCallCheck3.default)(this, MissionDispatcher);
+        (0, _classCallCheck3['default'])(this, MissionDispatcher);
         this._context = {
             workers: [], // worker队列
             missionQueue: [], // 任务队列 
             // 持有相同defer的mission, 结构类似{missionDefer: mission} 
-            missionDefers: new _map2.default(),
+            missionDefers: new _map2['default'](),
             isRunning: false, // controller的运行状态 
             emitter: new _events.EventEmitter()
         };
@@ -6007,13 +6007,13 @@ var MissionDispatcher = function () {
     // 【!!!约定】 以下划线开头的是私有变量，请不要调用 
 
 
-    (0, _createClass3.default)(MissionDispatcher, [{
+    (0, _createClass3['default'])(MissionDispatcher, [{
         key: 'put',
         value: function put(mission) {
 
             var missionKey = makeMissionKey(mission),
                 missionDefer = (0, _ComboPromise.createComboDefer)(missionKey),
-                missionInQueue = (0, _assign2.default)({}, mission, { defer: missionDefer });
+                missionInQueue = (0, _assign2['default'])({}, mission, { defer: missionDefer });
 
             if (this._context.missionDefers.has(missionDefer) === false) {
                 this._context.missionDefers.set(missionDefer, missionInQueue);
@@ -6081,10 +6081,10 @@ function run() {
             context.workers.push(worker);
             context.emitter.emit("worker:add");
             // 删除 执行过的 missionDefer
-            context.missionDefers.delete(mission.defer);
+            context.missionDefers['delete'](mission.defer);
         };
 
-        worker.do(mission).then(function (data) {
+        worker['do'](mission).then(function (data) {
             mission.defer.resolve(data);
             // console.log("%cResolve: m %s, w %s ", "color:blue", mission, worker.id);
             finishHandler();
@@ -6096,7 +6096,7 @@ function run() {
     }
 }
 
-exports.default = MissionDispatcher;
+exports['default'] = MissionDispatcher;
 //# sourceMappingURL=MissionDispatcher.js.map
 
 /***/ }),
@@ -6431,7 +6431,7 @@ var _Storage = __webpack_require__(176);
 var _Storage2 = _interopRequireDefault(_Storage);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var _ins = {};
@@ -6440,7 +6440,7 @@ var CacheData = function () {
     function CacheData(ns) {
         var signature = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
         var isMemory = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        (0, _classCallCheck3.default)(this, CacheData);
+        (0, _classCallCheck3['default'])(this, CacheData);
 
         var id = ns + "_" + signature;
         // Singleton Pattern
@@ -6453,10 +6453,10 @@ var CacheData = function () {
         this.id = id;
         this.signature = signature;
         //CacheData中只采取持久存储方案
-        this.storage = new _Storage2.default(ns, isMemory);
+        this.storage = new _Storage2['default'](ns, isMemory);
     }
 
-    (0, _createClass3.default)(CacheData, [{
+    (0, _createClass3['default'])(CacheData, [{
         key: 'clear',
         value: function clear() {
             this.storage.clear();
@@ -6473,7 +6473,7 @@ var CacheData = function () {
 
 var CacheDataItem = function () {
     function CacheDataItem(storage, signature, key, opts) {
-        (0, _classCallCheck3.default)(this, CacheDataItem);
+        (0, _classCallCheck3['default'])(this, CacheDataItem);
 
         // eg: url+参数序列化
         this.key = key;
@@ -6492,7 +6492,7 @@ var CacheDataItem = function () {
         };
     }
 
-    (0, _createClass3.default)(CacheDataItem, [{
+    (0, _createClass3['default'])(CacheDataItem, [{
         key: 'setFormatter',
         value: function setFormatter(setter, getter) {
             this.dataFormatter = {
@@ -6559,7 +6559,7 @@ var CacheDataItem = function () {
     return CacheDataItem;
 }();
 
-exports.default = CacheData;
+exports['default'] = CacheData;
 //# sourceMappingURL=CacheData.js.map
 
 /***/ }),
@@ -6594,7 +6594,7 @@ var _const = __webpack_require__(30);
 var _const2 = _interopRequireDefault(_const);
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 /**
@@ -6603,12 +6603,12 @@ function _interopRequireDefault(obj) {
  * @param {Boolean} isMemory [是否使用内存级存储，默认为flase 即持久存储]
  */
 var _ins = {};
-var prefix = _const2.default.NAMESPACE;
+var prefix = _const2['default'].NAMESPACE;
 
 var Storage = function () {
     function Storage(id) {
         var isMemory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        (0, _classCallCheck3.default)(this, Storage);
+        (0, _classCallCheck3['default'])(this, Storage);
 
         // Singleton pattern
         if (!(_ins[id] instanceof Storage)) {
@@ -6620,12 +6620,12 @@ var Storage = function () {
         this.id = id;
         this.ns = prefix + "_" + id + "_";
 
-        this._methods = isMemory ? _Solution2.default.memory.methods : function () {
-            if (_Solution2.default.localStorage.test()) {
-                return _Solution2.default.localStorage.methods;
+        this._methods = isMemory ? _Solution2['default'].memory.methods : function () {
+            if (_Solution2['default'].localStorage.test()) {
+                return _Solution2['default'].localStorage.methods;
             }
-            if (_Solution2.default.userData.test()) {
-                return _Solution2.default.userData.methods;
+            if (_Solution2['default'].userData.test()) {
+                return _Solution2['default'].userData.methods;
             }
             return {
                 init: function init() {},
@@ -6641,10 +6641,10 @@ var Storage = function () {
         }
     }
 
-    (0, _createClass3.default)(Storage, [{
+    (0, _createClass3['default'])(Storage, [{
         key: 'encode',
         value: function encode(data) {
-            return window.JSON ? (0, _stringify2.default)(data) : data;
+            return window.JSON ? (0, _stringify2['default'])(data) : data;
         }
     }, {
         key: 'decode',
@@ -6686,7 +6686,7 @@ var Storage = function () {
     return Storage;
 }();
 
-exports.default = Storage;
+exports['default'] = Storage;
 //# sourceMappingURL=Storage.js.map
 
 /***/ }),
@@ -6830,7 +6830,7 @@ Solution["memory"] = {
     }
 };
 
-exports.default = Solution;
+exports["default"] = Solution;
 //# sourceMappingURL=Solution.js.map
 
 /***/ }),
@@ -6860,13 +6860,13 @@ var _asyncToGenerator2 = __webpack_require__(182);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-exports.default = {
+exports['default'] = {
     request: function () {
-        var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(config) {
+        var _ref = (0, _asyncToGenerator3['default'])( /*#__PURE__*/_regenerator2['default'].mark(function _callee(config) {
             var baseParams;
-            return _regenerator2.default.wrap(function _callee$(_context) {
+            return _regenerator2['default'].wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
@@ -6874,10 +6874,10 @@ exports.default = {
                             baseParams = {
                                 _t: +new Date() //1314
                             };
-                            return _context.abrupt('return', new _promise2.default(function (resolve, reject) {
+                            return _context.abrupt('return', new _promise2['default'](function (resolve, reject) {
                                 var assignTarget = config.method === 'get' ? 'params' : 'data';
                                 config[assignTarget] = config[assignTarget] || {};
-                                (0, _assign2.default)(config[assignTarget], baseParams);
+                                (0, _assign2['default'])(config[assignTarget], baseParams);
                                 resolve(config);
                             }));
 
@@ -7739,20 +7739,20 @@ var _locale = __webpack_require__(184);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var ErrorLocales = _locale2.default.Errors;
-var ErrorType = _index2.default.ErrorType,
-    Deferred = _index2.default.Deferred,
-    createComboPromise = _index2.default.createComboPromise;
+var ErrorLocales = _locale2['default'].Errors;
+var ErrorType = _index2['default'].ErrorType,
+    Deferred = _index2['default'].Deferred,
+    createComboPromise = _index2['default'].createComboPromise;
 
 var BizCommonErrorLocales = ErrorLocales[ErrorType.BUSINESS]['COMMON'];
 var BizModulesErrorLocales = ErrorLocales[ErrorType.BUSINESS]['MODULES'];
 
 /* 给error 增加一个locale字段 */
-exports.default = {
+exports['default'] = {
     request: function request(config) {
-        return _promise2.default.resolve(config);
+        return _promise2['default'].resolve(config);
     },
     response: function response(result, config) {},
     error: function error(_error, config) {
@@ -7818,24 +7818,24 @@ var _index = __webpack_require__(48);
 
 var _index2 = _interopRequireDefault(_index);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var ErrorType = _index2.default.ErrorType,
-    Deferred = _index2.default.Deferred,
-    createComboPromise = _index2.default.createComboPromise;
+var ErrorType = _index2['default'].ErrorType,
+    Deferred = _index2['default'].Deferred,
+    createComboPromise = _index2['default'].createComboPromise;
 
 /* 业务-[通用|模块}'错误提示信息 */
 
-var Errors = (_Errors = {}, (0, _defineProperty3.default)(_Errors, ErrorType.NETWORK, {
+var Errors = (_Errors = {}, (0, _defineProperty3['default'])(_Errors, ErrorType.NETWORK, {
     // 'default': '亲爱的用户现在网络异常，请检查网络连接或稍后重试!' 
     'default': '亲爱的用户现在网络异常，请稍后重试!'
-}), (0, _defineProperty3.default)(_Errors, ErrorType.ABORT, {
+}), (0, _defineProperty3['default'])(_Errors, ErrorType.ABORT, {
     'default': '请求取消'
-}), (0, _defineProperty3.default)(_Errors, ErrorType.TIMEOUT, {
+}), (0, _defineProperty3['default'])(_Errors, ErrorType.TIMEOUT, {
     'default': '请求超时，请稍后重试'
-}), (0, _defineProperty3.default)(_Errors, ErrorType.PARSER, {
+}), (0, _defineProperty3['default'])(_Errors, ErrorType.PARSER, {
     'default': '数据解析失败，请稍后重试'
-}), (0, _defineProperty3.default)(_Errors, ErrorType.BUSINESS, {
+}), (0, _defineProperty3['default'])(_Errors, ErrorType.BUSINESS, {
     // 通用错误, code, 首字符代表错误级别：4代表请求端错误，5带面server段发生错误）
     COMMON: {
         400: '参数内容错误', // 参数内容错误
@@ -7862,7 +7862,7 @@ var Errors = (_Errors = {}, (0, _defineProperty3.default)(_Errors, ErrorType.NET
     }
 }), _Errors);
 
-exports.default = {
+exports['default'] = {
     Errors: Errors
 };
 

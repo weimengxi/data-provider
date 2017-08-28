@@ -16,7 +16,7 @@ var _Storage = require('./storage/Storage');
 
 var _Storage2 = _interopRequireDefault(_Storage);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _ins = {};
 
@@ -24,7 +24,7 @@ var CacheData = function () {
     function CacheData(ns) {
         var signature = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
         var isMemory = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        (0, _classCallCheck3.default)(this, CacheData);
+        (0, _classCallCheck3['default'])(this, CacheData);
 
 
         var id = ns + "_" + signature;
@@ -38,10 +38,10 @@ var CacheData = function () {
         this.id = id;
         this.signature = signature;
         //CacheData中只采取持久存储方案
-        this.storage = new _Storage2.default(ns, isMemory);
+        this.storage = new _Storage2['default'](ns, isMemory);
     }
 
-    (0, _createClass3.default)(CacheData, [{
+    (0, _createClass3['default'])(CacheData, [{
         key: 'clear',
         value: function clear() {
             this.storage.clear();
@@ -58,7 +58,7 @@ var CacheData = function () {
 
 var CacheDataItem = function () {
     function CacheDataItem(storage, signature, key, opts) {
-        (0, _classCallCheck3.default)(this, CacheDataItem);
+        (0, _classCallCheck3['default'])(this, CacheDataItem);
 
 
         // eg: url+参数序列化
@@ -78,7 +78,7 @@ var CacheDataItem = function () {
         };
     }
 
-    (0, _createClass3.default)(CacheDataItem, [{
+    (0, _createClass3['default'])(CacheDataItem, [{
         key: 'setFormatter',
         value: function setFormatter(setter, getter) {
             this.dataFormatter = {
@@ -145,5 +145,5 @@ var CacheDataItem = function () {
     return CacheDataItem;
 }();
 
-exports.default = CacheData;
+exports['default'] = CacheData;
 //# sourceMappingURL=CacheData.js.map
