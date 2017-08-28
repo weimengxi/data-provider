@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./test/index.js",
-    "build": "webpack -w",
+    "build": "babel src/index.js --out-file ./index.js",
     "dev": "webpack-dev-server --hot --inline"
   },
   "repository": {
@@ -23,14 +23,15 @@
     "axios-response-logger": "^0.1.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-runtime": "6.23.0",
     "babel-polyfill": "^6.20.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-2": "^6.18.0",
-    "babel-runtime": "6.26.0",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "babel-runtime": "6.26.0",
     "axios": "^0.15.3",
     "events": "^1.1.1",
     "querystring": "^0.2.0"

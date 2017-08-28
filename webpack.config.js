@@ -3,11 +3,12 @@ const path = require('path');
 module.exports = {
 
     entry: {
-        example: './examples/index.js'  
+        'index': './src/index.js',
+        'examples/example': './examples/index.js'  
     },
 
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname),
         filename: '[name].js'
     },
     module: {
@@ -18,13 +19,8 @@ module.exports = {
             use: {
                 loader: 'babel-loader',
                 options: {
-                    presets: [
-                        ['env', {
-                            "targets": {
-                                "browsers": ["last 2 chrome versions"]
-                            }
-                        }], 'stage-2'
-                    ]
+                    presets: ['env', 'stage-2'],
+                    plugins: ['transform-runtime']
                 }
             }
         }]
@@ -34,7 +30,7 @@ module.exports = {
     },
     devtool: 'source-map',
     devServer: {
-        contentBase: [path.resolve(__dirname)],
+        contentBase: [path.resolve(__dirname), path.join(__dirname, 'examples/')],
         compress: false,
         stats: 'minimal',
         watchContentBase: true,
