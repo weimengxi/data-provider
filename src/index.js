@@ -1,93 +1,195 @@
-// import DataSource from '../utils/DataSource';
-import Conf from './conf';
-import DataSource from './data-source';
+import querystring from 'querystring';
 
-var baseURL = Conf.BASE_URL;
+import Deferred from './utils/Deferred';
+import createError from './utils/CreateError';
+import createComboPromise from './utils/ComboPromise';
 
-var dataSource = new DataSource();
+import DefaultConfig from './config';
+import Const from './const';
 
-// 面向切面: 按顺序组装拦截器
-import fixParamsInterceptor from './interceptors/FixParams';
-import errorProcessorInterceptor from './interceptors/ErrorProcessor';
+import HttpWorkerFactory from './workers/Ajax';
+import HttpMission from './missions/Http';
 
-dataSource
-    // .interceptors.request.use(fixParamsInterceptor.request)
-    .interceptors.error.use(errorProcessorInterceptor.error)
+import MissionDispatcher from './MissionDispatcher';
 
-var DataSourceGateway = {
+import CacheData from './CacheData';
 
-    post: function(uri, data) {
-        var config = {
-            url: uri,
-            method: 'post',
-            // to methods of that instance.
-            baseURL: baseURL,
-            // data仅用于post请求， 放在http请求体中
-            data: data
-        };
+const AppCache = new CacheData('DATA_SOURCE_PROXY', 'v0.0.1');
 
-        return DataSourceGateway.request(config);
-
-    },
-
-    get: function(uri, params) {
-
-
-
-        var config = {
-            url: uri,
-            // to methods of that instance.
-            baseURL: baseURL,
-            method: 'get',
-            // params仅用于get请求， 会拼接在url后面
-            params: params,
-            // 默认get请求可合并
-            comboRequestEnabled: true
-        };
-
-        return DataSourceGateway.request(config);
-    },
-
-    cacheFirstGet: function(uri, params, { maxAge, ignoreExpires } = { maxAge: 60 * 60 * 1000, ignoreExpires: false }) {
-        var config = {
-            url: uri,
-            // to methods of that instance.
-            baseURL: baseURL,
-            method: 'get',
-            // params仅用于get请求， 会拼接在url后面
-            params: params,
-            // 默认get请求可合并
-            comboRequestEnabled: true,
-            // ============= 新增缓存数据参数  ============
-            // [Number|null] 缓存时间， 单位ms. 如果需要缓存 ，请给maxAge 赋一个数值
-            maxAge: maxAge,
-            // [Boolean] 是否忽略缓存过期
-            ignoreExpires: ignoreExpires
-        };
-
-        return DataSourceGateway.request(config);
-    },
-
-    // let {url, baseURL, method, params, comboRequestEnabled, maxAge, ignoreExpires} = config
-    request: function(config) {
-        return new Promise((resolve, reject) => {
-            dataSource.request(config)
-                .then(data => { resolve(data) }, err => { reject(err); })
-        });            
-
-    },
-    start: () => {
-        dataSource.start();
-    },
-    stop: () => {
-        dataSource.stop();
-    }
-
+function mixConfig(requestConfig) {
+    return Object.assign({}, DefaultConfig, requestConfig);
 }
 
+/* 生成cache key*/
+function getCacheKey({ url, maxAge, params } = requestConfig) {
 
-// 错误类型的定义
-DataSourceGateway.ErrorType = DataSource.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-DataSourceGateway.createError = DataSource.createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+    let cacheKey = null;
+    if (typeof maxAge === 'number') {
+        cacheKey = url + '_' + querystring.stringify(params);
+    }
+    return cacheKey;
+}
 
-export default DataSourceGateway;
+function DataSource(workerCount = 10) {
+
+    var interceptors = {
+        request: [],
+        response: [],
+        error: []
+    };
+
+    var requestDefers = new Map();
+
+    var httpMD = new MissionDispatcher(HttpWorkerFactory, workerCount);
+    httpMD.start();
+
+    this.interceptors = {
+        request: {
+            use: (...args) => {
+                Array.prototype.push.apply(interceptors.request, args)
+                return this;
+            }
+        },
+        response: {
+            use: (...args) => {
+                Array.prototype.push.apply(interceptors.response, args)
+                return this;
+            }
+        },
+        error: {
+            use: (...args) => {
+                Array.prototype.push.apply(interceptors.error, args)
+                return this;
+            }
+        }
+    }
+
+
+    this.start = () => {
+        httpMD.start();
+    }
+
+    this.stop = () => {
+        httpMD.stop();
+    }
+
+    this.request = (requestConfig) => {
+
+        return new Promise((resolve, reject) => {
+
+            let cacheKey = getCacheKey(requestConfig);
+            let { maxAge, ignoreExpires } = requestConfig;
+            let cacheItem, data;
+
+            if (cacheKey === null) {
+                // 没有maxAge配置，直接发起serverRequest
+                resolve(this.serverRequest(requestConfig));
+            } else {
+                // 有maxAge配置，需要先检查cache
+                cacheItem = AppCache.item(cacheKey, { maxAge, ignoreExpires });
+                data = cacheItem.get();
+
+                if (data === null) {
+                    //  cache中没取到数据 || 数据过期,  发起serverRequest
+                    this.serverRequest(requestConfig)
+                        .then(data => {
+                            cacheItem.set(data);
+                            resolve(data);
+                        })
+                        .catch(err => reject(err))
+                } else {
+                    // 命中缓存
+                    resolve(data)
+                }
+            }
+
+        });
+
+    }
+
+
+    this.serverRequest = (requestConfig) => {
+
+        let missionConfig = mixConfig(requestConfig || {});
+        let requestDefer = new Deferred();
+
+        // 1. requestInterceptors
+        interceptors.request.reduce((configPromise, interceptor) => {
+                return configPromise.then(interceptor);
+            }, Promise.resolve(missionConfig))
+            .then((config) => {
+                return config;
+            }, (interceptorError) => {
+                console.log('Request Intercept Fail ... ', interceptorError);
+                if (!interceptorError instanceof Error) {
+                    interceptorError = createError({ message: interceptorError });
+                }
+                throw interceptorError;
+            })
+            // 2. doRequest
+            .then((config) => {
+                var mission = new HttpMission(config);
+                // 2.1 doRequest
+                httpMD.put(mission)
+                    // 2.2. response or error
+                    .then((result) => {
+                        // 2.2.1 responseInterceptors
+                        interceptors.response.reduce((resultPromise, interceptor) => {
+                                return resultPromise.then((result) => {
+                                    return interceptor(result, requestConfig);
+                                })
+                            }, Promise.resolve(result))
+                            .then((result) => {
+                                requestDefer.resolve(result);
+                            }, (error) => {
+                                /* 
+                                 * @TODO
+                                 * error instanceof Error && requestDefer.reject(error); 
+                                 */
+                                console.error('Response Intercept Exception ... ', error);
+                                throw error;
+                            })
+                    }, (error) => {
+                        // 洗数据,约定： interceptorError instanceof Error
+                        let transformedError;
+                        if (error instanceof Error) {
+                            transformedError = error;
+                        } else {
+                            transformedError = createError({ message: error });
+                        }
+                        // 2.2.2. errorInterceptors
+                        interceptors.error.reduce((errorPromise, interceptor) => {
+                                return errorPromise.then((error) => {
+                                    return interceptor(error, requestConfig);
+                                })
+                            }, Promise.resolve(transformedError))
+                            .then((errorOrData) => {
+                                /*
+                                 * 【注意！！！】
+                                 *　处理过的异常, errorInterceptor可能把error转换为正常的数据(非Error类型)
+                                 *  error(一定是一个Error类型的实例)
+                                 */
+                                let handler = errorOrData instanceof Error ? 'reject' : 'resolve';
+                                requestDefer[handler](errorOrData);
+
+                            }, (exceptionError) => {
+                                // 未处理异常
+                                console.log("Error Intercept Exception ... ", exceptionError);
+                                throw exceptionError;
+                            })
+                    })
+            })
+            .catch(err => {
+                requestDefer.reject(err);
+            })
+
+        return requestDefer.promise;
+    }
+}
+
+DataSource.ErrorType = Const.ERROR_TYPE;
+DataSource.Deferred = Deferred;
+DataSource.createError = createError;
+DataSource.createComboPromise = createComboPromise;
+
+export default DataSource;

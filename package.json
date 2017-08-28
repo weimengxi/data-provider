@@ -4,7 +4,7 @@
   "description": "DataSource manager",
   "main": "index.js",
   "scripts": {
-    "test": "node ./tests/index.js",
+    "test": "node ./test/index.js",
     "build": "webpack -w",
     "dev": "webpack-dev-server --hot --inline"
   },
@@ -23,9 +23,6 @@
     "axios-response-logger": "^0.1.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
-    "babel-plugin-transform-es3-property-literals": "^6.8.0",
-    "babel-plugin-transform-runtime": "6.23.0",
     "babel-polyfill": "^6.20.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-2": "^6.18.0",

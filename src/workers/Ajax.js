@@ -2,9 +2,9 @@ import querystring from 'querystring';
 import axios from 'axios';
 // import 'axios-response-logger';
 
-import Const from '../Const';
+import Const from '../const';
 
-import createError from '../CreateError';
+import createError from '../utils/CreateError';
 
 var ERROR_TYPE = Const.ERROR_TYPE;
 

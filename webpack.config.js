@@ -2,21 +2,29 @@ const path = require('path');
 
 module.exports = {
 
-    entry: './src/index.js',
+    entry: {
+        example: './examples/index.js'  
+    },
 
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'DataSourceGateway.js'
+        filename: '[name].js'
     },
     module: {
         rules: [{
             test: /\.js$/,
-            include: [path.resolve(__dirname, 'src/')],
+            exclude: /node_modules/,
+            include: [path.resolve(__dirname)],
             use: {
                 loader: 'babel-loader',
                 options: {
-                    presets: ['env', 'stage-2'],
-                    plugins: ['transform-runtime']
+                    presets: [
+                        ['env', {
+                            "targets": {
+                                "browsers": ["last 2 chrome versions"]
+                            }
+                        }], 'stage-2'
+                    ]
                 }
             }
         }]
@@ -26,10 +34,10 @@ module.exports = {
     },
     devtool: 'source-map',
     devServer: {
-        contentBase: [path.join(__dirname, "src/"), path.join(__dirname, "dist/")],
-        compress: true,
+        contentBase: [path.resolve(__dirname)],
+        compress: false,
         stats: 'minimal',
         watchContentBase: true,
-        port: 8010
+        port: 8011
     }
 };

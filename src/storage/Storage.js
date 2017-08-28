@@ -1,5 +1,5 @@
 import Solution from './Solution';
-import Const from '../Const';
+import Const from '../const';
 
 
 /**

@@ -1,4 +1,4 @@
-import Const from './Const';
+import Const from '../const';
 
 var ERROR_TYPE = Const.ERROR_TYPE;
 

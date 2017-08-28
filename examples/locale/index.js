@@ -1,27 +1,28 @@
 //本地化文案
-import DataSource from '../data-source';
-const ERROR_TYPE = DataSource.ErrorType;
+
+import DataSource from '../../src/index';
+const {ErrorType, Deferred, createComboPromise } = DataSource;
 
 /* 业务-[通用|模块}'错误提示信息 */
 const Errors = {
     // 网络异常
-    [ERROR_TYPE.NETWORK]: {
+    [ErrorType.NETWORK]: {
         // 'default': '亲爱的用户现在网络异常，请检查网络连接或稍后重试!' 
         'default': '亲爱的用户现在网络异常，请稍后重试!' 
     },
     // 取消
-    [ERROR_TYPE.ABORT]: {
+    [ErrorType.ABORT]: {
         'default': '请求取消' 
     },
     // 前端址时
-    [ERROR_TYPE.TIMEOUT]: {
+    [ErrorType.TIMEOUT]: {
         'default': '请求超时，请稍后重试'
     },
     // 解析错误， 返回数据结构异常
-    [ERROR_TYPE.PARSER]: {
+    [ErrorType.PARSER]: {
         'default': '数据解析失败，请稍后重试',
     },
-    [ERROR_TYPE.BUSINESS]: {
+    [ErrorType.BUSINESS]: {
         // 通用错误, code, 首字符代表错误级别：4代表请求端错误，5带面server段发生错误）
         COMMON: {
             400: '参数内容错误', // 参数内容错误

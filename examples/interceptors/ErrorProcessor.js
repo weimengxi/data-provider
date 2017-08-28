@@ -1,12 +1,9 @@
-import Deferred from '../utils/Deferred';
-import { createComboPromise } from '../utils/ComboPromise';
-import DataSource from '../data-source';
+import DataSource from '../../src/index';
 
 import Locale from '../locale';
 
 const ErrorLocales = Locale.Errors;
-const ErrorType = DataSource.ErrorType;
-
+const {ErrorType, Deferred, createComboPromise } = DataSource;
 const BizCommonErrorLocales = ErrorLocales[ErrorType.BUSINESS]['COMMON'];
 const BizModulesErrorLocales = ErrorLocales[ErrorType.BUSINESS]['MODULES'];
 
