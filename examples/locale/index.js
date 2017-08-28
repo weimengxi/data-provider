@@ -1,6 +1,6 @@
 //本地化文案
 
-import DataSource from '../../src/index';
+import DataSource from '../../index';
 const {ErrorType, Deferred, createComboPromise } = DataSource;
 
 /* 业务-[通用|模块}'错误提示信息 */
