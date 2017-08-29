@@ -1,6 +1,7 @@
 
 import Conf from './config';
-import DataSource from '../index';
+// import DataSource from '../index';
+import DataSource from '../src/index';
 
 var baseURL = Conf.BASE_URL;
 

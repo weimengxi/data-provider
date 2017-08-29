@@ -6,9 +6,12 @@ import Const from '../const';
 
 import createError from '../utils/CreateError';
 
-var ERROR_TYPE = Const.ERROR_TYPE;
+const ERROR_TYPE = Const.ERROR_TYPE;
 
-var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
+const JSON = (typeof window === 'undefined' ? global : window).JSON || {};
+
+// 异常数据结构
+const errorResponseStruct = { httpStatusCode: NaN, code: NaN, message: '' };
 
 /**
  * Determine if a value is an Object
@@ -17,11 +20,11 @@ var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
  * @returns {boolean} True if value is an Object, otherwise false
  * @refer https://github.com/mzabriskie/axios/blob/master/lib/utils.js
  */
-function isObject(val) {
+const isObject = function isObject(val) {
     return val !== null && typeof val === 'object';
 }
 
-function transformMissionConfig(config) {
+const transformMissionConfig = function transformMissionConfig(config) {
 
     let transformedConfig = Object.assign({}, config)
 
@@ -56,7 +59,8 @@ class AjaxWorkerFactory {
                 // [!important] 新增的 (data.code) 逻辑判断是为了兼容服务端api error返回结构争议
                 if (data.error || data.code) {
                     // 2. bizError
-                    let rawError = data.error || data;
+                    let httpStatusCode = status;
+                    let rawError = Object.assign({}, data.error || data, { httpStatusCode });
                     let businessError = createError(rawError);
                     reject(businessError);
                 } else {
@@ -66,24 +70,36 @@ class AjaxWorkerFactory {
             }, (error) => {
                 if (axios.isCancel(error)) {
                     // abort error
-                    console.log('Request canceled', error.message);
-                    let abortError = createError({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code, subcode: error.subcode });
+                    // console.log('Request canceled', error.message);
+                    let abortError = createError({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code });
                     reject(abortError);
                 } else if (error.code === 'ECONNABORTED') {
                     // timeout error
-                    let timeoutError = createError({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code, subcode: error.subcode });
+                    let timeoutError = createError({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code });
                     reject(timeoutError);
                 } else if (error.response) {
                     // network error 
                     // The request was made, but the server responded with a status code
                     // that falls out of the range of 2xx
-                    let { status, statusText, headers, config } = error.response;
-                    let networkError = createError({ message: statusText, type: ERROR_TYPE.NETWORK, code: status, subcode: error.subcode });
+                    let networkError;
+                    let { status, statusText, headers, config, data = {} } = error.response;
+                    let { code, message } = data;
+                    let responseDataError = data.error || {};
+                    let type = ERROR_TYPE.NETWORK,
+                        httpStatusCode = status;
+
+                    // 兼容data.code 和 data.error这两种标志异常的方式， 优先选用code
+                    code = code || responseDataError.code;
+                    message = message || responseDataError.message || statusText;
+
+                    networkError = createError({ type, httpStatusCode, code, message });
                     reject(networkError);
+
                 } else {
-                    console.error("another error: ", error);
-                    let networkError1 = createError({ message: error.message, type: ERROR_TYPE.NETWORK });
-                    reject(networkError1);
+
+                    // console.error("unknown axios request error: ", error);
+                    let requestError = createError({ message: error.message, type: ERROR_TYPE.NETWORK });
+                    reject(requestError);
                 }
             })
         });

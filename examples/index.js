@@ -1,7 +1,8 @@
 import DataSourceProxy from './agent';
 
 const API = {
-    getMenu: 'api/menu.json'
+    // getMenu: 'api/menu.json',
+    getMenu: 'api/test'
 }
 
 const DataService = {
