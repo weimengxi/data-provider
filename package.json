@@ -1,5 +1,5 @@
 {
-  "name": "data-source-proxy",
+  "name": "data-source-agent",
   "version": "0.0.1",
   "description": "DataSource manager",
   "main": "index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weimengxi/data-source-proxy.git"
+    "url": "git+https://github.com/weimengxi/data-source-agent.git"
   },
   "author": "weimengxi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/weimengxi/data-source-proxy/issues"
+    "url": "https://github.com/weimengxi/data-source-agent/issues"
   },
-  "homepage": "https://github.com/weimengxi/data-source-proxy#readme",
+  "homepage": "https://github.com/weimengxi/data-source-agent#readme",
   "devDependencies": {
     "axios-mock-adapter": "^1.7.1",
     "axios-response-logger": "^0.1.0",

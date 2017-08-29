@@ -14,7 +14,7 @@ dataSource
     .interceptors.request.use(fixParamsInterceptor.request)
     .interceptors.error.use(errorProcessorInterceptor.error)
 
-var DataSourceProxy = {
+var DataSourceAgent = {
 
     post: function(uri, data) {
         var config = {
@@ -26,7 +26,7 @@ var DataSourceProxy = {
             data: data
         };
 
-        return DataSourceProxy.request(config);
+        return DataSourceAgent.request(config);
 
     },
 
@@ -43,7 +43,7 @@ var DataSourceProxy = {
             comboRequestEnabled: true
         };
 
-        return DataSourceProxy.request(config);
+        return DataSourceAgent.request(config);
     },
 
     cacheFirstGet: function(uri, params, { maxAge, ignoreExpires } = { maxAge: 60 * 60 * 1000, ignoreExpires: false }) {
@@ -63,7 +63,7 @@ var DataSourceProxy = {
             ignoreExpires: ignoreExpires
         };
 
-        return DataSourceProxy.request(config);
+        return DataSourceAgent.request(config);
     },
 
     // let {url, baseURL, method, params, comboRequestEnabled, maxAge, ignoreExpires} = config
@@ -85,7 +85,7 @@ var DataSourceProxy = {
 
 
 // 错误类型的定义
-DataSourceProxy.ErrorType = DataSource.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-DataSourceProxy.createError = DataSource.createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+DataSourceAgent.ErrorType = DataSource.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+DataSourceAgent.createError = DataSource.createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
 
-export default DataSourceProxy;
+export default DataSourceAgent;

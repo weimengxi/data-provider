@@ -1,2 +1,2 @@
-# data-source-proxy
+# data-source-agent
 DataSource manager

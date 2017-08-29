@@ -1,4 +1,4 @@
-import DataSourceProxy from './proxy';
+import DataSourceProxy from './agent';
 
 const API = {
     getMenu: 'api/menu.json'

@@ -2377,9 +2377,9 @@ module.exports = { "default": __webpack_require__(172), __esModule: true };
 "use strict";
 
 
-var _proxy = __webpack_require__(84);
+var _agent = __webpack_require__(186);
 
-var _proxy2 = _interopRequireDefault(_proxy);
+var _agent2 = _interopRequireDefault(_agent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -2390,7 +2390,7 @@ var API = {
 var DataService = {
     // 获取最常使用的语言
     getMenu: function getMenu() {
-        var result = _proxy2['default'].get(API.getMenu);
+        var result = _agent2['default'].get(API.getMenu);
         return result;
     }
 };
@@ -2407,126 +2407,7 @@ DataService.getMenu().then(function (data) {
 });
 
 /***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _promise = __webpack_require__(8);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _config = __webpack_require__(102);
-
-var _config2 = _interopRequireDefault(_config);
-
-var _index = __webpack_require__(48);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _FixParams = __webpack_require__(178);
-
-var _FixParams2 = _interopRequireDefault(_FixParams);
-
-var _ErrorProcessor = __webpack_require__(183);
-
-var _ErrorProcessor2 = _interopRequireDefault(_ErrorProcessor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var baseURL = _config2['default'].BASE_URL;
-
-var dataSource = new _index2['default']();
-
-// 面向切面: 按顺序组装拦截器
-
-
-dataSource.interceptors.request.use(_FixParams2['default'].request).interceptors.error.use(_ErrorProcessor2['default'].error);
-
-var DataSourceProxy = {
-
-    post: function post(uri, data) {
-        var config = {
-            url: uri,
-            method: 'post',
-            // to methods of that instance.
-            baseURL: baseURL,
-            // data仅用于post请求， 放在http请求体中
-            data: data
-        };
-
-        return DataSourceProxy.request(config);
-    },
-
-    get: function get(uri, params) {
-
-        var config = {
-            url: uri,
-            // to methods of that instance.
-            baseURL: baseURL,
-            method: 'get',
-            // params仅用于get请求， 会拼接在url后面
-            params: params,
-            // 默认get请求可合并
-            comboRequestEnabled: true
-        };
-
-        return DataSourceProxy.request(config);
-    },
-
-    cacheFirstGet: function cacheFirstGet(uri, params) {
-        var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { maxAge: 60 * 60 * 1000, ignoreExpires: false },
-            maxAge = _ref.maxAge,
-            ignoreExpires = _ref.ignoreExpires;
-
-        var config = {
-            url: uri,
-            // to methods of that instance.
-            baseURL: baseURL,
-            method: 'get',
-            // params仅用于get请求， 会拼接在url后面
-            params: params,
-            // 默认get请求可合并
-            comboRequestEnabled: true,
-            // ============= 新增缓存数据参数  ============
-            // [Number|null] 缓存时间， 单位ms. 如果需要缓存 ，请给maxAge 赋一个数值
-            maxAge: maxAge,
-            // [Boolean] 是否忽略缓存过期
-            ignoreExpires: ignoreExpires
-        };
-
-        return DataSourceProxy.request(config);
-    },
-
-    // let {url, baseURL, method, params, comboRequestEnabled, maxAge, ignoreExpires} = config
-    request: function request(config) {
-        return new _promise2['default'](function (resolve, reject) {
-            dataSource.request(config).then(function (data) {
-                resolve(data);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    },
-    start: function start() {
-        dataSource.start();
-    },
-    stop: function stop() {
-        dataSource.stop();
-    }
-
-    // 错误类型的定义
-};DataSourceProxy.ErrorType = _index2['default'].ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-DataSourceProxy.createError = _index2['default'].createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-
-exports['default'] = DataSourceProxy;
-
-/***/ }),
+/* 84 */,
 /* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7895,6 +7776,126 @@ exports.default = function (obj, key, value) {
 
   return obj;
 };
+
+/***/ }),
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _promise = __webpack_require__(8);
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _config = __webpack_require__(102);
+
+var _config2 = _interopRequireDefault(_config);
+
+var _index = __webpack_require__(48);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _FixParams = __webpack_require__(178);
+
+var _FixParams2 = _interopRequireDefault(_FixParams);
+
+var _ErrorProcessor = __webpack_require__(183);
+
+var _ErrorProcessor2 = _interopRequireDefault(_ErrorProcessor);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var baseURL = _config2['default'].BASE_URL;
+
+var dataSource = new _index2['default']();
+
+// 面向切面: 按顺序组装拦截器
+
+
+dataSource.interceptors.request.use(_FixParams2['default'].request).interceptors.error.use(_ErrorProcessor2['default'].error);
+
+var DataSourceAgent = {
+
+    post: function post(uri, data) {
+        var config = {
+            url: uri,
+            method: 'post',
+            // to methods of that instance.
+            baseURL: baseURL,
+            // data仅用于post请求， 放在http请求体中
+            data: data
+        };
+
+        return DataSourceAgent.request(config);
+    },
+
+    get: function get(uri, params) {
+
+        var config = {
+            url: uri,
+            // to methods of that instance.
+            baseURL: baseURL,
+            method: 'get',
+            // params仅用于get请求， 会拼接在url后面
+            params: params,
+            // 默认get请求可合并
+            comboRequestEnabled: true
+        };
+
+        return DataSourceAgent.request(config);
+    },
+
+    cacheFirstGet: function cacheFirstGet(uri, params) {
+        var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { maxAge: 60 * 60 * 1000, ignoreExpires: false },
+            maxAge = _ref.maxAge,
+            ignoreExpires = _ref.ignoreExpires;
+
+        var config = {
+            url: uri,
+            // to methods of that instance.
+            baseURL: baseURL,
+            method: 'get',
+            // params仅用于get请求， 会拼接在url后面
+            params: params,
+            // 默认get请求可合并
+            comboRequestEnabled: true,
+            // ============= 新增缓存数据参数  ============
+            // [Number|null] 缓存时间， 单位ms. 如果需要缓存 ，请给maxAge 赋一个数值
+            maxAge: maxAge,
+            // [Boolean] 是否忽略缓存过期
+            ignoreExpires: ignoreExpires
+        };
+
+        return DataSourceAgent.request(config);
+    },
+
+    // let {url, baseURL, method, params, comboRequestEnabled, maxAge, ignoreExpires} = config
+    request: function request(config) {
+        return new _promise2['default'](function (resolve, reject) {
+            dataSource.request(config).then(function (data) {
+                resolve(data);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    },
+    start: function start() {
+        dataSource.start();
+    },
+    stop: function stop() {
+        dataSource.stop();
+    }
+
+    // 错误类型的定义
+};DataSourceAgent.ErrorType = _index2['default'].ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+DataSourceAgent.createError = _index2['default'].createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+
+exports['default'] = DataSourceAgent;
 
 /***/ })
 /******/ ]);
