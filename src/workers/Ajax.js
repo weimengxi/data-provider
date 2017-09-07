@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import Const from '../const';
 
+import './Fetch';
+console.log('watching .... ');
 import createError from '../utils/CreateError';
 
 const ERROR_TYPE = Const.ERROR_TYPE;

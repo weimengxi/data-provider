@@ -11,7 +11,10 @@ const DefaultConfig = {
     baseURL: '',
 
     // `headers` are custom headers to be sent
-    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-Forwarded-Host': 'weimengxi.xiangyun.org'
+    },
 
     // `params` are the URL parameters to be sent with the request
     // Must be a plain object or a URLSearchParams object
