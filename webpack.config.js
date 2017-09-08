@@ -38,18 +38,6 @@ module.exports = {
         compress: true,
         stats: 'minimal',
         inline: true,
-        open: true,
-        https: true,
-        host: 'w.xiangyun.org',
-        proxy: {
-            // 工单管理
-            "/api": {
-                // pathRewrite: {"^/api": ""},
-                target: "https://bicheng.xiangyun.org/",
-                logLevel: 'debug',
-                secure: false,
-                changeOrigin: true,
-            }
-        }
+        open: true
     }
 };
