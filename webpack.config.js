@@ -44,8 +44,8 @@ module.exports = {
         proxy: {
             // 工单管理
             "/api": {
-                pathRewrite: {"^/api": ""},
-                target: "https://weimengxi.xiangyun.org/",
+                // pathRewrite: {"^/api": ""},
+                target: "https://bicheng.xiangyun.org/",
                 logLevel: 'debug',
                 secure: false,
                 changeOrigin: true,

@@ -2,7 +2,9 @@ import DataSourceProxy from './agent';
 
 const API = {
     // getMenu: 'api/menu.json',
-    getMenu: 'api/test'
+    getMenu: 'api/menu',
+    listDealUntreated: 'order/rule/get',
+    listDealApproved: 'deal/approvelist'
 }
 
 const DataService = {
@@ -10,15 +12,32 @@ const DataService = {
     getMenu: function getMenu() {
         let result = DataSourceProxy.get(API.getMenu);
         return result;
+    },
+    listDealUntreated: function listDealUntreated() {
+        let ruleinfo = {
+            a: 1,
+            b: ['bb', 'bc']
+        }
+        let result = DataSourceProxy.post(API.listDealUntreated,  ruleinfo );
+        return result;
+    },
+    listDealApproved: function listDealApproved(params) {
+        let result = DataSourceProxy.post(API.listDealApproved, { pn: 2 });
+        return result;
     }
 }
 
 const render = function render(data) {
-	var $code = document.getElementsByTagName('code');
+    var $code = document.getElementsByTagName('code');
     $code[0].textContent = data;
 }
 
-DataService.getMenu()
-    .then(data => {console.log(data); return data.items || []})
+DataService.listDealUntreated()
+    .then(data => { console.log(data); return data.items || [] })
     .then(render)
     .catch(err => console.error(err))
+
+// DataService.listDealApproved()
+//     .then(data => { console.log(data); return data.items || [] })
+//     .then(render)
+//     .catch(err => console.error(err))

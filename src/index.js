@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from 'querystring-es3';
 
 import Deferred from './utils/Deferred';
 import createError from './utils/CreateError';

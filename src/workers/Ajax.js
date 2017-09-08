@@ -1,11 +1,8 @@
-import querystring from 'querystring';
+import querystring from 'querystring-es3';
 import axios from 'axios';
 // import 'axios-response-logger';
 
 import Const from '../const';
-
-import './Fetch';
-console.log('watching .... ');
 import createError from '../utils/CreateError';
 
 const ERROR_TYPE = Const.ERROR_TYPE;
