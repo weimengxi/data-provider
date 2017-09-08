@@ -1,6 +1,5 @@
-import querystring from 'querystring-es3';
+import { getParamSerializer } from '../utils';
 import axios from 'axios';
-// import 'axios-response-logger';
 
 import Const from '../const';
 import createError from '../utils/CreateError';
@@ -25,10 +24,11 @@ const isObject = function isObject(val) {
 
 const transformMissionConfig = function transformMissionConfig(config) {
 
+    const paramSerializer = getParamSerializer(config.paramSerializerJQLikeEnabled);
     let transformedConfig = Object.assign({}, config)
 
     if (config.method === 'post' && isObject(transformedConfig.data)) {
-        transformedConfig.data = querystring.stringify(transformedConfig.data);
+        transformedConfig.data = paramSerializer(transformedConfig.data);
     }
 
     return transformedConfig;
@@ -56,7 +56,7 @@ class AjaxWorkerFactory {
 
                 // reslove 
                 // [!important] 新增的 (data.code) 逻辑判断是为了兼容服务端api error返回结构争议
-                if (data.error || data.code) {
+                if (data.code) {
                     // 2. bizError
                     let httpStatusCode = status;
                     let rawError = Object.assign({}, data.error || data, { httpStatusCode });

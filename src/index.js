@@ -11,6 +11,7 @@ import HttpWorkerFactory from './workers/Ajax';
 import HttpMission from './missions/Http';
 
 import MissionDispatcher from './MissionDispatcher';
+import { getParamSerializer } from './utils';
 
 import CacheData from './CacheData';
 
@@ -21,11 +22,11 @@ function mixConfig(requestConfig) {
 }
 
 /* 生成cache key*/
-function getCacheKey({ url, maxAge, params } = requestConfig) {
-
+function getCacheKey({ url, maxAge, params, paramSerializerJQLikeEnabled } = requestConfig) {
+    const paramSerializer = getParamSerializer(paramSerializerJQLikeEnabled);
     let cacheKey = null;
     if (typeof maxAge === 'number') {
-        cacheKey = url + '_' + querystring.stringify(params);
+        cacheKey = url + '_' + paramSerializer(params);
     }
     return cacheKey;
 }

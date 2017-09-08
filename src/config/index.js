@@ -43,7 +43,11 @@ const DefaultConfig = {
 
 
     // 请求可合并
-    comboRequestEnabled: false
+    comboRequestEnabled: false,
+
+    // http://api.jquery.com/jquery.param/
+    // {key: ['v1', 'v2']} => key[]=v1&key=v2
+    paramSerializerJQLikeEnabled: false
 
 }
 

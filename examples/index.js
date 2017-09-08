@@ -16,9 +16,9 @@ const DataService = {
     listDealUntreated: function listDealUntreated() {
         let ruleinfo = {
             a: 1,
-            b: ['bb', 'bc']
+            b: { 'bb': 'bb', 'bc': 'bc' }
         }
-        let result = DataSourceProxy.post(API.listDealUntreated,  ruleinfo );
+        let result = DataSourceProxy.post(API.listDealUntreated, ruleinfo);
         return result;
     },
     listDealApproved: function listDealApproved(params) {

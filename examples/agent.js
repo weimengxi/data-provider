@@ -1,9 +1,10 @@
-
 import Conf from './config';
 // import DataSource from '../index';
 import DataSource from '../src/index';
 
-var baseURL = Conf.BASE_URL;
+const { BASE_URL, PARAM_SERIALIZER_JQLIKE_ENABLED } = Conf;
+const baseURL = BASE_URL;
+const paramSerializerJQLikeEnabled = PARAM_SERIALIZER_JQLIKE_ENABLED;
 
 var dataSource = new DataSource();
 
@@ -67,12 +68,13 @@ var DataSourceAgent = {
         return DataSourceAgent.request(config);
     },
 
-    // let {url, baseURL, method, params, comboRequestEnabled, maxAge, ignoreExpires} = config
+    // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled, maxAge, ignoreExpires} = config
     request: function(config) {
+        let mixedConfig = { paramSerializerJQLikeEnabled, ...config };
         return new Promise((resolve, reject) => {
-            dataSource.request(config)
+            dataSource.request(mixedConfig)
                 .then(data => { resolve(data) }, err => { reject(err); })
-        });            
+        });
 
     },
     start: () => {

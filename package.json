@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./test/index.js",
-    "compile": "babel src -d build -s inline",
-    "dev": "webpack-dev-server --hot --inline --color --open --info  --client-log-level info"
+    "build": "babel src -d build -s inline",
+    "dev": "webpack-dev-server --hot --inline"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "axios": "^0.15.3",
     "babel-runtime": "6.26.0",
     "events": "^1.1.1",
-    "querystring-es3": "0.2.1"
+    "jquery-param": "0.2.0",
+    "querystring-es3": "^0.2.1"
   }
 }
