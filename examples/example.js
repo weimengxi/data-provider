@@ -60,22 +60,51 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 97);
+/******/ 	return __webpack_require__(__webpack_require__.s = 92);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.0' };
+var core = module.exports = { version: '2.5.1' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(2);
+var store = __webpack_require__(45)('wks');
+var uid = __webpack_require__(29);
+var Symbol = __webpack_require__(1).Symbol;
+var USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function (name) {
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
 var core = __webpack_require__(0);
 var ctx = __webpack_require__(12);
 var hide = __webpack_require__(13);
@@ -139,63 +168,19 @@ module.exports = $export;
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store = __webpack_require__(46)('wks');
-var uid = __webpack_require__(28);
-var Symbol = __webpack_require__(2).Symbol;
-var USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function (name) {
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-exports.__esModule = true;
-
-exports.default = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
+module.exports = { "default": __webpack_require__(95), __esModule: true };
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(99), __esModule: true };
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
-var bind = __webpack_require__(83);
+var bind = __webpack_require__(82);
 
 /*global toString:true*/
 
@@ -495,12 +480,12 @@ module.exports = {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(14);
-var IE8_DOM_DEFINE = __webpack_require__(60);
-var toPrimitive = __webpack_require__(42);
+var anObject = __webpack_require__(11);
+var IE8_DOM_DEFINE = __webpack_require__(59);
+var toPrimitive = __webpack_require__(41);
 var dP = Object.defineProperty;
 
 exports.f = __webpack_require__(8) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
@@ -513,6 +498,15 @@ exports.f = __webpack_require__(8) ? Object.defineProperty : function defineProp
   if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
   if ('value' in Attributes) O[P] = Attributes.value;
   return O;
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
 
 
@@ -530,7 +524,7 @@ module.exports = !__webpack_require__(15)(function () {
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(117), __esModule: true };
+module.exports = { "default": __webpack_require__(114), __esModule: true };
 
 /***/ }),
 /* 10 */
@@ -541,36 +535,20 @@ module.exports = { "default": __webpack_require__(117), __esModule: true };
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(73);
-
-var _defineProperty2 = _interopRequireDefault(_defineProperty);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
-    }
+exports.default = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
   }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
+};
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+var isObject = __webpack_require__(7);
 module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
 };
 
 
@@ -579,7 +557,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(19);
+var aFunction = __webpack_require__(20);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -604,7 +582,7 @@ module.exports = function (fn, that, length) {
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(7);
+var dP = __webpack_require__(6);
 var createDesc = __webpack_require__(26);
 module.exports = __webpack_require__(8) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
@@ -616,12 +594,11 @@ module.exports = __webpack_require__(8) ? function (object, key, value) {
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-var isObject = __webpack_require__(11);
-module.exports = function (it) {
-  if (!isObject(it)) throw TypeError(it + ' is not an object!');
-  return it;
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
 };
 
 
@@ -640,11 +617,13 @@ module.exports = function (exec) {
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(42);
+var defined = __webpack_require__(38);
+module.exports = function (it) {
+  return IObject(defined(it));
 };
 
 
@@ -652,22 +631,144 @@ module.exports = function (it, key) {
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(43);
-var defined = __webpack_require__(39);
-module.exports = function (it) {
-  return IObject(defined(it));
-};
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(4), __webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports, require("babel-runtime/core-js/promise"), require("babel-runtime/helpers/classCallCheck"));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports, global.promise, global.classCallCheck);
+        global.Deferred = mod.exports;
+    }
+})(this, function (module, exports) {
+    "use strict";
 
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(4), __webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports, global.promise, global.classCallCheck);
+            global.Deferred = mod.exports;
+        }
+    })(undefined, function (module, exports, _promise, _classCallCheck2) {
+        "use strict";
+
+        exports.__esModule = true;
+
+        var _promise2 = _interopRequireDefault(_promise);
+
+        var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        var Deferred = function () {
+            function Deferred() {
+                (0, _classCallCheck3.default)(this, Deferred);
+
+                this.promise = new _promise2.default(function (resolve, reject) {
+                    this._resolve = resolve;
+                    this._reject = reject;
+                }.bind(this));
+            }
+
+            Deferred.prototype.resolve = function resolve(value) {
+                this._resolve.call(this.promise, value);
+            };
+
+            Deferred.prototype.reject = function reject(reason) {
+                this._reject.call(this.promise, reason);
+            };
+
+            return Deferred;
+        }();
+
+        exports.default = Deferred;
+        module.exports = exports["default"];
+    });
+});
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(122), __esModule: true };
+module.exports = { "default": __webpack_require__(118), __esModule: true };
 
 /***/ }),
 /* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports);
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports);
+        global.index = mod.exports;
+    }
+})(this, function (module, exports) {
+    "use strict";
+
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports);
+            global.index = mod.exports;
+        }
+    })(undefined, function (module, exports) {
+        "use strict";
+
+        exports.__esModule = true;
+        var Const = {
+            NAMESPACE: 'MX',
+            ERROR_TYPE: {
+                BUSINESS: "businessError",
+                NETWORK: "networkError",
+                TIMEOUT: "timeoutError",
+                ABORT: "abortError",
+                PARSER: "parserError"
+            }
+        };
+        exports.default = Const;
+        module.exports = exports["default"];
+    });
+});
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -677,23 +778,10 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = {};
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(62);
-var enumBugKeys = __webpack_require__(47);
-
-module.exports = Object.keys || function keys(O) {
-  return $keys(O, enumBugKeys);
-};
 
 
 /***/ }),
@@ -711,9 +799,9 @@ module.exports = function (it) {
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var def = __webpack_require__(7).f;
-var has = __webpack_require__(16);
-var TAG = __webpack_require__(3)('toStringTag');
+var def = __webpack_require__(6).f;
+var has = __webpack_require__(14);
+var TAG = __webpack_require__(2)('toStringTag');
 
 module.exports = function (it, tag, stat) {
   if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
@@ -725,11 +813,11 @@ module.exports = function (it, tag, stat) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(12);
-var call = __webpack_require__(108);
-var isArrayIter = __webpack_require__(109);
-var anObject = __webpack_require__(14);
-var toLength = __webpack_require__(44);
-var getIterFn = __webpack_require__(110);
+var call = __webpack_require__(105);
+var isArrayIter = __webpack_require__(106);
+var anObject = __webpack_require__(11);
+var toLength = __webpack_require__(43);
+var getIterFn = __webpack_require__(107);
 var BREAK = {};
 var RETURN = {};
 var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
@@ -777,23 +865,23 @@ module.exports = function (bitmap, value) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject = __webpack_require__(14);
-var dPs = __webpack_require__(102);
-var enumBugKeys = __webpack_require__(47);
-var IE_PROTO = __webpack_require__(45)('IE_PROTO');
+var anObject = __webpack_require__(11);
+var dPs = __webpack_require__(98);
+var enumBugKeys = __webpack_require__(46);
+var IE_PROTO = __webpack_require__(44)('IE_PROTO');
 var Empty = function () { /* empty */ };
 var PROTOTYPE = 'prototype';
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(41)('iframe');
+  var iframe = __webpack_require__(40)('iframe');
   var i = enumBugKeys.length;
   var lt = '<';
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(63).appendChild(iframe);
+  __webpack_require__(62).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -821,23 +909,25 @@ module.exports = Object.create || function create(O, Properties) {
 
 /***/ }),
 /* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__(61);
+var enumBugKeys = __webpack_require__(46);
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+/* 29 */
 /***/ (function(module, exports) {
 
 var id = 0;
 var px = Math.random();
 module.exports = function (key) {
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-};
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.13 ToObject(argument)
-var defined = __webpack_require__(39);
-module.exports = function (it) {
-  return Object(defined(it));
 };
 
 
@@ -852,12 +942,111 @@ exports.f = {}.propertyIsEnumerable;
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(4), __webpack_require__(18), __webpack_require__(17)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(exports, require('babel-runtime/core-js/promise'), require('babel-runtime/core-js/map'), require('./Deferred'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod.exports, global.promise, global.map, global.Deferred);
+        global.ComboPromise = mod.exports;
+    }
+})(this, function (exports) {
+    'use strict';
 
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(4), __webpack_require__(18), __webpack_require__(17)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod.exports, global.promise, global.map, global.Deferred);
+            global.ComboPromise = mod.exports;
+        }
+    })(undefined, function (exports, _promise, _map, _Deferred) {
+        'use strict';
 
-exports.decode = exports.parse = __webpack_require__(136);
-exports.encode = exports.stringify = __webpack_require__(137);
+        exports.__esModule = true;
+        exports.createComboDefer = exports.createComboPromise = undefined;
 
+        var _promise2 = _interopRequireDefault(_promise);
+
+        var _map2 = _interopRequireDefault(_map);
+
+        var _Deferred2 = _interopRequireDefault(_Deferred);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        var _runnings = {};
+
+        var comboDefersMap = new _map2.default();
+
+        var comboPromisesMap = new _map2.default();
+
+        var isFunction = function isFunction(value) {
+            return Object.prototype.toString.call(value) === '[object Function]';
+        };
+
+        // 相同id的resolver, 将已有的promise返回， 不再创建新的promise
+        function createComboPromise(key, resolver) {
+
+            var promise = comboPromisesMap.get(key);
+
+            if (!(promise instanceof _promise2.default)) {
+                promise = new _promise2.default(resolver);
+                comboPromisesMap.set(key, promise);
+
+                promise.then(function (data) {
+                    comboPromisesMap.delete(key);
+                }, function (error) {
+                    comboPromisesMap.delete(key);
+                });
+            }
+
+            return promise;
+        }
+
+        function createComboDefer(id) {
+
+            var deferKey = id,
+                comboDefer = comboDefersMap.get(deferKey);
+
+            if (typeof comboDefer === 'undefined') {
+                comboDefer = new _Deferred2.default();
+                comboDefersMap.set(deferKey, comboDefer);
+            }
+
+            // 无论成功及失败， 都要删除对应的comboDefer, 然后再将成功或失败返回 
+            comboDefer.promise.then(function (data) {
+                comboDefersMap.delete(deferKey);
+            }, function (error) {
+                comboDefersMap.delete(deferKey);
+            });
+
+            return comboDefer;
+        }
+
+        exports.createComboPromise = createComboPromise;
+        exports.createComboDefer = createComboDefer;
+        exports.default = createComboPromise;
+    });
+});
 
 /***/ }),
 /* 32 */
@@ -866,35 +1055,13 @@ exports.encode = exports.stringify = __webpack_require__(137);
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var Const = {
-    NAMESPACE: 'MX',
-    ERROR_TYPE: {
-        BUSINESS: "businessError",
-        NETWORK: "networkError",
-        TIMEOUT: "timeoutError",
-        ABORT: "abortError",
-        PARSER: "parserError"
-    }
-};
-exports["default"] = Const;
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(142);
+var _iterator = __webpack_require__(139);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(144);
+var _symbol = __webpack_require__(141);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -909,49 +1076,107 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(9), __webpack_require__(80), __webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports, require('babel-runtime/core-js/object/assign'), require('babel-runtime/helpers/objectWithoutProperties'), require('../const'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports, global.assign, global.objectWithoutProperties, global._const);
+        global.CreateError = mod.exports;
+    }
+})(this, function (module, exports) {
+    'use strict';
+
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(9), __webpack_require__(80), __webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports, global.assign, global.objectWithoutProperties, global._const);
+            global.CreateError = mod.exports;
+        }
+    })(undefined, function (module, exports, _assign, _objectWithoutProperties2, _const) {
+        'use strict';
+
+        exports.__esModule = true;
+        exports.default = createError;
+
+        var _assign2 = _interopRequireDefault(_assign);
+
+        var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+        var _const2 = _interopRequireDefault(_const);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        var ERROR_TYPE = _const2.default.ERROR_TYPE;
+
+        var DEFAULT_ERROR_MSG = 'undefined message';
+        var DEFAULT_ERROR_TYPE = ERROR_TYPE.BUSINESS;
+
+        /* 说明 */
+        function createError(_ref) {
+            var code = _ref.code,
+                _ref$message = _ref.message,
+                message = _ref$message === undefined ? DEFAULT_ERROR_MSG : _ref$message,
+                _ref$type = _ref.type,
+                type = _ref$type === undefined ? ERROR_TYPE.BUSINESS : _ref$type,
+                args = (0, _objectWithoutProperties3.default)(_ref, ['code', 'message', 'type']);
+
+            // need a real Error 
+            var error = new Error(message);
+            error.type = type;
+            error.code = code;
+            (0, _assign2.default)(error, args);
+            return error;
+        }
+        module.exports = exports['default'];
+    });
+});
+
+/***/ }),
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(181), __esModule: true };
+module.exports = { "default": __webpack_require__(93), __esModule: true };
 
 /***/ }),
 /* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var Const = {
-    NAMESPACE: 'MX',
-    ERROR_TYPE: {
-        BUSINESS: "businessError",
-        NETWORK: "networkError",
-        TIMEOUT: "timeoutError",
-        ABORT: "abortError",
-        PARSER: "parserError"
-    }
-};
-exports["default"] = Const;
-
-/***/ }),
-/* 36 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at = __webpack_require__(100)(true);
+var $at = __webpack_require__(96)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(40)(String, 'String', function (iterated) {
+__webpack_require__(39)(String, 'String', function (iterated) {
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -967,7 +1192,7 @@ __webpack_require__(40)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 // 7.1.4 ToInteger
@@ -979,7 +1204,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -990,21 +1215,21 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var LIBRARY = __webpack_require__(25);
-var $export = __webpack_require__(1);
-var redefine = __webpack_require__(61);
+var $export = __webpack_require__(3);
+var redefine = __webpack_require__(60);
 var hide = __webpack_require__(13);
-var has = __webpack_require__(16);
-var Iterators = __webpack_require__(20);
-var $iterCreate = __webpack_require__(101);
+var has = __webpack_require__(14);
+var Iterators = __webpack_require__(21);
+var $iterCreate = __webpack_require__(97);
 var setToStringTag = __webpack_require__(23);
-var getPrototypeOf = __webpack_require__(64);
-var ITERATOR = __webpack_require__(3)('iterator');
+var getPrototypeOf = __webpack_require__(101);
+var ITERATOR = __webpack_require__(2)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
 var KEYS = 'keys';
@@ -1067,11 +1292,11 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11);
-var document = __webpack_require__(2).document;
+var isObject = __webpack_require__(7);
+var document = __webpack_require__(1).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
 module.exports = function (it) {
@@ -1080,11 +1305,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(11);
+var isObject = __webpack_require__(7);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -1098,7 +1323,7 @@ module.exports = function (it, S) {
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -1110,11 +1335,11 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(38);
+var toInteger = __webpack_require__(37);
 var min = Math.min;
 module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -1122,21 +1347,21 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(46)('keys');
-var uid = __webpack_require__(28);
+var shared = __webpack_require__(45)('keys');
+var uid = __webpack_require__(29);
 module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(2);
+var global = __webpack_require__(1);
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
 module.exports = function (key) {
@@ -1145,7 +1370,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -1155,14 +1380,25 @@ module.exports = (
 
 
 /***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__(38);
+module.exports = function (it) {
+  return Object(defined(it));
+};
+
+
+/***/ }),
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(105);
-var global = __webpack_require__(2);
+__webpack_require__(102);
+var global = __webpack_require__(1);
 var hide = __webpack_require__(13);
-var Iterators = __webpack_require__(20);
-var TO_STRING_TAG = __webpack_require__(3)('toStringTag');
+var Iterators = __webpack_require__(21);
+var TO_STRING_TAG = __webpack_require__(2)('toStringTag');
 
 var DOMIterables = ('CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,' +
   'DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,' +
@@ -1185,7 +1421,7 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = __webpack_require__(22);
-var TAG = __webpack_require__(3)('toStringTag');
+var TAG = __webpack_require__(2)('toStringTag');
 // ES3 wrong here
 var ARG = cof(function () { return arguments; }()) == 'Arguments';
 
@@ -1226,7 +1462,7 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 "use strict";
 
 // 25.4.1.5 NewPromiseCapability(C)
-var aFunction = __webpack_require__(19);
+var aFunction = __webpack_require__(20);
 
 function PromiseCapability(C) {
   var resolve, reject;
@@ -1268,10 +1504,229 @@ exports.f = Object.getOwnPropertySymbols;
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META = __webpack_require__(28)('meta');
-var isObject = __webpack_require__(11);
-var has = __webpack_require__(16);
-var setDesc = __webpack_require__(7).f;
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(4), __webpack_require__(18), __webpack_require__(9), __webpack_require__(17), __webpack_require__(33), __webpack_require__(31), __webpack_require__(91), __webpack_require__(19), __webpack_require__(79), __webpack_require__(73), __webpack_require__(69)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports, require('babel-runtime/core-js/promise'), require('babel-runtime/core-js/map'), require('babel-runtime/core-js/object/assign'), require('./utils/Deferred'), require('./utils/CreateError'), require('./utils/ComboPromise'), require('./config'), require('./const'), require('./workers/Ajax'), require('./missions/Http'), require('./MissionDispatcher'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports, global.promise, global.map, global.assign, global.Deferred, global.CreateError, global.ComboPromise, global.config, global._const, global.Ajax, global.Http, global.MissionDispatcher);
+        global.index = mod.exports;
+    }
+})(this, function (module, exports) {
+    'use strict';
+
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(4), __webpack_require__(18), __webpack_require__(9), __webpack_require__(17), __webpack_require__(33), __webpack_require__(31), __webpack_require__(91), __webpack_require__(19), __webpack_require__(79), __webpack_require__(73), __webpack_require__(69)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports, global.promise, global.map, global.assign, global.Deferred, global.CreateError, global.ComboPromise, global.config, global._const, global.Ajax, global.Http, global.MissionDispatcher);
+            global.index = mod.exports;
+        }
+    })(undefined, function (module, exports, _promise, _map, _assign, _Deferred, _CreateError, _ComboPromise, _config, _const, _Ajax, _Http, _MissionDispatcher) {
+        'use strict';
+
+        exports.__esModule = true;
+
+        var _promise2 = _interopRequireDefault(_promise);
+
+        var _map2 = _interopRequireDefault(_map);
+
+        var _assign2 = _interopRequireDefault(_assign);
+
+        var _Deferred2 = _interopRequireDefault(_Deferred);
+
+        var _CreateError2 = _interopRequireDefault(_CreateError);
+
+        var _ComboPromise2 = _interopRequireDefault(_ComboPromise);
+
+        var _config2 = _interopRequireDefault(_config);
+
+        var _const2 = _interopRequireDefault(_const);
+
+        var _Ajax2 = _interopRequireDefault(_Ajax);
+
+        var _Http2 = _interopRequireDefault(_Http);
+
+        var _MissionDispatcher2 = _interopRequireDefault(_MissionDispatcher);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        function mixConfig(requestConfig) {
+            return (0, _assign2.default)({}, _config2.default, requestConfig);
+        }
+
+        function DataSource() {
+            var _this = this;
+
+            var workerCount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+
+            var interceptors = {
+                request: [],
+                response: [],
+                error: []
+            };
+
+            var requestDefers = new _map2.default();
+
+            var httpMD = new _MissionDispatcher2.default(_Ajax2.default, workerCount);
+            httpMD.start();
+
+            this.interceptors = {
+                request: {
+                    use: function use() {
+                        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                            args[_key] = arguments[_key];
+                        }
+
+                        Array.prototype.push.apply(interceptors.request, args);
+                        return _this;
+                    }
+                },
+                response: {
+                    use: function use() {
+                        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                            args[_key2] = arguments[_key2];
+                        }
+
+                        Array.prototype.push.apply(interceptors.response, args);
+                        return _this;
+                    }
+                },
+                error: {
+                    use: function use() {
+                        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                            args[_key3] = arguments[_key3];
+                        }
+
+                        Array.prototype.push.apply(interceptors.error, args);
+                        return _this;
+                    }
+                }
+            };
+
+            this.start = function () {
+                httpMD.start();
+            };
+
+            this.stop = function () {
+                httpMD.stop();
+            };
+
+            this.request = function (requestConfig) {
+
+                var missionConfig = mixConfig(requestConfig || {});
+                var requestDefer = new _Deferred2.default();
+
+                // 1. requestInterceptors
+                interceptors.request.reduce(function (configPromise, interceptor) {
+                    return configPromise.then(interceptor);
+                }, _promise2.default.resolve(missionConfig)).then(function (config) {
+                    return config;
+                }, function (interceptorError) {
+                    console.log('Request Intercept Fail ... ', interceptorError);
+                    if (!interceptorError instanceof Error) {
+                        interceptorError = (0, _CreateError2.default)({
+                            message: interceptorError
+                        });
+                    }
+                    throw interceptorError;
+                })
+                // 2. doRequest
+                .then(function (config) {
+                    var mission = new _Http2.default(config);
+                    // 2.1 doRequest
+                    httpMD.put(mission)
+                    // 2.2. response or error
+                    .then(function (result) {
+                        // 2.2.1 responseInterceptors
+                        interceptors.response.reduce(function (resultPromise, interceptor) {
+                            return resultPromise.then(function (result) {
+                                return interceptor(result, requestConfig);
+                            });
+                        }, _promise2.default.resolve(result)).then(function (result) {
+                            requestDefer.resolve(result);
+                        }, function (error) {
+                            /* 
+                             * @TODO
+                             * error instanceof Error && requestDefer.reject(error); 
+                             */
+                            console.error('Response Intercept Exception ... ', error);
+                            throw error;
+                        });
+                    }, function (error) {
+                        // 洗数据,约定： interceptorError instanceof Error
+                        var transformedError = void 0;
+                        if (error instanceof Error) {
+                            transformedError = error;
+                        } else {
+                            transformedError = (0, _CreateError2.default)({
+                                message: error
+                            });
+                        }
+                        // 2.2.2. errorInterceptors
+                        interceptors.error.reduce(function (errorPromise, interceptor) {
+                            return errorPromise.then(function (error) {
+                                return interceptor(error, requestConfig);
+                            });
+                        }, _promise2.default.resolve(transformedError)).then(function (errorOrData) {
+                            /*
+                             * 【注意！！！】
+                             *　处理过的异常, errorInterceptor可能把error转换为正常的数据(非Error类型)
+                             *  error(一定是一个Error类型的实例)
+                             */
+                            var handler = errorOrData instanceof Error ? 'reject' : 'resolve';
+                            requestDefer[handler](errorOrData);
+                        }, function (exceptionError) {
+                            // 未处理异常
+                            console.log("Error Intercept Exception ... ", exceptionError);
+                            throw exceptionError;
+                        });
+                    });
+                }).catch(function (err) {
+                    requestDefer.reject(err);
+                });
+
+                return requestDefer.promise;
+            };
+        }
+
+        DataSource.ErrorType = _const2.default.ERROR_TYPE;
+        DataSource.Deferred = _Deferred2.default;
+        DataSource.createError = _CreateError2.default;
+        DataSource.createComboPromise = _ComboPromise2.default;
+
+        exports.default = DataSource;
+        module.exports = exports['default'];
+    });
+});
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var META = __webpack_require__(29)('meta');
+var isObject = __webpack_require__(7);
+var has = __webpack_require__(14);
+var setDesc = __webpack_require__(6).f;
 var id = 0;
 var isExtensible = Object.isExtensible || function () {
   return true;
@@ -1324,72 +1779,21 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var Deferred = function () {
-    function Deferred() {
-        (0, _classCallCheck3["default"])(this, Deferred);
-
-        this.promise = new _promise2["default"](function (resolve, reject) {
-            this._resolve = resolve;
-            this._reject = reject;
-        }.bind(this));
-    }
-
-    (0, _createClass3["default"])(Deferred, [{
-        key: "resolve",
-        value: function resolve(value) {
-            this._resolve.call(this.promise, value);
-        }
-    }, {
-        key: "reject",
-        value: function reject(reason) {
-            this._reject.call(this.promise, reason);
-        }
-    }]);
-    return Deferred;
-}();
-
-exports["default"] = Deferred;
-
-/***/ }),
 /* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(3);
+exports.f = __webpack_require__(2);
 
 
 /***/ }),
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(2);
+var global = __webpack_require__(1);
 var core = __webpack_require__(0);
 var LIBRARY = __webpack_require__(25);
 var wksExt = __webpack_require__(56);
-var defineProperty = __webpack_require__(7).f;
+var defineProperty = __webpack_require__(6).f;
 module.exports = function (name) {
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
   if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
@@ -1403,8 +1807,8 @@ module.exports = function (name) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(6);
-var normalizeHeaderName = __webpack_require__(154);
+var utils = __webpack_require__(5);
+var normalizeHeaderName = __webpack_require__(151);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -1421,10 +1825,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(85);
+    adapter = __webpack_require__(84);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(85);
+    adapter = __webpack_require__(84);
   }
   return adapter;
 }
@@ -1495,85 +1899,32 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(84)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(83)))
 
 /***/ }),
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
+module.exports = !__webpack_require__(8) && !__webpack_require__(15)(function () {
+  return Object.defineProperty(__webpack_require__(40)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { "default": obj };
-}
-
-var Deferred = function () {
-    function Deferred() {
-        (0, _classCallCheck3["default"])(this, Deferred);
-
-        this.promise = new _promise2["default"](function (resolve, reject) {
-            this._resolve = resolve;
-            this._reject = reject;
-        }.bind(this));
-    }
-
-    (0, _createClass3["default"])(Deferred, [{
-        key: "resolve",
-        value: function resolve(value) {
-            this._resolve.call(this.promise, value);
-        }
-    }, {
-        key: "reject",
-        value: function reject(reason) {
-            this._reject.call(this.promise, reason);
-        }
-    }]);
-    return Deferred;
-}();
-
-exports["default"] = Deferred;
 
 /***/ }),
 /* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = !__webpack_require__(8) && !__webpack_require__(15)(function () {
-  return Object.defineProperty(__webpack_require__(41)('div'), 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(13);
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(16);
-var toIObject = __webpack_require__(17);
-var arrayIndexOf = __webpack_require__(103)(false);
-var IE_PROTO = __webpack_require__(45)('IE_PROTO');
+var has = __webpack_require__(14);
+var toIObject = __webpack_require__(16);
+var arrayIndexOf = __webpack_require__(99)(false);
+var IE_PROTO = __webpack_require__(44)('IE_PROTO');
 
 module.exports = function (object, names) {
   var O = toIObject(object);
@@ -1590,34 +1941,15 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var document = __webpack_require__(2).document;
+var document = __webpack_require__(1).document;
 module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__(16);
-var toObject = __webpack_require__(29);
-var IE_PROTO = __webpack_require__(45)('IE_PROTO');
-var ObjectProto = Object.prototype;
-
-module.exports = Object.getPrototypeOf || function (O) {
-  O = toObject(O);
-  if (has(O, IE_PROTO)) return O[IE_PROTO];
-  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectProto : null;
-};
-
-
-/***/ }),
-/* 65 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -1626,13 +1958,13 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 66 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
-var anObject = __webpack_require__(14);
-var aFunction = __webpack_require__(19);
-var SPECIES = __webpack_require__(3)('species');
+var anObject = __webpack_require__(11);
+var aFunction = __webpack_require__(20);
+var SPECIES = __webpack_require__(2)('species');
 module.exports = function (O, D) {
   var C = anObject(O).constructor;
   var S;
@@ -1641,14 +1973,14 @@ module.exports = function (O, D) {
 
 
 /***/ }),
-/* 67 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(12);
-var invoke = __webpack_require__(111);
-var html = __webpack_require__(63);
-var cel = __webpack_require__(41);
-var global = __webpack_require__(2);
+var invoke = __webpack_require__(108);
+var html = __webpack_require__(62);
+var cel = __webpack_require__(40);
+var global = __webpack_require__(1);
 var process = global.process;
 var setTask = global.setImmediate;
 var clearTask = global.clearImmediate;
@@ -1731,7 +2063,7 @@ module.exports = {
 
 
 /***/ }),
-/* 68 */
+/* 66 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -1744,12 +2076,16 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 69 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var anObject = __webpack_require__(11);
+var isObject = __webpack_require__(7);
 var newPromiseCapability = __webpack_require__(51);
 
 module.exports = function (C, x) {
+  anObject(C);
+  if (isObject(x) && x.constructor === C) return x;
   var promiseCapability = newPromiseCapability.f(C);
   var resolve = promiseCapability.resolve;
   resolve(x);
@@ -1758,16 +2094,16 @@ module.exports = function (C, x) {
 
 
 /***/ }),
-/* 70 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var global = __webpack_require__(2);
+var global = __webpack_require__(1);
 var core = __webpack_require__(0);
-var dP = __webpack_require__(7);
+var dP = __webpack_require__(6);
 var DESCRIPTORS = __webpack_require__(8);
-var SPECIES = __webpack_require__(3)('species');
+var SPECIES = __webpack_require__(2)('species');
 
 module.exports = function (KEY) {
   var C = typeof core[KEY] == 'function' ? core[KEY] : global[KEY];
@@ -1779,874 +2115,191 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 71 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11);
-module.exports = function (it, TYPE) {
-  if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
-  return it;
-};
-
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__(22);
-module.exports = Array.isArray || function isArray(arg) {
-  return cof(arg) == 'Array';
-};
-
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(138), __esModule: true };
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _objectWithoutProperties2 = __webpack_require__(75);
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-exports['default'] = createError;
-
-var _const = __webpack_require__(32);
-
-var _const2 = _interopRequireDefault(_const);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var ERROR_TYPE = _const2['default'].ERROR_TYPE;
-
-var DEFAULT_ERROR_MSG = 'undefined message';
-var DEFAULT_ERROR_TYPE = ERROR_TYPE.BUSINESS;
-
-/* 说明 */
-function createError(_ref) {
-    var code = _ref.code,
-        _ref$message = _ref.message,
-        message = _ref$message === undefined ? DEFAULT_ERROR_MSG : _ref$message,
-        _ref$type = _ref.type,
-        type = _ref$type === undefined ? ERROR_TYPE.BUSINESS : _ref$type,
-        args = (0, _objectWithoutProperties3['default'])(_ref, ['code', 'message', 'type']);
-
-    // need a real Error 
-    var error = new Error(message);
-    error.type = type;
-    error.code = code;
-    (0, _assign2['default'])(error, args);
-    return error;
-}
-
-/***/ }),
-/* 75 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-exports.default = function (obj, keys) {
-  var target = {};
-
-  for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;
-    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
-    target[i] = obj[i];
-  }
-
-  return target;
-};
-
-/***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.createComboDefer = exports.createComboPromise = undefined;
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _map = __webpack_require__(18);
-
-var _map2 = _interopRequireDefault(_map);
-
-var _Deferred = __webpack_require__(55);
-
-var _Deferred2 = _interopRequireDefault(_Deferred);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _runnings = {};
-
-var comboDefersMap = new _map2['default']();
-
-var comboPromisesMap = new _map2['default']();
-
-var isFunction = function isFunction(value) {
-    return Object.prototype.toString.call(value) === '[object Function]';
-};
-
-// 相同id的resolver, 将已有的promise返回， 不再创建新的promise
-function createComboPromise(key, resolver) {
-
-    var promise = comboPromisesMap.get(key);
-
-    if (!(promise instanceof _promise2['default'])) {
-        promise = new _promise2['default'](resolver);
-        comboPromisesMap.set(key, promise);
-
-        promise.then(function (data) {
-            comboPromisesMap['delete'](key);
-        }, function (error) {
-            comboPromisesMap['delete'](key);
-        });
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(9), __webpack_require__(18), __webpack_require__(10), __webpack_require__(17), __webpack_require__(31), __webpack_require__(70)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports, require('babel-runtime/core-js/object/assign'), require('babel-runtime/core-js/map'), require('babel-runtime/helpers/classCallCheck'), require('./utils/Deferred'), require('./utils/ComboPromise'), require('events'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports, global.assign, global.map, global.classCallCheck, global.Deferred, global.ComboPromise, global.events);
+        global.MissionDispatcher = mod.exports;
     }
-
-    return promise;
-}
-
-function createComboDefer(id) {
-
-    var deferKey = id,
-        comboDefer = comboDefersMap.get(deferKey);
-
-    if (typeof comboDefer === 'undefined') {
-        comboDefer = new _Deferred2['default']();
-        comboDefersMap.set(deferKey, comboDefer);
-    }
-
-    // 无论成功及失败， 都要删除对应的comboDefer, 然后再将成功或失败返回 
-    comboDefer.promise.then(function (data) {
-        comboDefersMap['delete'](deferKey);
-    }, function (error) {
-        comboDefersMap['delete'](deferKey);
-    });
-
-    return comboDefer;
-}
-
-exports.createComboPromise = createComboPromise;
-exports.createComboDefer = createComboDefer;
-exports['default'] = createComboPromise;
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__(62);
-var hiddenKeys = __webpack_require__(47).concat('length', 'prototype');
-
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-  return $keys(O, hiddenKeys);
-};
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var pIE = __webpack_require__(30);
-var createDesc = __webpack_require__(26);
-var toIObject = __webpack_require__(17);
-var toPrimitive = __webpack_require__(42);
-var has = __webpack_require__(16);
-var IE8_DOM_DEFINE = __webpack_require__(60);
-var gOPD = Object.getOwnPropertyDescriptor;
-
-exports.f = __webpack_require__(8) ? gOPD : function getOwnPropertyDescriptor(O, P) {
-  O = toIObject(O);
-  P = toPrimitive(P, true);
-  if (IE8_DOM_DEFINE) try {
-    return gOPD(O, P);
-  } catch (e) { /* empty */ }
-  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
-};
-
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getParamSerializer = getParamSerializer;
-
-var _querystringEs = __webpack_require__(31);
-
-var _querystringEs2 = _interopRequireDefault(_querystringEs);
-
-var _jqueryParam = __webpack_require__(81);
-
-var _jqueryParam2 = _interopRequireDefault(_jqueryParam);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/*
- * @desc 序列化请求参数的方式
- * @param Boolean
- * @ret Function
- */
-function getParamSerializer(paramSerializerJQLikeEnabled) {
-
-  var paramSerializerFn = paramSerializerJQLikeEnabled ? _jqueryParam2['default'] : _querystringEs2['default'].stringify;
-  return paramSerializerFn;
-}
-
-/***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * @preserve jquery-param (c) 2015 KNOWLEDGECODE | MIT
- */
-(function (global) {
+})(this, function (module, exports) {
     'use strict';
 
-    var param = function (a) {
-        var s = [], rbracket = /\[\]$/,
-            isArray = function (obj) {
-                return Object.prototype.toString.call(obj) === '[object Array]';
-            }, add = function (k, v) {
-                v = typeof v === 'function' ? v() : v === null ? '' : v === undefined ? '' : v;
-                s[s.length] = encodeURIComponent(k) + '=' + encodeURIComponent(v);
-            }, buildParams = function (prefix, obj) {
-                var i, len, key;
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(9), __webpack_require__(18), __webpack_require__(10), __webpack_require__(17), __webpack_require__(31), __webpack_require__(70)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports, global.assign, global.map, global.classCallCheck, global.Deferred, global.ComboPromise, global.events);
+            global.MissionDispatcher = mod.exports;
+        }
+    })(undefined, function (module, exports, _assign, _map, _classCallCheck2, _Deferred, _ComboPromise, _events) {
+        'use strict';
 
-                if (prefix) {
-                    if (isArray(obj)) {
-                        for (i = 0, len = obj.length; i < len; i++) {
-                            if (rbracket.test(prefix)) {
-                                add(prefix, obj[i]);
-                            } else {
-                                buildParams(prefix + '[' + (typeof obj[i] === 'object' ? i : '') + ']', obj[i]);
-                            }
-                        }
-                    } else if (obj && String(obj) === '[object Object]') {
-                        for (key in obj) {
-                            buildParams(prefix + '[' + key + ']', obj[key]);
-                        }
-                    } else {
-                        add(prefix, obj);
-                    }
-                } else if (isArray(obj)) {
-                    for (i = 0, len = obj.length; i < len; i++) {
-                        add(obj[i].name, obj[i].value);
-                    }
-                } else {
-                    for (key in obj) {
-                        buildParams(key, obj[key]);
-                    }
+        exports.__esModule = true;
+
+        var _assign2 = _interopRequireDefault(_assign);
+
+        var _map2 = _interopRequireDefault(_map);
+
+        var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+        var _Deferred2 = _interopRequireDefault(_Deferred);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        // 会不会溢出？
+        var serialNumber = 0;
+
+        function makeMissionKey(mission) {
+            var missionKey = mission.config.comboRequestEnabled ? mission.signature : serialNumber++;
+            return missionKey;
+        }
+
+        /*
+         * @param {WorkerFactory|Function} 生成worker的工厂
+         * @param {count|countber} 生成worker的数量 
+         */
+
+        var MissionDispatcher = function () {
+            function MissionDispatcher(WorkerFactory, count) {
+                (0, _classCallCheck3.default)(this, MissionDispatcher);
+                this._context = {
+                    workers: [], // worker队列
+                    missionQueue: [], // 任务队列 
+                    // 持有相同defer的mission, 结构类似{missionDefer: mission} 
+                    missionDefers: new _map2.default(),
+                    isRunning: false, // controller的运行状态 
+                    emitter: new _events.EventEmitter()
+                };
+
+                for (var i = 0; i < count; i++) {
+                    var worker = new WorkerFactory();
+                    worker.id = i;
+                    this._context.workers.push(worker);
                 }
-                return s;
+
+                this._context.emitter.on('mission:put', run.bind(this._context));
+                this._context.emitter.on('worker:add', run.bind(this._context));
+            }
+
+            // 【!!!约定】 以下划线开头的是私有变量，请不要调用 
+
+
+            MissionDispatcher.prototype.put = function put(mission) {
+
+                var missionKey = makeMissionKey(mission),
+                    missionDefer = (0, _ComboPromise.createComboDefer)(missionKey),
+                    missionInQueue = (0, _assign2.default)({}, mission, { defer: missionDefer });
+
+                if (this._context.missionDefers.has(missionDefer) === false) {
+                    this._context.missionDefers.set(missionDefer, missionInQueue);
+                    this._context.missionQueue.push(missionInQueue);
+                    this._context.emitter.emit('mission:put', run);
+                }
+
+                return missionDefer.promise;
             };
 
-        return buildParams('', a).join('&').replace(/%20/g, '+');
-    };
+            MissionDispatcher.prototype.start = function start() {
+                if (this._context.isRunning === false) {
+                    this._context.isRunning = true;
+                    run.bind(this._context)();
+                } else {
+                    console.log(' MissionDispatcher is already Running ... ');
+                }
+            };
 
-    if (typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = param;
-    } else if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-            return param;
-        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else {
-        global.param = param;
-    }
+            MissionDispatcher.prototype.stop = function stop() {
+                this._context.isRunning = false;
+            };
 
-}(this));
+            return MissionDispatcher;
+        }();
 
+        function run() {
 
+            var threadsCount = void 0,
+                context = this;
 
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
+            if (context.isRunning === false) {
+                console.warn(' MissionDispatcher is stopped ... ');
+                return;
+            }
 
-module.exports = __webpack_require__(152);
+            if (context.missionQueue.length === 0) {
+                console.log(' No Mission ...  ');
+                return;
+            }
 
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
+            if (context.workers.length === 0) {
+                console.log(' No Avaliable workers ...  ');
+                return;
+            }
 
-"use strict";
+            // realDo Mission ====
+            threadsCount = Math.min(context.workers.length, context.missionQueue.length);
 
+            while (threadsCount > 0) {
+                // 从map里出第一个
+                dispatch(context.workers.shift(), context.missionQueue.shift()); // FIFO
+                threadsCount--;
+            }
 
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
+            // 给worker分配任务, 合并请求
+            function dispatch(worker, mission) {
 
+                //console.log("%cSTART: workerId: %s, missionSignature: %s", "color:green", worker.id, mission.signature);
 
-/***/ }),
-/* 84 */
-/***/ (function(module, exports) {
+                var finishHandler = function finishHandler() {
+                    // 归还worker
+                    context.workers.push(worker);
+                    context.emitter.emit("worker:add");
+                    // 删除 执行过的 missionDefer
+                    context.missionDefers.delete(mission.defer);
+                };
 
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
+                worker.do(mission).then(function (data) {
+                    mission.defer.resolve(data);
+                    // console.log("%cResolve: m %s, w %s ", "color:blue", mission, worker.id);
+                    finishHandler();
+                }, function (reason) {
+                    mission.defer.reject(reason);
+                    // console.log("%cReject: m %s, w %s ", "color:red", mission, worker.id);
+                    finishHandler();
+                });
             }
         }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
+        exports.default = MissionDispatcher;
+        module.exports = exports['default'];
+    });
+});
 
 /***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(6);
-var settle = __webpack_require__(155);
-var buildURL = __webpack_require__(157);
-var parseHeaders = __webpack_require__(158);
-var isURLSameOrigin = __webpack_require__(159);
-var createError = __webpack_require__(86);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(160);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if (process.env.NODE_ENV !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(161);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        if (request.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(84)))
-
-/***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(156);
-
-/**
- * Create an Error with the specified message, config, error code, and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, response);
-};
-
-
-/***/ }),
-/* 87 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 89 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(170), __esModule: true };
-
-/***/ }),
-/* 90 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _typeof2 = __webpack_require__(33);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
-};
-
-/***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _setPrototypeOf = __webpack_require__(173);
-
-var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
-
-var _create = __webpack_require__(177);
-
-var _create2 = _interopRequireDefault(_create);
-
-var _typeof2 = __webpack_require__(33);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : (0, _typeof3.default)(superClass)));
-  }
-
-  subClass.prototype = (0, _create2.default)(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf2.default ? (0, _setPrototypeOf2.default)(subClass, superClass) : subClass.__proto__ = superClass;
-};
-
-/***/ }),
-/* 92 */
+/* 70 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -2954,386 +2607,1373 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 93 */
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(7);
+module.exports = function (it, TYPE) {
+  if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
+  return it;
+};
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.2.2 IsArray(argument)
+var cof = __webpack_require__(22);
+module.exports = Array.isArray || function isArray(arg) {
+  return cof(arg) == 'Array';
+};
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(10), __webpack_require__(78), __webpack_require__(75), __webpack_require__(74)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports, require('babel-runtime/helpers/classCallCheck'), require('babel-runtime/helpers/possibleConstructorReturn'), require('babel-runtime/helpers/inherits'), require('./Super'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports, global.classCallCheck, global.possibleConstructorReturn, global.inherits, global.Super);
+        global.Http = mod.exports;
+    }
+})(this, function (module, exports) {
+    'use strict';
+
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(10), __webpack_require__(78), __webpack_require__(75), __webpack_require__(74)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports, global.classCallCheck, global.possibleConstructorReturn, global.inherits, global.Super);
+            global.Http = mod.exports;
+        }
+    })(undefined, function (module, exports, _classCallCheck2, _possibleConstructorReturn2, _inherits2, _Super) {
+        'use strict';
+
+        exports.__esModule = true;
+
+        var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+        var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+        var _inherits3 = _interopRequireDefault(_inherits2);
+
+        var _Super2 = _interopRequireDefault(_Super);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        var HttpMission = function (_Mission) {
+            (0, _inherits3.default)(HttpMission, _Mission);
+
+            function HttpMission(config) {
+                (0, _classCallCheck3.default)(this, HttpMission);
+                return (0, _possibleConstructorReturn3.default)(this, _Mission.call(this, 'http', config));
+            }
+
+            return HttpMission;
+        }(_Super2.default);
+
+        exports.default = HttpMission;
+        module.exports = exports['default'];
+    });
+});
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(34), __webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports, require("babel-runtime/core-js/json/stringify"), require("babel-runtime/helpers/classCallCheck"));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports, global.stringify, global.classCallCheck);
+        global.Super = mod.exports;
+    }
+})(this, function (module, exports) {
+    "use strict";
+
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(34), __webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports, global.stringify, global.classCallCheck);
+            global.Super = mod.exports;
+        }
+    })(undefined, function (module, exports, _stringify, _classCallCheck2) {
+        "use strict";
+
+        exports.__esModule = true;
+
+        var _stringify2 = _interopRequireDefault(_stringify);
+
+        var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        var Mission = function Mission(type, config) {
+            (0, _classCallCheck3.default)(this, Mission);
+
+            this.type = type;
+            this.config = config;
+            //假设JSON.stringify序列化结果是稳定得
+            this.signature = (0, _stringify2.default)({ type: type, config: config });
+            this.createTime = Date.now();
+        };
+
+        exports.default = Mission;
+        module.exports = exports["default"];
+    });
+});
+
+/***/ }),
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(192);
+exports.__esModule = true;
+
+var _setPrototypeOf = __webpack_require__(132);
+
+var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
+
+var _create = __webpack_require__(136);
+
+var _create2 = _interopRequireDefault(_create);
+
+var _typeof2 = __webpack_require__(32);
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : (0, _typeof3.default)(superClass)));
+  }
+
+  subClass.prototype = (0, _create2.default)(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf2.default ? (0, _setPrototypeOf2.default)(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var pIE = __webpack_require__(30);
+var createDesc = __webpack_require__(26);
+var toIObject = __webpack_require__(16);
+var toPrimitive = __webpack_require__(41);
+var has = __webpack_require__(14);
+var IE8_DOM_DEFINE = __webpack_require__(59);
+var gOPD = Object.getOwnPropertyDescriptor;
+
+exports.f = __webpack_require__(8) ? gOPD : function getOwnPropertyDescriptor(O, P) {
+  O = toIObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return gOPD(O, P);
+  } catch (e) { /* empty */ }
+  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
+};
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys = __webpack_require__(61);
+var hiddenKeys = __webpack_require__(46).concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return $keys(O, hiddenKeys);
+};
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _typeof2 = __webpack_require__(32);
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
+};
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(4), __webpack_require__(10), __webpack_require__(9), __webpack_require__(32), __webpack_require__(88), __webpack_require__(81), __webpack_require__(19), __webpack_require__(33)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports, require('babel-runtime/core-js/promise'), require('babel-runtime/helpers/classCallCheck'), require('babel-runtime/core-js/object/assign'), require('babel-runtime/helpers/typeof'), require('../utils'), require('axios'), require('../const'), require('../utils/CreateError'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports, global.promise, global.classCallCheck, global.assign, global._typeof, global.utils, global.axios, global._const, global.CreateError);
+        global.Ajax = mod.exports;
+    }
+})(this, function (module, exports) {
+    'use strict';
+
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports, __webpack_require__(4), __webpack_require__(10), __webpack_require__(9), __webpack_require__(32), __webpack_require__(88), __webpack_require__(81), __webpack_require__(19), __webpack_require__(33)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports, global.promise, global.classCallCheck, global.assign, global._typeof, global.utils, global.axios, global._const, global.CreateError);
+            global.Ajax = mod.exports;
+        }
+    })(undefined, function (module, exports, _promise, _classCallCheck2, _assign, _typeof2, _utils, _axios, _const, _CreateError) {
+        'use strict';
+
+        exports.__esModule = true;
+
+        var _promise2 = _interopRequireDefault(_promise);
+
+        var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+        var _assign2 = _interopRequireDefault(_assign);
+
+        var _typeof3 = _interopRequireDefault(_typeof2);
+
+        var _axios2 = _interopRequireDefault(_axios);
+
+        var _const2 = _interopRequireDefault(_const);
+
+        var _CreateError2 = _interopRequireDefault(_CreateError);
+
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+
+        var ERROR_TYPE = _const2.default.ERROR_TYPE;
+
+        var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
+
+        // 异常数据结构
+        var errorResponseStruct = { httpStatusCode: NaN, code: NaN, message: '' };
+
+        /**
+         * Determine if a value is an Object
+         *
+         * @param {Object} val The value to test
+         * @returns {boolean} True if value is an Object, otherwise false
+         * @refer https://github.com/mzabriskie/axios/blob/master/lib/utils.js
+         */
+        var isObject = function isObject(val) {
+            return val !== null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object';
+        };
+
+        var transformMissionConfig = function transformMissionConfig(config) {
+
+            var paramSerializer = (0, _utils.getParamSerializer)(config.paramSerializerJQLikeEnabled);
+            var transformedConfig = (0, _assign2.default)({}, config);
+
+            if (config.method === 'post' && isObject(transformedConfig.data)) {
+                transformedConfig.data = paramSerializer(transformedConfig.data);
+            }
+
+            return transformedConfig;
+        };
+
+        var AjaxWorkerFactory = function () {
+            function AjaxWorkerFactory() {
+                (0, _classCallCheck3.default)(this, AjaxWorkerFactory);
+            }
+
+            AjaxWorkerFactory.prototype.do = function _do(mission) {
+                return new _promise2.default(function (resolve, reject) {
+                    // axiosSchema: https://github.com/mzabriskie/axios
+                    var transformedConfig = transformMissionConfig(mission.config);
+
+                    _axios2.default.request(transformedConfig).then(function (_ref) {
+                        var data = _ref.data,
+                            status = _ref.status,
+                            statusText = _ref.statusText,
+                            headers = _ref.headers,
+                            config = _ref.config,
+                            response = _ref.response;
+
+                        if (Object.prototype.toString.call(data) !== "[object Object]") {
+                            try {
+                                data = JSON.parse(data);
+                            } catch (e) {
+                                var message = "response is not a instance of JSON ";
+                                console.error("response of '%s' is not JSON ", config.url);
+                                var parserError = (0, _CreateError2.default)({ message: message, type: ERROR_TYPE.PARSER });
+                                reject(parserError);
+                            }
+                        }
+
+                        // reslove 
+                        // [!important] 新增的 (data.code) 逻辑判断是为了兼容服务端api error返回结构争议
+                        if (data.code) {
+                            // 2. bizError
+                            var httpStatusCode = status;
+                            var rawError = (0, _assign2.default)({}, data.error || data, { httpStatusCode: httpStatusCode });
+                            var businessError = (0, _CreateError2.default)(rawError);
+                            reject(businessError);
+                        } else {
+                            resolve(data);
+                        }
+                    }, function (error) {
+                        if (_axios2.default.isCancel(error)) {
+                            // abort error
+                            // console.log('Request canceled', error.message);
+                            var abortError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code });
+                            reject(abortError);
+                        } else if (error.code === 'ECONNABORTED') {
+                            // timeout error
+                            var timeoutError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code });
+                            reject(timeoutError);
+                        } else if (error.response) {
+                            // network error 
+                            // The request was made, but the server responded with a status code
+                            // that falls out of the range of 2xx
+                            var networkError = void 0;
+                            var _error$response = error.response,
+                                status = _error$response.status,
+                                statusText = _error$response.statusText,
+                                headers = _error$response.headers,
+                                config = _error$response.config,
+                                _error$response$data = _error$response.data,
+                                data = _error$response$data === undefined ? {} : _error$response$data;
+                            var code = data.code,
+                                message = data.message;
+
+                            var responseDataError = data.error || {};
+                            var type = ERROR_TYPE.NETWORK,
+                                httpStatusCode = status;
+
+                            // 兼容data.code 和 data.error这两种标志异常的方式， 优先选用code
+                            code = code || responseDataError.code;
+                            message = message || responseDataError.message || statusText;
+
+                            networkError = (0, _CreateError2.default)({ type: type, httpStatusCode: httpStatusCode, code: code, message: message });
+                            reject(networkError);
+                        } else {
+
+                            // console.error("unknown axios request error: ", error);
+                            var requestError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.NETWORK });
+                            reject(requestError);
+                        }
+                    });
+                });
+            };
+
+            return AjaxWorkerFactory;
+        }();
+
+        exports.default = AjaxWorkerFactory;
+        module.exports = exports['default'];
+    });
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(148)))
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+exports.default = function (obj, keys) {
+  var target = {};
+
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
+};
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(149);
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(5);
+var settle = __webpack_require__(152);
+var buildURL = __webpack_require__(154);
+var parseHeaders = __webpack_require__(155);
+var isURLSameOrigin = __webpack_require__(156);
+var createError = __webpack_require__(85);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(157);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if (process.env.NODE_ENV !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(158);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        if (request.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(83)))
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(153);
+
+/**
+ * Create an Error with the specified message, config, error code, and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, response);
+};
+
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(89), __webpack_require__(90)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('querystring-es3'), require('jquery-param'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.querystringEs3, global.jqueryParam);
+    global.index = mod.exports;
+  }
+})(this, function (exports) {
+  'use strict';
+
+  (function (global, factory) {
+    if (true) {
+      !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(89), __webpack_require__(90)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+      factory(exports);
+    } else {
+      var mod = {
+        exports: {}
+      };
+      factory(mod.exports, global.querystringEs3, global.jqueryParam);
+      global.index = mod.exports;
+    }
+  })(undefined, function (exports, _querystringEs, _jqueryParam) {
+    'use strict';
+
+    exports.__esModule = true;
+    exports.getParamSerializer = getParamSerializer;
+
+    var _querystringEs2 = _interopRequireDefault(_querystringEs);
+
+    var _jqueryParam2 = _interopRequireDefault(_jqueryParam);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {
+        default: obj
+      };
+    }
+
+    /*
+     * @desc 序列化请求参数的方式
+     * @param Boolean
+     * @ret Function
+     */
+    function getParamSerializer(paramSerializerJQLikeEnabled) {
+
+      var paramSerializerFn = paramSerializerJQLikeEnabled ? _jqueryParam2.default : _querystringEs2.default.stringify;
+      return paramSerializerFn;
+    }
+  });
+});
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.decode = exports.parse = __webpack_require__(166);
+exports.encode = exports.stringify = __webpack_require__(167);
+
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * @preserve jquery-param (c) 2015 KNOWLEDGECODE | MIT
+ */
+(function (global) {
+    'use strict';
+
+    var param = function (a) {
+        var s = [], rbracket = /\[\]$/,
+            isArray = function (obj) {
+                return Object.prototype.toString.call(obj) === '[object Array]';
+            }, add = function (k, v) {
+                v = typeof v === 'function' ? v() : v === null ? '' : v === undefined ? '' : v;
+                s[s.length] = encodeURIComponent(k) + '=' + encodeURIComponent(v);
+            }, buildParams = function (prefix, obj) {
+                var i, len, key;
+
+                if (prefix) {
+                    if (isArray(obj)) {
+                        for (i = 0, len = obj.length; i < len; i++) {
+                            if (rbracket.test(prefix)) {
+                                add(prefix, obj[i]);
+                            } else {
+                                buildParams(prefix + '[' + (typeof obj[i] === 'object' ? i : '') + ']', obj[i]);
+                            }
+                        }
+                    } else if (obj && String(obj) === '[object Object]') {
+                        for (key in obj) {
+                            buildParams(prefix + '[' + key + ']', obj[key]);
+                        }
+                    } else {
+                        add(prefix, obj);
+                    }
+                } else if (isArray(obj)) {
+                    for (i = 0, len = obj.length; i < len; i++) {
+                        add(obj[i].name, obj[i].value);
+                    }
+                } else {
+                    for (key in obj) {
+                        buildParams(key, obj[key]);
+                    }
+                }
+                return s;
+            };
+
+        return buildParams('', a).join('&').replace(/%20/g, '+');
+    };
+
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        module.exports = param;
+    } else if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+            return param;
+        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else {
+        global.param = param;
+    }
+
+}(this));
+
+
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, exports);
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, mod.exports);
+        global.index = mod.exports;
+    }
+})(this, function (module, exports) {
+    'use strict';
+
+    (function (global, factory) {
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        } else if (typeof exports !== "undefined") {
+            factory(module, exports);
+        } else {
+            var mod = {
+                exports: {}
+            };
+            factory(mod, mod.exports);
+            global.index = mod.exports;
+        }
+    })(undefined, function (module, exports) {
+        'use strict';
+
+        exports.__esModule = true;
+        var DefaultConfig = {
+            // `url` is the server URL that will be used for the request
+            url: '',
+
+            // `method` is the request method to be used when making the request
+            method: 'get', // default
+
+            // `baseURL` will be prepended to `url` unless `url` is absolute.
+            // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
+            // to methods of that instance.
+            baseURL: '',
+
+            // `headers` are custom headers to be sent
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+
+            // `params` are the URL parameters to be sent with the request
+            // Must be a plain object or a URLSearchParams object
+            params: {},
+
+            // `data` is the data to be sent as the request body
+            // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
+            // When no `transformRequest` is set, must be of one of the following types:
+            // - string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams
+            // - Browser only: FormData, File, Blob
+            // - Node only: Stream
+            data: {},
+
+            // `responseType` indicates the type of data that the server will respond with
+            // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
+            responseType: 'text',
+
+            // `timeout` specifies the number of milliseconds before the request times out.
+            // If the request takes longer than `timeout`, the request will be aborted.
+            timeout: 5000, // default: 1000
+
+            // `withCredentials` indicates whether or not cross-site Access-Control requests
+            // should be made using credentials
+            withCredentials: false, // default: false
+
+
+            // 请求可合并
+            comboRequestEnabled: false,
+
+            // http://api.jquery.com/jquery.param/
+            // {key: ['v1', 'v2']} => key[]=v1&key=v2
+            paramSerializerJQLikeEnabled: false
+
+        };
+
+        exports.default = DefaultConfig;
+        module.exports = exports['default'];
+    });
+});
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(34), __webpack_require__(94)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(require('babel-runtime/core-js/json/stringify'), require('./data-service'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(global.stringify, global.dataService);
+        global.index = mod.exports;
+    }
+})(this, function (_stringify, _dataService) {
+    'use strict';
+
+    var _stringify2 = _interopRequireDefault(_stringify);
+
+    var _dataService2 = _interopRequireDefault(_dataService);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var API = {
+        getMenu: 'menu.json'
+    };
+
+    var MenuService = {
+        // 获取最常使用的语言
+        getMenu: function getMenu() {
+            var result = _dataService2.default.get(API.getMenu);
+            return result;
+        }
+    };
+
+    var render = function render(data) {
+        var $code = document.getElementsByTagName('code');
+        $code[0].textContent = (0, _stringify2.default)(data);
+    };
+
+    MenuService.getMenu().then(function (data) {
+        console.log(data);
+        render(data);
+    }).catch(function (err) {
+        console.log(err);
+        alert(err.message);
+    });
+});
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__(0);
+var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
+module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
+  return $JSON.stringify.apply($JSON, arguments);
+};
+
 
 /***/ }),
 /* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(4), __webpack_require__(113), __webpack_require__(117), __webpack_require__(54), __webpack_require__(168), __webpack_require__(173)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(exports, require('babel-runtime/core-js/promise'), require('babel-runtime/helpers/extends'), require('./config'), require('../dist/index'), require('./interceptors/FixParams'), require('./interceptors/ErrorProcessor'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod.exports, global.promise, global._extends, global.config, global.index, global.FixParams, global.ErrorProcessor);
+        global.dataService = mod.exports;
+    }
+})(this, function (exports, _promise, _extends2, _config, _index, _FixParams, _ErrorProcessor) {
+    'use strict';
 
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
+    var _promise2 = _interopRequireDefault(_promise);
+
+    var _extends3 = _interopRequireDefault(_extends2);
+
+    var _config2 = _interopRequireDefault(_config);
+
+    var _index2 = _interopRequireDefault(_index);
+
+    var _FixParams2 = _interopRequireDefault(_FixParams);
+
+    var _ErrorProcessor2 = _interopRequireDefault(_ErrorProcessor);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var BASE_URL = _config2.default.BASE_URL,
+        PARAM_SERIALIZER_JQLIKE_ENABLED = _config2.default.PARAM_SERIALIZER_JQLIKE_ENABLED;
+
+    var baseURL = BASE_URL;
+    var paramSerializerJQLikeEnabled = PARAM_SERIALIZER_JQLIKE_ENABLED;
+
+    // 创建一个DataSourceAgent实例
+    var agent = new _index2.default();
+
+    // 面向切面: 按顺序组装拦截器
+    agent.interceptors.request.use(_FixParams2.default.request).interceptors.error.use(_ErrorProcessor2.default.error);
+
+    var DataService = {
+
+        post: function post(uri, data) {
+            var config = {
+                url: uri,
+                method: 'post',
+                // to methods of that instance.
+                baseURL: baseURL,
+                // data仅用于post请求， 放在http请求体中
+                data: data
+            };
+
+            return DataService.request(config);
+        },
+
+        get: function get(uri, params) {
+
+            var config = {
+                url: uri,
+                // to methods of that instance.
+                baseURL: baseURL,
+                method: 'get',
+                // params仅用于get请求， 会拼接在url后面
+                params: params,
+                // 默认get请求可合并
+                comboRequestEnabled: true
+            };
+
+            return DataService.request(config);
+        },
+
+        // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled, maxAge, ignoreExpires} = config
+        request: function request(config) {
+
+            var mixedConfig = (0, _extends3.default)({ paramSerializerJQLikeEnabled: paramSerializerJQLikeEnabled }, config);
+
+            return new _promise2.default(function (resolve, reject) {
+                agent.request(mixedConfig).then(function (data) {
+                    resolve(data);
+                }, function (err) {
+                    reject(err);
+                });
+            });
+        },
+        start: function start() {
+            agent.start();
+        },
+        stop: function stop() {
+            agent.stop();
+        }
+
+        // 错误类型的定义
+    };DataService.ErrorType = _index2.default.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+    DataService.createError = _index2.default.createError;
+
+    exports.default = DataService;
 });
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _objectWithoutProperties2 = __webpack_require__(75);
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-exports['default'] = createError;
-
-var _const = __webpack_require__(35);
-
-var _const2 = _interopRequireDefault(_const);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var ERROR_TYPE = _const2['default'].ERROR_TYPE;
-
-var DEFAULT_ERROR_MSG = 'undefined message';
-var DEFAULT_ERROR_TYPE = ERROR_TYPE.BUSINESS;
-
-/* 说明 */
-function createError(_ref) {
-    var code = _ref.code,
-        _ref$message = _ref.message,
-        message = _ref$message === undefined ? DEFAULT_ERROR_MSG : _ref$message,
-        _ref$type = _ref.type,
-        type = _ref$type === undefined ? ERROR_TYPE.BUSINESS : _ref$type,
-        args = (0, _objectWithoutProperties3['default'])(_ref, ['code', 'message', 'type']);
-
-    // need a real Error 
-    var error = new Error(message);
-    error.type = type;
-    error.code = code;
-    (0, _assign2['default'])(error, args);
-    return error;
-}
 
 /***/ }),
 /* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+__webpack_require__(35);
+__webpack_require__(36);
+__webpack_require__(48);
+__webpack_require__(104);
+__webpack_require__(111);
+__webpack_require__(112);
+module.exports = __webpack_require__(0).Promise;
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.createComboDefer = exports.createComboPromise = undefined;
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _map = __webpack_require__(18);
-
-var _map2 = _interopRequireDefault(_map);
-
-var _Deferred = __webpack_require__(59);
-
-var _Deferred2 = _interopRequireDefault(_Deferred);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _runnings = {};
-
-var comboDefersMap = new _map2['default']();
-
-var comboPromisesMap = new _map2['default']();
-
-var isFunction = function isFunction(value) {
-    return Object.prototype.toString.call(value) === '[object Function]';
-};
-
-// 相同id的resolver, 将已有的promise返回， 不再创建新的promise
-function createComboPromise(key, resolver) {
-
-    var promise = comboPromisesMap.get(key);
-
-    if (!(promise instanceof _promise2['default'])) {
-        promise = new _promise2['default'](resolver);
-        comboPromisesMap.set(key, promise);
-
-        promise.then(function (data) {
-            comboPromisesMap['delete'](key);
-        }, function (error) {
-            comboPromisesMap['delete'](key);
-        });
-    }
-
-    return promise;
-}
-
-function createComboDefer(id) {
-
-    var deferKey = id,
-        comboDefer = comboDefersMap.get(deferKey);
-
-    if (typeof comboDefer === 'undefined') {
-        comboDefer = new _Deferred2['default']();
-        comboDefersMap.set(deferKey, comboDefer);
-    }
-
-    // 无论成功及失败， 都要删除对应的comboDefer, 然后再将成功或失败返回 
-    comboDefer.promise.then(function (data) {
-        comboDefersMap['delete'](deferKey);
-    }, function (error) {
-        comboDefersMap['delete'](deferKey);
-    });
-
-    return comboDefer;
-}
-
-exports.createComboPromise = createComboPromise;
-exports.createComboDefer = createComboDefer;
-exports['default'] = createComboPromise;
 
 /***/ }),
 /* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getParamSerializer = getParamSerializer;
-
-var _querystringEs = __webpack_require__(31);
-
-var _querystringEs2 = _interopRequireDefault(_querystringEs);
-
-var _jqueryParam = __webpack_require__(81);
-
-var _jqueryParam2 = _interopRequireDefault(_jqueryParam);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-/*
- * @desc 序列化请求参数的方式
- * @param Boolean
- * @ret Function
- */
-function getParamSerializer(paramSerializerJQLikeEnabled) {
-
-  var paramSerializerFn = paramSerializerJQLikeEnabled ? _jqueryParam2['default'] : _querystringEs2['default'].stringify;
-  return paramSerializerFn;
-}
-
-/***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _agent = __webpack_require__(98);
-
-var _agent2 = _interopRequireDefault(_agent);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var API = {
-    // getMenu: 'api/menu.json',
-    getMenu: 'api/menu',
-    listDealUntreated: 'order/rule/get',
-    listDealApproved: 'deal/approvelist'
-};
-
-var DataService = {
-    // 获取最常使用的语言
-    getMenu: function getMenu() {
-        var result = _agent2['default'].get(API.getMenu);
-        return result;
-    },
-    listDealUntreated: function listDealUntreated() {
-        var ruleinfo = {
-            a: 1,
-            b: { 'bb': 'bb', 'bc': 'bc' }
-        };
-        var result = _agent2['default'].post(API.listDealUntreated, ruleinfo);
-        return result;
-    },
-    listDealApproved: function listDealApproved(params) {
-        var result = _agent2['default'].post(API.listDealApproved, { pn: 2 });
-        return result;
-    }
-};
-
-var render = function render(data) {
-    var $code = document.getElementsByTagName('code');
-    $code[0].textContent = data;
-};
-
-DataService.listDealUntreated().then(function (data) {
-    console.log(data);return data.items || [];
-}).then(render)['catch'](function (err) {
-    return console.error(err);
-});
-
-// DataService.listDealApproved()
-//     .then(data => { console.log(data); return data.items || [] })
-//     .then(render)
-//     .catch(err => console.error(err))
-
-/***/ }),
-/* 98 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _extends2 = __webpack_require__(116);
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _config = __webpack_require__(120);
-
-var _config2 = _interopRequireDefault(_config);
-
-var _index = __webpack_require__(121);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _FixParams = __webpack_require__(186);
-
-var _FixParams2 = _interopRequireDefault(_FixParams);
-
-var _ErrorProcessor = __webpack_require__(191);
-
-var _ErrorProcessor2 = _interopRequireDefault(_ErrorProcessor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var BASE_URL = _config2['default'].BASE_URL,
-    PARAM_SERIALIZER_JQLIKE_ENABLED = _config2['default'].PARAM_SERIALIZER_JQLIKE_ENABLED;
-// import DataSource from '../index';
-
-var baseURL = BASE_URL;
-var paramSerializerJQLikeEnabled = PARAM_SERIALIZER_JQLIKE_ENABLED;
-
-var dataSource = new _index2['default']();
-
-// 面向切面: 按顺序组装拦截器
-
-
-dataSource.interceptors.request.use(_FixParams2['default'].request).interceptors.error.use(_ErrorProcessor2['default'].error);
-
-var DataSourceAgent = {
-
-    post: function post(uri, data) {
-        var config = {
-            url: uri,
-            method: 'post',
-            // to methods of that instance.
-            baseURL: baseURL,
-            // data仅用于post请求， 放在http请求体中
-            data: data
-        };
-
-        return DataSourceAgent.request(config);
-    },
-
-    get: function get(uri, params) {
-
-        var config = {
-            url: uri,
-            // to methods of that instance.
-            baseURL: baseURL,
-            method: 'get',
-            // params仅用于get请求， 会拼接在url后面
-            params: params,
-            // 默认get请求可合并
-            comboRequestEnabled: true
-        };
-
-        return DataSourceAgent.request(config);
-    },
-
-    cacheFirstGet: function cacheFirstGet(uri, params) {
-        var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { maxAge: 60 * 60 * 1000, ignoreExpires: false },
-            maxAge = _ref.maxAge,
-            ignoreExpires = _ref.ignoreExpires;
-
-        var config = {
-            url: uri,
-            // to methods of that instance.
-            baseURL: baseURL,
-            method: 'get',
-            // params仅用于get请求， 会拼接在url后面
-            params: params,
-            // 默认get请求可合并
-            comboRequestEnabled: true,
-            // ============= 新增缓存数据参数  ============
-            // [Number|null] 缓存时间， 单位ms. 如果需要缓存 ，请给maxAge 赋一个数值
-            maxAge: maxAge,
-            // [Boolean] 是否忽略缓存过期
-            ignoreExpires: ignoreExpires
-        };
-
-        return DataSourceAgent.request(config);
-    },
-
-    // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled, maxAge, ignoreExpires} = config
-    request: function request(config) {
-        var mixedConfig = (0, _extends3['default'])({ paramSerializerJQLikeEnabled: paramSerializerJQLikeEnabled }, config);
-        return new _promise2['default'](function (resolve, reject) {
-            dataSource.request(mixedConfig).then(function (data) {
-                resolve(data);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    },
-    start: function start() {
-        dataSource.start();
-    },
-    stop: function stop() {
-        dataSource.stop();
-    }
-
-    // 错误类型的定义
-};DataSourceAgent.ErrorType = _index2['default'].ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-DataSourceAgent.createError = _index2['default'].createError; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-
-exports['default'] = DataSourceAgent;
-
-/***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(36);
-__webpack_require__(37);
-__webpack_require__(48);
-__webpack_require__(107);
-__webpack_require__(114);
-__webpack_require__(115);
-module.exports = __webpack_require__(0).Promise;
-
-
-/***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__(38);
-var defined = __webpack_require__(39);
+var toInteger = __webpack_require__(37);
+var defined = __webpack_require__(38);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function (TO_STRING) {
@@ -3352,7 +3992,7 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 101 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3363,7 +4003,7 @@ var setToStringTag = __webpack_require__(23);
 var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(13)(IteratorPrototype, __webpack_require__(3)('iterator'), function () { return this; });
+__webpack_require__(13)(IteratorPrototype, __webpack_require__(2)('iterator'), function () { return this; });
 
 module.exports = function (Constructor, NAME, next) {
   Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
@@ -3372,12 +4012,12 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 102 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(7);
-var anObject = __webpack_require__(14);
-var getKeys = __webpack_require__(21);
+var dP = __webpack_require__(6);
+var anObject = __webpack_require__(11);
+var getKeys = __webpack_require__(28);
 
 module.exports = __webpack_require__(8) ? Object.defineProperties : function defineProperties(O, Properties) {
   anObject(O);
@@ -3391,14 +4031,14 @@ module.exports = __webpack_require__(8) ? Object.defineProperties : function def
 
 
 /***/ }),
-/* 103 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
-var toIObject = __webpack_require__(17);
-var toLength = __webpack_require__(44);
-var toAbsoluteIndex = __webpack_require__(104);
+var toIObject = __webpack_require__(16);
+var toLength = __webpack_require__(43);
+var toAbsoluteIndex = __webpack_require__(100);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -3420,10 +4060,10 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 104 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(38);
+var toInteger = __webpack_require__(37);
 var max = Math.max;
 var min = Math.min;
 module.exports = function (index, length) {
@@ -3433,21 +4073,40 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 105 */
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has = __webpack_require__(14);
+var toObject = __webpack_require__(47);
+var IE_PROTO = __webpack_require__(44)('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+
+
+/***/ }),
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(106);
-var step = __webpack_require__(65);
-var Iterators = __webpack_require__(20);
-var toIObject = __webpack_require__(17);
+var addToUnscopables = __webpack_require__(103);
+var step = __webpack_require__(63);
+var Iterators = __webpack_require__(21);
+var toIObject = __webpack_require__(16);
 
 // 22.1.3.4 Array.prototype.entries()
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(40)(Array, 'Array', function (iterated, kind) {
+module.exports = __webpack_require__(39)(Array, 'Array', function (iterated, kind) {
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
@@ -3474,33 +4133,33 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 106 */
+/* 103 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 107 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var LIBRARY = __webpack_require__(25);
-var global = __webpack_require__(2);
+var global = __webpack_require__(1);
 var ctx = __webpack_require__(12);
 var classof = __webpack_require__(49);
-var $export = __webpack_require__(1);
-var isObject = __webpack_require__(11);
-var aFunction = __webpack_require__(19);
+var $export = __webpack_require__(3);
+var isObject = __webpack_require__(7);
+var aFunction = __webpack_require__(20);
 var anInstance = __webpack_require__(50);
 var forOf = __webpack_require__(24);
-var speciesConstructor = __webpack_require__(66);
-var task = __webpack_require__(67).set;
-var microtask = __webpack_require__(112)();
+var speciesConstructor = __webpack_require__(64);
+var task = __webpack_require__(65).set;
+var microtask = __webpack_require__(109)();
 var newPromiseCapabilityModule = __webpack_require__(51);
-var perform = __webpack_require__(68);
-var promiseResolve = __webpack_require__(69);
+var perform = __webpack_require__(66);
+var promiseResolve = __webpack_require__(67);
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
 var process = global.process;
@@ -3514,7 +4173,7 @@ var USE_NATIVE = !!function () {
   try {
     // correct subclassing with @@species support
     var promise = $Promise.resolve(1);
-    var FakePromise = (promise.constructor = {})[__webpack_require__(3)('species')] = function (exec) {
+    var FakePromise = (promise.constructor = {})[__webpack_require__(2)('species')] = function (exec) {
       exec(empty, empty);
     };
     // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
@@ -3523,12 +4182,6 @@ var USE_NATIVE = !!function () {
 }();
 
 // helpers
-var sameConstructor = LIBRARY ? function (a, b) {
-  // with library wrapper special case
-  return a === b || a === $Promise && b === Wrapper;
-} : function (a, b) {
-  return a === b;
-};
 var isThenable = function (it) {
   var then;
   return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
@@ -3700,7 +4353,7 @@ if (!USE_NATIVE) {
     this.reject = ctx($reject, promise, 1);
   };
   newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
-    return sameConstructor($Promise, C)
+    return C === $Promise || C === Wrapper
       ? new OwnPromiseCapability(C)
       : newGenericPromiseCapability(C);
   };
@@ -3708,7 +4361,7 @@ if (!USE_NATIVE) {
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
 __webpack_require__(23)($Promise, PROMISE);
-__webpack_require__(70)(PROMISE);
+__webpack_require__(68)(PROMISE);
 Wrapper = __webpack_require__(0)[PROMISE];
 
 // statics
@@ -3724,12 +4377,10 @@ $export($export.S + $export.F * !USE_NATIVE, PROMISE, {
 $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
   // 25.4.4.6 Promise.resolve(x)
   resolve: function resolve(x) {
-    // instanceof instead of internal slot check because we should fix it without replacement native Promise core
-    if (x instanceof $Promise && sameConstructor(x.constructor, this)) return x;
-    return promiseResolve(this, x);
+    return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(113)(function (iter) {
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(110)(function (iter) {
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -3776,11 +4427,11 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(113)(functio
 
 
 /***/ }),
-/* 108 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
-var anObject = __webpack_require__(14);
+var anObject = __webpack_require__(11);
 module.exports = function (iterator, fn, value, entries) {
   try {
     return entries ? fn(anObject(value)[0], value[1]) : fn(value);
@@ -3794,12 +4445,12 @@ module.exports = function (iterator, fn, value, entries) {
 
 
 /***/ }),
-/* 109 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators = __webpack_require__(20);
-var ITERATOR = __webpack_require__(3)('iterator');
+var Iterators = __webpack_require__(21);
+var ITERATOR = __webpack_require__(2)('iterator');
 var ArrayProto = Array.prototype;
 
 module.exports = function (it) {
@@ -3808,12 +4459,12 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 110 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(49);
-var ITERATOR = __webpack_require__(3)('iterator');
-var Iterators = __webpack_require__(20);
+var ITERATOR = __webpack_require__(2)('iterator');
+var Iterators = __webpack_require__(21);
 module.exports = __webpack_require__(0).getIteratorMethod = function (it) {
   if (it != undefined) return it[ITERATOR]
     || it['@@iterator']
@@ -3822,7 +4473,7 @@ module.exports = __webpack_require__(0).getIteratorMethod = function (it) {
 
 
 /***/ }),
-/* 111 */
+/* 108 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -3844,11 +4495,11 @@ module.exports = function (fn, args, that) {
 
 
 /***/ }),
-/* 112 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(2);
-var macrotask = __webpack_require__(67).set;
+var global = __webpack_require__(1);
+var macrotask = __webpack_require__(65).set;
 var Observer = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
 var Promise = global.Promise;
@@ -3918,10 +4569,10 @@ module.exports = function () {
 
 
 /***/ }),
-/* 113 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ITERATOR = __webpack_require__(3)('iterator');
+var ITERATOR = __webpack_require__(2)('iterator');
 var SAFE_CLOSING = false;
 
 try {
@@ -3946,17 +4597,17 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 114 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 // https://github.com/tc39/proposal-promise-finally
 
-var $export = __webpack_require__(1);
+var $export = __webpack_require__(3);
 var core = __webpack_require__(0);
-var global = __webpack_require__(2);
-var speciesConstructor = __webpack_require__(66);
-var promiseResolve = __webpack_require__(69);
+var global = __webpack_require__(1);
+var speciesConstructor = __webpack_require__(64);
+var promiseResolve = __webpack_require__(67);
 
 $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
   var C = speciesConstructor(this, core.Promise || global.Promise);
@@ -3973,15 +4624,15 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 
 
 /***/ }),
-/* 115 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://github.com/tc39/proposal-promise-try
-var $export = __webpack_require__(1);
+var $export = __webpack_require__(3);
 var newPromiseCapability = __webpack_require__(51);
-var perform = __webpack_require__(68);
+var perform = __webpack_require__(66);
 
 $export($export.S, 'Promise', { 'try': function (callbackfn) {
   var promiseCapability = newPromiseCapability.f(this);
@@ -3992,7 +4643,7 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 
 
 /***/ }),
-/* 116 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4021,35 +4672,35 @@ exports.default = _assign2.default || function (target) {
 };
 
 /***/ }),
-/* 117 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(118);
+__webpack_require__(115);
 module.exports = __webpack_require__(0).Object.assign;
 
 
 /***/ }),
-/* 118 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
-var $export = __webpack_require__(1);
+var $export = __webpack_require__(3);
 
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__(119) });
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(116) });
 
 
 /***/ }),
-/* 119 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // 19.1.2.1 Object.assign(target, source, ...)
-var getKeys = __webpack_require__(21);
+var getKeys = __webpack_require__(28);
 var gOPS = __webpack_require__(53);
 var pIE = __webpack_require__(30);
-var toObject = __webpack_require__(29);
-var IObject = __webpack_require__(43);
+var toObject = __webpack_require__(47);
+var IObject = __webpack_require__(42);
 var $assign = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
@@ -4080,313 +4731,66 @@ module.exports = !$assign || __webpack_require__(15)(function () {
 
 
 /***/ }),
-/* 120 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(exports);
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod.exports);
+		global.index = mod.exports;
+	}
+})(this, function (exports) {
+	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	var config = {
+		// api请求的baseURL, 用于DataSourceGateWay
+		BASE_URL: '/api',
+		// 请求参数以jquery.param方式进行序列化
+		PARAM_SERIALIZER_JQLIKE_ENABLED: true
+	};
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
+	exports.default = config;
 });
-var config = {
-	// api请求的baseURL, 用于DataSourceGateWay
-	BASE_URL: '/api/v1',
-	// 请求参数以jquery.param方式进行序列化
-	PARAM_SERIALIZER_JQLIKE_ENABLED: true
-};
-
-exports['default'] = config;
 
 /***/ }),
-/* 121 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _map = __webpack_require__(18);
-
-var _map2 = _interopRequireDefault(_map);
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _querystringEs = __webpack_require__(31);
-
-var _querystringEs2 = _interopRequireDefault(_querystringEs);
-
-var _Deferred = __webpack_require__(55);
-
-var _Deferred2 = _interopRequireDefault(_Deferred);
-
-var _CreateError = __webpack_require__(74);
-
-var _CreateError2 = _interopRequireDefault(_CreateError);
-
-var _ComboPromise = __webpack_require__(76);
-
-var _ComboPromise2 = _interopRequireDefault(_ComboPromise);
-
-var _config = __webpack_require__(140);
-
-var _config2 = _interopRequireDefault(_config);
-
-var _const = __webpack_require__(32);
-
-var _const2 = _interopRequireDefault(_const);
-
-var _Ajax = __webpack_require__(141);
-
-var _Ajax2 = _interopRequireDefault(_Ajax);
-
-var _Http = __webpack_require__(169);
-
-var _Http2 = _interopRequireDefault(_Http);
-
-var _MissionDispatcher = __webpack_require__(182);
-
-var _MissionDispatcher2 = _interopRequireDefault(_MissionDispatcher);
-
-var _utils = __webpack_require__(80);
-
-var _CacheData = __webpack_require__(183);
-
-var _CacheData2 = _interopRequireDefault(_CacheData);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var AppCache = new _CacheData2['default']('DATA_SOURCE_PROXY', 'v0.0.1');
-
-function mixConfig(requestConfig) {
-    return (0, _assign2['default'])({}, _config2['default'], requestConfig);
-}
-
-/* 生成cache key*/
-function getCacheKey() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : requestConfig,
-        url = _ref.url,
-        maxAge = _ref.maxAge,
-        params = _ref.params,
-        paramSerializerJQLikeEnabled = _ref.paramSerializerJQLikeEnabled;
-
-    var paramSerializer = (0, _utils.getParamSerializer)(paramSerializerJQLikeEnabled);
-    var cacheKey = null;
-    if (typeof maxAge === 'number') {
-        cacheKey = url + '_' + paramSerializer(params);
-    }
-    return cacheKey;
-}
-
-function DataSource() {
-    var _this = this;
-
-    var workerCount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
-
-
-    var interceptors = {
-        request: [],
-        response: [],
-        error: []
-    };
-
-    var requestDefers = new _map2['default']();
-
-    var httpMD = new _MissionDispatcher2['default'](_Ajax2['default'], workerCount);
-    httpMD.start();
-
-    this.interceptors = {
-        request: {
-            use: function use() {
-                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                    args[_key] = arguments[_key];
-                }
-
-                Array.prototype.push.apply(interceptors.request, args);
-                return _this;
-            }
-        },
-        response: {
-            use: function use() {
-                for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                    args[_key2] = arguments[_key2];
-                }
-
-                Array.prototype.push.apply(interceptors.response, args);
-                return _this;
-            }
-        },
-        error: {
-            use: function use() {
-                for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                    args[_key3] = arguments[_key3];
-                }
-
-                Array.prototype.push.apply(interceptors.error, args);
-                return _this;
-            }
-        }
-    };
-
-    this.start = function () {
-        httpMD.start();
-    };
-
-    this.stop = function () {
-        httpMD.stop();
-    };
-
-    this.request = function (requestConfig) {
-
-        return new _promise2['default'](function (resolve, reject) {
-
-            var cacheKey = getCacheKey(requestConfig);
-            var maxAge = requestConfig.maxAge,
-                ignoreExpires = requestConfig.ignoreExpires;
-
-            var cacheItem = void 0,
-                data = void 0;
-
-            if (cacheKey === null) {
-                // 没有maxAge配置，直接发起serverRequest
-                resolve(_this.serverRequest(requestConfig));
-            } else {
-                // 有maxAge配置，需要先检查cache
-                cacheItem = AppCache.item(cacheKey, { maxAge: maxAge, ignoreExpires: ignoreExpires });
-                data = cacheItem.get();
-
-                if (data === null) {
-                    //  cache中没取到数据 || 数据过期,  发起serverRequest
-                    _this.serverRequest(requestConfig).then(function (data) {
-                        cacheItem.set(data);
-                        resolve(data);
-                    })['catch'](function (err) {
-                        return reject(err);
-                    });
-                } else {
-                    // 命中缓存
-                    resolve(data);
-                }
-            }
-        });
-    };
-
-    this.serverRequest = function (requestConfig) {
-
-        var missionConfig = mixConfig(requestConfig || {});
-        var requestDefer = new _Deferred2['default']();
-
-        // 1. requestInterceptors
-        interceptors.request.reduce(function (configPromise, interceptor) {
-            return configPromise.then(interceptor);
-        }, _promise2['default'].resolve(missionConfig)).then(function (config) {
-            return config;
-        }, function (interceptorError) {
-            console.log('Request Intercept Fail ... ', interceptorError);
-            if (!interceptorError instanceof Error) {
-                interceptorError = (0, _CreateError2['default'])({ message: interceptorError });
-            }
-            throw interceptorError;
-        })
-        // 2. doRequest
-        .then(function (config) {
-            var mission = new _Http2['default'](config);
-            // 2.1 doRequest
-            httpMD.put(mission)
-            // 2.2. response or error
-            .then(function (result) {
-                // 2.2.1 responseInterceptors
-                interceptors.response.reduce(function (resultPromise, interceptor) {
-                    return resultPromise.then(function (result) {
-                        return interceptor(result, requestConfig);
-                    });
-                }, _promise2['default'].resolve(result)).then(function (result) {
-                    requestDefer.resolve(result);
-                }, function (error) {
-                    /* 
-                     * @TODO
-                     * error instanceof Error && requestDefer.reject(error); 
-                     */
-                    console.error('Response Intercept Exception ... ', error);
-                    throw error;
-                });
-            }, function (error) {
-                // 洗数据,约定： interceptorError instanceof Error
-                var transformedError = void 0;
-                if (error instanceof Error) {
-                    transformedError = error;
-                } else {
-                    transformedError = (0, _CreateError2['default'])({ message: error });
-                }
-                // 2.2.2. errorInterceptors
-                interceptors.error.reduce(function (errorPromise, interceptor) {
-                    return errorPromise.then(function (error) {
-                        return interceptor(error, requestConfig);
-                    });
-                }, _promise2['default'].resolve(transformedError)).then(function (errorOrData) {
-                    /*
-                     * 【注意！！！】
-                     *　处理过的异常, errorInterceptor可能把error转换为正常的数据(非Error类型)
-                     *  error(一定是一个Error类型的实例)
-                     */
-                    var handler = errorOrData instanceof Error ? 'reject' : 'resolve';
-                    requestDefer[handler](errorOrData);
-                }, function (exceptionError) {
-                    // 未处理异常
-                    console.log("Error Intercept Exception ... ", exceptionError);
-                    throw exceptionError;
-                });
-            });
-        })['catch'](function (err) {
-            requestDefer.reject(err);
-        });
-
-        return requestDefer.promise;
-    };
-}
-
-DataSource.ErrorType = _const2['default'].ERROR_TYPE;
-DataSource.Deferred = _Deferred2['default'];
-DataSource.createError = _CreateError2['default'];
-DataSource.createComboPromise = _ComboPromise2['default'];
-
-exports['default'] = DataSource;
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
+__webpack_require__(35);
 __webpack_require__(36);
-__webpack_require__(37);
 __webpack_require__(48);
-__webpack_require__(123);
-__webpack_require__(129);
-__webpack_require__(132);
-__webpack_require__(134);
+__webpack_require__(119);
+__webpack_require__(125);
+__webpack_require__(128);
+__webpack_require__(130);
 module.exports = __webpack_require__(0).Map;
 
 
 /***/ }),
-/* 123 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(124);
+var strong = __webpack_require__(120);
 var validate = __webpack_require__(71);
 var MAP = 'Map';
 
 // 23.1 Map Objects
-module.exports = __webpack_require__(125)(MAP, function (get) {
+module.exports = __webpack_require__(121)(MAP, function (get) {
   return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.1.3.6 Map.prototype.get(key)
@@ -4402,22 +4806,22 @@ module.exports = __webpack_require__(125)(MAP, function (get) {
 
 
 /***/ }),
-/* 124 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var dP = __webpack_require__(7).f;
+var dP = __webpack_require__(6).f;
 var create = __webpack_require__(27);
 var redefineAll = __webpack_require__(52);
 var ctx = __webpack_require__(12);
 var anInstance = __webpack_require__(50);
 var forOf = __webpack_require__(24);
-var $iterDefine = __webpack_require__(40);
-var step = __webpack_require__(65);
-var setSpecies = __webpack_require__(70);
+var $iterDefine = __webpack_require__(39);
+var step = __webpack_require__(63);
+var setSpecies = __webpack_require__(68);
 var DESCRIPTORS = __webpack_require__(8);
-var fastKey = __webpack_require__(54).fastKey;
+var fastKey = __webpack_require__(55).fastKey;
 var validate = __webpack_require__(71);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
@@ -4553,23 +4957,23 @@ module.exports = {
 
 
 /***/ }),
-/* 125 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var global = __webpack_require__(2);
-var $export = __webpack_require__(1);
-var meta = __webpack_require__(54);
+var global = __webpack_require__(1);
+var $export = __webpack_require__(3);
+var meta = __webpack_require__(55);
 var fails = __webpack_require__(15);
 var hide = __webpack_require__(13);
 var redefineAll = __webpack_require__(52);
 var forOf = __webpack_require__(24);
 var anInstance = __webpack_require__(50);
-var isObject = __webpack_require__(11);
+var isObject = __webpack_require__(7);
 var setToStringTag = __webpack_require__(23);
-var dP = __webpack_require__(7).f;
-var each = __webpack_require__(126)(0);
+var dP = __webpack_require__(6).f;
+var each = __webpack_require__(122)(0);
 var DESCRIPTORS = __webpack_require__(8);
 
 module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
@@ -4619,7 +5023,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 
 
 /***/ }),
-/* 126 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 0 -> Array#forEach
@@ -4630,10 +5034,10 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 // 5 -> Array#find
 // 6 -> Array#findIndex
 var ctx = __webpack_require__(12);
-var IObject = __webpack_require__(43);
-var toObject = __webpack_require__(29);
-var toLength = __webpack_require__(44);
-var asc = __webpack_require__(127);
+var IObject = __webpack_require__(42);
+var toObject = __webpack_require__(47);
+var toLength = __webpack_require__(43);
+var asc = __webpack_require__(123);
 module.exports = function (TYPE, $create) {
   var IS_MAP = TYPE == 1;
   var IS_FILTER = TYPE == 2;
@@ -4669,11 +5073,11 @@ module.exports = function (TYPE, $create) {
 
 
 /***/ }),
-/* 127 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(128);
+var speciesConstructor = __webpack_require__(124);
 
 module.exports = function (original, length) {
   return new (speciesConstructor(original))(length);
@@ -4681,12 +5085,12 @@ module.exports = function (original, length) {
 
 
 /***/ }),
-/* 128 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11);
+var isObject = __webpack_require__(7);
 var isArray = __webpack_require__(72);
-var SPECIES = __webpack_require__(3)('species');
+var SPECIES = __webpack_require__(2)('species');
 
 module.exports = function (original) {
   var C;
@@ -4703,22 +5107,22 @@ module.exports = function (original) {
 
 
 /***/ }),
-/* 129 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var $export = __webpack_require__(1);
+var $export = __webpack_require__(3);
 
-$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(130)('Map') });
+$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(126)('Map') });
 
 
 /***/ }),
-/* 130 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var classof = __webpack_require__(49);
-var from = __webpack_require__(131);
+var from = __webpack_require__(127);
 module.exports = function (NAME) {
   return function toJSON() {
     if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
@@ -4728,7 +5132,7 @@ module.exports = function (NAME) {
 
 
 /***/ }),
-/* 131 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var forOf = __webpack_require__(24);
@@ -4741,21 +5145,21 @@ module.exports = function (iter, ITERATOR) {
 
 
 /***/ }),
-/* 132 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
-__webpack_require__(133)('Map');
+__webpack_require__(129)('Map');
 
 
 /***/ }),
-/* 133 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://tc39.github.io/proposal-setmap-offrom/
-var $export = __webpack_require__(1);
+var $export = __webpack_require__(3);
 
 module.exports = function (COLLECTION) {
   $export($export.S, COLLECTION, { of: function of() {
@@ -4768,22 +5172,22 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 134 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
-__webpack_require__(135)('Map');
+__webpack_require__(131)('Map');
 
 
 /***/ }),
-/* 135 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://tc39.github.io/proposal-setmap-offrom/
-var $export = __webpack_require__(1);
-var aFunction = __webpack_require__(19);
+var $export = __webpack_require__(3);
+var aFunction = __webpack_require__(20);
 var ctx = __webpack_require__(12);
 var forOf = __webpack_require__(24);
 
@@ -4811,185 +5215,73 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(133), __esModule: true };
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(134);
+module.exports = __webpack_require__(0).Object.setPrototypeOf;
+
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export = __webpack_require__(3);
+$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(135).set });
+
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+var isObject = __webpack_require__(7);
+var anObject = __webpack_require__(11);
+var check = function (O, proto) {
+  anObject(O);
+  if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+};
+module.exports = {
+  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+    function (test, buggy, set) {
+      try {
+        set = __webpack_require__(12)(Function.call, __webpack_require__(76).f(Object.prototype, '__proto__').set, 2);
+        set(test, []);
+        buggy = !(test instanceof Array);
+      } catch (e) { buggy = true; }
+      return function setPrototypeOf(O, proto) {
+        check(O, proto);
+        if (buggy) O.__proto__ = proto;
+        else set(O, proto);
+        return O;
+      };
+    }({}, false) : undefined),
+  check: check
+};
+
+
+/***/ }),
 /* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-// If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function(qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  // maxKeys <= 0 means that we should not limit keys count
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
+module.exports = { "default": __webpack_require__(137), __esModule: true };
 
 /***/ }),
 /* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-var stringifyPrimitive = function(v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function(obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return map(objectKeys(obj), function(k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray(obj[k])) {
-        return map(obj[k], function(v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map (xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-  return res;
-}
-
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-  }
-  return res;
+__webpack_require__(138);
+var $Object = __webpack_require__(0).Object;
+module.exports = function create(P, D) {
+  return $Object.create(P, D);
 };
 
 
@@ -4997,320 +5289,74 @@ var objectKeys = Object.keys || function (obj) {
 /* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(139);
-var $Object = __webpack_require__(0).Object;
-module.exports = function defineProperty(it, key, desc) {
-  return $Object.defineProperty(it, key, desc);
-};
+var $export = __webpack_require__(3);
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+$export($export.S, 'Object', { create: __webpack_require__(27) });
 
 
 /***/ }),
 /* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(1);
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(8), 'Object', { defineProperty: __webpack_require__(7).f });
-
+module.exports = { "default": __webpack_require__(140), __esModule: true };
 
 /***/ }),
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var DefaultConfig = {
-    // `url` is the server URL that will be used for the request
-    url: '',
-
-    // `method` is the request method to be used when making the request
-    method: 'get', // default
-
-    // `baseURL` will be prepended to `url` unless `url` is absolute.
-    // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
-    // to methods of that instance.
-    baseURL: '',
-
-    // `headers` are custom headers to be sent
-    headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-Forwarded-Host': 'weimengxi.xiangyun.org'
-    },
-
-    // `params` are the URL parameters to be sent with the request
-    // Must be a plain object or a URLSearchParams object
-    params: {},
-
-    // `data` is the data to be sent as the request body
-    // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
-    // When no `transformRequest` is set, must be of one of the following types:
-    // - string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams
-    // - Browser only: FormData, File, Blob
-    // - Node only: Stream
-    data: {},
-
-    // `responseType` indicates the type of data that the server will respond with
-    // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
-    responseType: 'text',
-
-    // `timeout` specifies the number of milliseconds before the request times out.
-    // If the request takes longer than `timeout`, the request will be aborted.
-    timeout: 5000, // default: 1000
-
-    // `withCredentials` indicates whether or not cross-site Access-Control requests
-    // should be made using credentials
-    withCredentials: false, // default: false
-
-
-    // 请求可合并
-    comboRequestEnabled: false,
-
-    // http://api.jquery.com/jquery.param/
-    // {key: ['v1', 'v2']} => key[]=v1&key=v2
-    paramSerializerJQLikeEnabled: false
-
-};
-
-exports['default'] = DefaultConfig;
-
-/***/ }),
-/* 141 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _typeof2 = __webpack_require__(33);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-var _utils = __webpack_require__(80);
-
-var _axios = __webpack_require__(82);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _const = __webpack_require__(32);
-
-var _const2 = _interopRequireDefault(_const);
-
-var _CreateError = __webpack_require__(74);
-
-var _CreateError2 = _interopRequireDefault(_CreateError);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var ERROR_TYPE = _const2['default'].ERROR_TYPE;
-
-var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
-
-// 异常数据结构
-var errorResponseStruct = { httpStatusCode: NaN, code: NaN, message: '' };
-
-/**
- * Determine if a value is an Object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Object, otherwise false
- * @refer https://github.com/mzabriskie/axios/blob/master/lib/utils.js
- */
-var isObject = function isObject(val) {
-    return val !== null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3['default'])(val)) === 'object';
-};
-
-var transformMissionConfig = function transformMissionConfig(config) {
-
-    var paramSerializer = (0, _utils.getParamSerializer)(config.paramSerializerJQLikeEnabled);
-    var transformedConfig = (0, _assign2['default'])({}, config);
-
-    if (config.method === 'post' && isObject(transformedConfig.data)) {
-        transformedConfig.data = paramSerializer(transformedConfig.data);
-    }
-
-    return transformedConfig;
-};
-
-var AjaxWorkerFactory = function () {
-    function AjaxWorkerFactory() {
-        (0, _classCallCheck3['default'])(this, AjaxWorkerFactory);
-    }
-
-    (0, _createClass3['default'])(AjaxWorkerFactory, [{
-        key: 'do',
-        value: function _do(mission) {
-            return new _promise2['default'](function (resolve, reject) {
-                // axiosSchema: https://github.com/mzabriskie/axios
-                var transformedConfig = transformMissionConfig(mission.config);
-
-                _axios2['default'].request(transformedConfig).then(function (_ref) {
-                    var data = _ref.data,
-                        status = _ref.status,
-                        statusText = _ref.statusText,
-                        headers = _ref.headers,
-                        config = _ref.config,
-                        response = _ref.response;
-
-                    if (Object.prototype.toString.call(data) !== "[object Object]") {
-                        try {
-                            data = JSON.parse(data);
-                        } catch (e) {
-                            var message = "response is not a instance of JSON ";
-                            console.error("response of '%s' is not JSON ", config.url);
-                            var parserError = (0, _CreateError2['default'])({ message: message, type: ERROR_TYPE.PARSER });
-                            reject(parserError);
-                        }
-                    }
-
-                    // reslove 
-                    // [!important] 新增的 (data.code) 逻辑判断是为了兼容服务端api error返回结构争议
-                    if (data.code) {
-                        // 2. bizError
-                        var httpStatusCode = status;
-                        var rawError = (0, _assign2['default'])({}, data.error || data, { httpStatusCode: httpStatusCode });
-                        var businessError = (0, _CreateError2['default'])(rawError);
-                        reject(businessError);
-                    } else {
-                        resolve(data);
-                    }
-                }, function (error) {
-                    if (_axios2['default'].isCancel(error)) {
-                        // abort error
-                        // console.log('Request canceled', error.message);
-                        var abortError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code });
-                        reject(abortError);
-                    } else if (error.code === 'ECONNABORTED') {
-                        // timeout error
-                        var timeoutError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code });
-                        reject(timeoutError);
-                    } else if (error.response) {
-                        // network error 
-                        // The request was made, but the server responded with a status code
-                        // that falls out of the range of 2xx
-                        var networkError = void 0;
-                        var _error$response = error.response,
-                            status = _error$response.status,
-                            statusText = _error$response.statusText,
-                            headers = _error$response.headers,
-                            config = _error$response.config,
-                            _error$response$data = _error$response.data,
-                            data = _error$response$data === undefined ? {} : _error$response$data;
-                        var code = data.code,
-                            message = data.message;
-
-                        var responseDataError = data.error || {};
-                        var type = ERROR_TYPE.NETWORK,
-                            httpStatusCode = status;
-
-                        // 兼容data.code 和 data.error这两种标志异常的方式， 优先选用code
-                        code = code || responseDataError.code;
-                        message = message || responseDataError.message || statusText;
-
-                        networkError = (0, _CreateError2['default'])({ type: type, httpStatusCode: httpStatusCode, code: code, message: message });
-                        reject(networkError);
-                    } else {
-
-                        // console.error("unknown axios request error: ", error);
-                        var requestError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.NETWORK });
-                        reject(requestError);
-                    }
-                });
-            });
-        }
-    }]);
-    return AjaxWorkerFactory;
-}();
-
-exports['default'] = AjaxWorkerFactory;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(77)))
-
-/***/ }),
-/* 142 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(143), __esModule: true };
-
-/***/ }),
-/* 143 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(37);
+__webpack_require__(36);
 __webpack_require__(48);
 module.exports = __webpack_require__(56).f('iterator');
 
 
 /***/ }),
-/* 144 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(145), __esModule: true };
+module.exports = { "default": __webpack_require__(142), __esModule: true };
 
 /***/ }),
-/* 145 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(143);
+__webpack_require__(35);
 __webpack_require__(146);
-__webpack_require__(36);
-__webpack_require__(150);
-__webpack_require__(151);
+__webpack_require__(147);
 module.exports = __webpack_require__(0).Symbol;
 
 
 /***/ }),
-/* 146 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // ECMAScript 6 symbols shim
-var global = __webpack_require__(2);
-var has = __webpack_require__(16);
+var global = __webpack_require__(1);
+var has = __webpack_require__(14);
 var DESCRIPTORS = __webpack_require__(8);
-var $export = __webpack_require__(1);
-var redefine = __webpack_require__(61);
-var META = __webpack_require__(54).KEY;
+var $export = __webpack_require__(3);
+var redefine = __webpack_require__(60);
+var META = __webpack_require__(55).KEY;
 var $fails = __webpack_require__(15);
-var shared = __webpack_require__(46);
+var shared = __webpack_require__(45);
 var setToStringTag = __webpack_require__(23);
-var uid = __webpack_require__(28);
-var wks = __webpack_require__(3);
+var uid = __webpack_require__(29);
+var wks = __webpack_require__(2);
 var wksExt = __webpack_require__(56);
 var wksDefine = __webpack_require__(57);
-var keyOf = __webpack_require__(147);
-var enumKeys = __webpack_require__(148);
+var enumKeys = __webpack_require__(144);
 var isArray = __webpack_require__(72);
-var anObject = __webpack_require__(14);
-var toIObject = __webpack_require__(17);
-var toPrimitive = __webpack_require__(42);
+var anObject = __webpack_require__(11);
+var toIObject = __webpack_require__(16);
+var toPrimitive = __webpack_require__(41);
 var createDesc = __webpack_require__(26);
 var _create = __webpack_require__(27);
-var gOPNExt = __webpack_require__(149);
-var $GOPD = __webpack_require__(79);
-var $DP = __webpack_require__(7);
-var $keys = __webpack_require__(21);
+var gOPNExt = __webpack_require__(145);
+var $GOPD = __webpack_require__(76);
+var $DP = __webpack_require__(6);
+var $keys = __webpack_require__(28);
 var gOPD = $GOPD.f;
 var dP = $DP.f;
 var gOPN = gOPNExt.f;
@@ -5433,7 +5479,7 @@ if (!USE_NATIVE) {
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
-  __webpack_require__(78).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(77).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(30).f = $propertyIsEnumerable;
   __webpack_require__(53).f = $getOwnPropertySymbols;
 
@@ -5463,9 +5509,9 @@ $export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
       : SymbolRegistry[key] = $Symbol(key);
   },
   // 19.4.2.5 Symbol.keyFor(sym)
-  keyFor: function keyFor(key) {
-    if (isSymbol(key)) return keyOf(SymbolRegistry, key);
-    throw TypeError(key + ' is not a symbol!');
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
+    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
   },
   useSetter: function () { setter = true; },
   useSimple: function () { setter = false; }
@@ -5522,27 +5568,11 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 147 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getKeys = __webpack_require__(21);
-var toIObject = __webpack_require__(17);
-module.exports = function (object, el) {
-  var O = toIObject(object);
-  var keys = getKeys(O);
-  var length = keys.length;
-  var index = 0;
-  var key;
-  while (length > index) if (O[key = keys[index++]] === el) return key;
-};
-
-
-/***/ }),
-/* 148 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
-var getKeys = __webpack_require__(21);
+var getKeys = __webpack_require__(28);
 var gOPS = __webpack_require__(53);
 var pIE = __webpack_require__(30);
 module.exports = function (it) {
@@ -5559,12 +5589,12 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 149 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = __webpack_require__(17);
-var gOPN = __webpack_require__(78).f;
+var toIObject = __webpack_require__(16);
+var gOPN = __webpack_require__(77).f;
 var toString = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -5584,29 +5614,56 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 150 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(57)('asyncIterator');
 
 
 /***/ }),
-/* 151 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(57)('observable');
 
 
 /***/ }),
-/* 152 */
+/* 148 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
-var bind = __webpack_require__(83);
-var Axios = __webpack_require__(153);
+var utils = __webpack_require__(5);
+var bind = __webpack_require__(82);
+var Axios = __webpack_require__(150);
 var defaults = __webpack_require__(58);
 
 /**
@@ -5640,15 +5697,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(88);
-axios.CancelToken = __webpack_require__(167);
-axios.isCancel = __webpack_require__(87);
+axios.Cancel = __webpack_require__(87);
+axios.CancelToken = __webpack_require__(164);
+axios.isCancel = __webpack_require__(86);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(168);
+axios.spread = __webpack_require__(165);
 
 module.exports = axios;
 
@@ -5657,18 +5714,18 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 153 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var defaults = __webpack_require__(58);
-var utils = __webpack_require__(6);
-var InterceptorManager = __webpack_require__(162);
-var dispatchRequest = __webpack_require__(163);
-var isAbsoluteURL = __webpack_require__(165);
-var combineURLs = __webpack_require__(166);
+var utils = __webpack_require__(5);
+var InterceptorManager = __webpack_require__(159);
+var dispatchRequest = __webpack_require__(160);
+var isAbsoluteURL = __webpack_require__(162);
+var combineURLs = __webpack_require__(163);
 
 /**
  * Create a new instance of Axios
@@ -5749,13 +5806,13 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 154 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -5768,13 +5825,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 155 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(86);
+var createError = __webpack_require__(85);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -5800,7 +5857,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 156 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5826,13 +5883,13 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 157 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -5901,13 +5958,13 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 158 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 /**
  * Parse headers into an object
@@ -5945,13 +6002,13 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 159 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -6020,7 +6077,7 @@ module.exports = (
 
 
 /***/ }),
-/* 160 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6063,13 +6120,13 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 161 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -6123,13 +6180,13 @@ module.exports = (
 
 
 /***/ }),
-/* 162 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -6182,15 +6239,15 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 163 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
-var transformData = __webpack_require__(164);
-var isCancel = __webpack_require__(87);
+var utils = __webpack_require__(5);
+var transformData = __webpack_require__(161);
+var isCancel = __webpack_require__(86);
 var defaults = __webpack_require__(58);
 
 /**
@@ -6268,13 +6325,13 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 164 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 /**
  * Transform the data for a request or a response
@@ -6295,7 +6352,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 165 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6316,7 +6373,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 166 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6335,13 +6392,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 167 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(88);
+var Cancel = __webpack_require__(87);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -6399,7 +6456,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 168 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6433,872 +6490,271 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
+/* 166 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+// If obj.hasOwnProperty has been overridden, then calling
+// obj.hasOwnProperty(prop) will break.
+// See: https://github.com/joyent/node/issues/1707
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function(qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
+  }
+
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+
+  var maxKeys = 1000;
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
+  }
+
+  var len = qs.length;
+  // maxKeys <= 0 means that we should not limit keys count
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr, vstr, k, v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+
+/***/ }),
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var stringifyPrimitive = function(v) {
+  switch (typeof v) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function(obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if (typeof obj === 'object') {
+    return map(objectKeys(obj), function(k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+      if (isArray(obj[k])) {
+        return map(obj[k], function(v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+         encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map (xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+  return res;
+}
+
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+  return res;
+};
+
+
+/***/ }),
+/* 168 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(169), __webpack_require__(9), __webpack_require__(4), __webpack_require__(172)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(exports, require('babel-runtime/regenerator'), require('babel-runtime/core-js/object/assign'), require('babel-runtime/core-js/promise'), require('babel-runtime/helpers/asyncToGenerator'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod.exports, global.regenerator, global.assign, global.promise, global.asyncToGenerator);
+        global.FixParams = mod.exports;
+    }
+})(this, function (exports, _regenerator, _assign, _promise, _asyncToGenerator2) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    var _regenerator2 = _interopRequireDefault(_regenerator);
+
+    var _assign2 = _interopRequireDefault(_assign);
+
+    var _promise2 = _interopRequireDefault(_promise);
+
+    var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    exports.default = {
+        request: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(config) {
+                var baseParams;
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                // 给所有的get请求添加一个_t参数 
+                                baseParams = {
+                                    _t: +new Date() //1314
+                                };
+                                return _context.abrupt('return', new _promise2.default(function (resolve, reject) {
+                                    var assignTarget = config.method === 'get' ? 'params' : 'data';
+                                    config[assignTarget] = config[assignTarget] || {};
+                                    (0, _assign2.default)(config[assignTarget], baseParams);
+                                    resolve(config);
+                                }));
+
+                            case 2:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, undefined);
+            }));
+
+            return function request(_x) {
+                return _ref.apply(this, arguments);
+            };
+        }()
+    };
+});
+
+/***/ }),
 /* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+module.exports = __webpack_require__(170);
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _getPrototypeOf = __webpack_require__(89);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = __webpack_require__(90);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(91);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _Super = __webpack_require__(180);
-
-var _Super2 = _interopRequireDefault(_Super);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var HttpMission = function (_Mission) {
-    (0, _inherits3['default'])(HttpMission, _Mission);
-
-    function HttpMission(config) {
-        (0, _classCallCheck3['default'])(this, HttpMission);
-        return (0, _possibleConstructorReturn3['default'])(this, (HttpMission.__proto__ || (0, _getPrototypeOf2['default'])(HttpMission)).call(this, 'http', config));
-    }
-
-    return HttpMission;
-}(_Super2['default']);
-
-exports['default'] = HttpMission;
 
 /***/ }),
 /* 170 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(171);
-module.exports = __webpack_require__(0).Object.getPrototypeOf;
-
-
-/***/ }),
-/* 171 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 Object.getPrototypeOf(O)
-var toObject = __webpack_require__(29);
-var $getPrototypeOf = __webpack_require__(64);
-
-__webpack_require__(172)('getPrototypeOf', function () {
-  return function getPrototypeOf(it) {
-    return $getPrototypeOf(toObject(it));
-  };
-});
-
-
-/***/ }),
-/* 172 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(1);
-var core = __webpack_require__(0);
-var fails = __webpack_require__(15);
-module.exports = function (KEY, exec) {
-  var fn = (core.Object || {})[KEY] || Object[KEY];
-  var exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
-};
-
-
-/***/ }),
-/* 173 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(174), __esModule: true };
-
-/***/ }),
-/* 174 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(175);
-module.exports = __webpack_require__(0).Object.setPrototypeOf;
-
-
-/***/ }),
-/* 175 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__(1);
-$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(176).set });
-
-
-/***/ }),
-/* 176 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Works with __proto__ only. Old v8 can't work with null proto objects.
-/* eslint-disable no-proto */
-var isObject = __webpack_require__(11);
-var anObject = __webpack_require__(14);
-var check = function (O, proto) {
-  anObject(O);
-  if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
-};
-module.exports = {
-  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-    function (test, buggy, set) {
-      try {
-        set = __webpack_require__(12)(Function.call, __webpack_require__(79).f(Object.prototype, '__proto__').set, 2);
-        set(test, []);
-        buggy = !(test instanceof Array);
-      } catch (e) { buggy = true; }
-      return function setPrototypeOf(O, proto) {
-        check(O, proto);
-        if (buggy) O.__proto__ = proto;
-        else set(O, proto);
-        return O;
-      };
-    }({}, false) : undefined),
-  check: check
-};
-
-
-/***/ }),
-/* 177 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(178), __esModule: true };
-
-/***/ }),
-/* 178 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(179);
-var $Object = __webpack_require__(0).Object;
-module.exports = function create(P, D) {
-  return $Object.create(P, D);
-};
-
-
-/***/ }),
-/* 179 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__(1);
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', { create: __webpack_require__(27) });
-
-
-/***/ }),
-/* 180 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _stringify = __webpack_require__(34);
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var Mission = function Mission(type, config) {
-    (0, _classCallCheck3["default"])(this, Mission);
-
-    this.type = type;
-    this.config = config;
-    //假设JSON.stringify序列化结果是稳定得
-    this.signature = (0, _stringify2["default"])({ type: type, config: config });
-    this.createTime = Date.now();
-};
-
-exports["default"] = Mission;
-
-/***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var core = __webpack_require__(0);
-var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
-module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
-  return $JSON.stringify.apply($JSON, arguments);
-};
-
-
-/***/ }),
-/* 182 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _map = __webpack_require__(18);
-
-var _map2 = _interopRequireDefault(_map);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _Deferred = __webpack_require__(55);
-
-var _Deferred2 = _interopRequireDefault(_Deferred);
-
-var _ComboPromise = __webpack_require__(76);
-
-var _events = __webpack_require__(92);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-// 会不会溢出？
-var serialNumber = 0;
-
-function makeMissionKey(mission) {
-    var missionKey = mission.config.comboRequestEnabled ? mission.signature : serialNumber++;
-    return missionKey;
-}
-
-/*
- * @param {WorkerFactory|Function} 生成worker的工厂
- * @param {count|countber} 生成worker的数量 
- */
-
-var MissionDispatcher = function () {
-    function MissionDispatcher(WorkerFactory, count) {
-        (0, _classCallCheck3['default'])(this, MissionDispatcher);
-        this._context = {
-            workers: [], // worker队列
-            missionQueue: [], // 任务队列 
-            // 持有相同defer的mission, 结构类似{missionDefer: mission} 
-            missionDefers: new _map2['default'](),
-            isRunning: false, // controller的运行状态 
-            emitter: new _events.EventEmitter()
-        };
-
-        for (var i = 0; i < count; i++) {
-            var worker = new WorkerFactory();
-            worker.id = i;
-            this._context.workers.push(worker);
-        }
-
-        this._context.emitter.on('mission:put', run.bind(this._context));
-        this._context.emitter.on('worker:add', run.bind(this._context));
-    }
-
-    // 【!!!约定】 以下划线开头的是私有变量，请不要调用 
-
-
-    (0, _createClass3['default'])(MissionDispatcher, [{
-        key: 'put',
-        value: function put(mission) {
-
-            var missionKey = makeMissionKey(mission),
-                missionDefer = (0, _ComboPromise.createComboDefer)(missionKey),
-                missionInQueue = (0, _assign2['default'])({}, mission, { defer: missionDefer });
-
-            if (this._context.missionDefers.has(missionDefer) === false) {
-                this._context.missionDefers.set(missionDefer, missionInQueue);
-                this._context.missionQueue.push(missionInQueue);
-                this._context.emitter.emit('mission:put', run);
-            }
-
-            return missionDefer.promise;
-        }
-    }, {
-        key: 'start',
-        value: function start() {
-            if (this._context.isRunning === false) {
-                this._context.isRunning = true;
-                run.bind(this._context)();
-            } else {
-                console.log(' MissionDispatcher is already Running ... ');
-            }
-        }
-    }, {
-        key: 'stop',
-        value: function stop() {
-            this._context.isRunning = false;
-        }
-    }]);
-    return MissionDispatcher;
-}();
-
-function run() {
-
-    var threadsCount = void 0,
-        context = this;
-
-    if (context.isRunning === false) {
-        console.warn(' MissionDispatcher is stopped ... ');
-        return;
-    }
-
-    if (context.missionQueue.length === 0) {
-        console.log(' No Mission ...  ');
-        return;
-    }
-
-    if (context.workers.length === 0) {
-        console.log(' No Avaliable workers ...  ');
-        return;
-    }
-
-    // realDo Mission ====
-    threadsCount = Math.min(context.workers.length, context.missionQueue.length);
-
-    while (threadsCount > 0) {
-        // 从map里出第一个
-        dispatch(context.workers.shift(), context.missionQueue.shift()); // FIFO
-        threadsCount--;
-    }
-
-    // 给worker分配任务, 合并请求
-    function dispatch(worker, mission) {
-
-        //console.log("%cSTART: workerId: %s, missionSignature: %s", "color:green", worker.id, mission.signature);
-
-        var finishHandler = function finishHandler() {
-            // 归还worker
-            context.workers.push(worker);
-            context.emitter.emit("worker:add");
-            // 删除 执行过的 missionDefer
-            context.missionDefers['delete'](mission.defer);
-        };
-
-        worker['do'](mission).then(function (data) {
-            mission.defer.resolve(data);
-            // console.log("%cResolve: m %s, w %s ", "color:blue", mission, worker.id);
-            finishHandler();
-        }, function (reason) {
-            mission.defer.reject(reason);
-            // console.log("%cReject: m %s, w %s ", "color:red", mission, worker.id);
-            finishHandler();
-        });
-    }
-}
-
-exports['default'] = MissionDispatcher;
-
-/***/ }),
-/* 183 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _Storage = __webpack_require__(184);
-
-var _Storage2 = _interopRequireDefault(_Storage);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _ins = {};
-
-var CacheData = function () {
-    function CacheData(ns) {
-        var signature = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-        var isMemory = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        (0, _classCallCheck3['default'])(this, CacheData);
-
-
-        var id = ns + "_" + signature;
-        // Singleton Pattern
-        if (!(_ins[id] instanceof CacheData)) {
-            _ins[id] = this;
-        } else {
-            return _ins[id];
-        }
-
-        this.id = id;
-        this.signature = signature;
-        //CacheData中只采取持久存储方案
-        this.storage = new _Storage2['default'](ns, isMemory);
-    }
-
-    (0, _createClass3['default'])(CacheData, [{
-        key: 'clear',
-        value: function clear() {
-            this.storage.clear();
-        }
-    }, {
-        key: 'item',
-        value: function item(key, opts) {
-            opts = opts || {};
-            return new CacheDataItem(this.storage, this.signature, key, opts);
-        }
-    }]);
-    return CacheData;
-}();
-
-var CacheDataItem = function () {
-    function CacheDataItem(storage, signature, key, opts) {
-        (0, _classCallCheck3['default'])(this, CacheDataItem);
-
-
-        // eg: url+参数序列化
-        this.key = key;
-        // 就是具体的存储方案， 调用它来clear, get , set
-        this.storage = storage;
-        // eg, v2.0
-        this.signature = signature;
-
-        this.maxAge = opts.maxAge || opts.maxage || null;
-
-        this.ignoreExpires = opts.ignoreExpires;
-
-        this.dataFormatter = {
-            getter: null,
-            setter: null
-        };
-    }
-
-    (0, _createClass3['default'])(CacheDataItem, [{
-        key: 'setFormatter',
-        value: function setFormatter(setter, getter) {
-            this.dataFormatter = {
-                setter: setter || null,
-                getter: getter || null
-            };
-        }
-    }, {
-        key: 'set',
-        value: function set(data) {
-            if (this.dataFormatter && this.dataFormatter.setter) {
-                data = this.dataFormatter.setter(data);
-            }
-            var value = {
-                data: data,
-                time: new Date().getTime(),
-                signature: this.signature
-            };
-            if (this.maxAge) {
-                value.expires = new Date().getTime() + this.maxAge;
-            }
-            if (value.data) {
-                this.storage.set(this.key, value);
-            }
-        }
-    }, {
-        key: 'get',
-        value: function get() {
-            var data = this.storage.get(this.key);
-            if (data && data.signature === this.signature && (this.ignoreExpires || !data.expires || new Date().getTime() < data.expires)) {
-                data = data.data;
-
-                if (this.dataFormatter && this.dataFormatter.getter) {
-                    data = this.dataFormatter.getter(data);
-                }
-                return data;
-            }
-            return null;
-        }
-    }, {
-        key: 'remove',
-        value: function remove() {
-            this.storage.remove(this.key);
-        }
-    }, {
-        key: 'isExpired',
-        value: function isExpired() {
-            var data = this.storage.get(this.key);
-            return !!data && !!data.expires && new Date().getTime() >= data.expires;
-        }
-    }, {
-        key: 'getUpdatedTime',
-        value: function getUpdatedTime() {
-            var data = this.storage.get(this.key);
-            return data && data.time - 0;
-        }
-    }, {
-        key: 'getExpires',
-        value: function getExpires() {
-            var data = this.storage.get(this.key);
-            return data && data.expires;
-        }
-    }]);
-    return CacheDataItem;
-}();
-
-exports['default'] = CacheData;
-
-/***/ }),
-/* 184 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _stringify = __webpack_require__(34);
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _Solution = __webpack_require__(185);
-
-var _Solution2 = _interopRequireDefault(_Solution);
-
-var _const = __webpack_require__(32);
-
-var _const2 = _interopRequireDefault(_const);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/**
- * [Storage description]
- * @param {[string]}  id       [惟一标识]
- * @param {Boolean} isMemory [是否使用内存级存储，默认为flase 即持久存储]
- */
-var _ins = {};
-var prefix = _const2['default'].NAMESPACE;
-
-var Storage = function () {
-    function Storage(id) {
-        var isMemory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        (0, _classCallCheck3['default'])(this, Storage);
-
-        // Singleton pattern
-        if (!(_ins[id] instanceof Storage)) {
-            _ins[id] = this;
-        } else {
-            return _ins[id];
-        }
-
-        this.id = id;
-        this.ns = prefix + "_" + id + "_";
-
-        this._methods = isMemory ? _Solution2['default'].memory.methods : function () {
-            if (_Solution2['default'].localStorage.test()) {
-                return _Solution2['default'].localStorage.methods;
-            }
-            if (_Solution2['default'].userData.test()) {
-                return _Solution2['default'].userData.methods;
-            }
-            return {
-                init: function init() {},
-                get: function get() {},
-                set: function set() {},
-                remove: function remove() {},
-                clear: function clear() {}
-            };
-        }();
-
-        if (this._methods) {
-            this._methods.init(this.ns);
-        }
-    }
-
-    (0, _createClass3['default'])(Storage, [{
-        key: 'encode',
-        value: function encode(data) {
-            return window.JSON ? (0, _stringify2['default'])(data) : data;
-        }
-    }, {
-        key: 'decode',
-        value: function decode(data) {
-            return window.JSON ? JSON.parse(data) : data;
-        }
-    }, {
-        key: 'set',
-        value: function set(key, value) {
-            try {
-                this._methods.set(this.ns, key, this.encode(value));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-    }, {
-        key: 'get',
-        value: function get(key) {
-            try {
-                return this.decode(this._methods.get(this.ns, key));
-            } catch (e) {}
-        }
-    }, {
-        key: 'remove',
-        value: function remove(key) {
-            try {
-                this._methods.remove(this.ns, key);
-            } catch (e) {}
-        }
-    }, {
-        key: 'clear',
-        value: function clear() {
-            try {
-                this._methods.clear(this.ns);
-            } catch (e) {}
-        }
-    }]);
-    return Storage;
-}();
-
-exports['default'] = Storage;
-
-/***/ }),
-/* 185 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-//存储服务
-var Solution = {};
-var _memoryStorage = {};
-
-Solution["localStorage"] = {
-    test: function test() {
-        try {
-            return window.localStorage ? true : false;
-        } catch (e) {
-            return false;
-        }
-    },
-    methods: {
-        init: function init(ns) {},
-        set: function set(ns, key, value) {
-            try {
-                localStorage.setItem(ns + key, value);
-            } catch (e) {
-                throw e;
-            }
-        }, //throw
-        get: function get(ns, key) {
-            return localStorage.getItem(ns + key);
-        },
-        remove: function remove(ns, key) {
-            localStorage.removeItem(ns + key);
-        },
-        clear: function clear(ns) {
-            if (!ns) {
-                localStorage.clear();
-            } else {
-                for (var i = localStorage.length - 1, key; key = localStorage.key(i--);) {
-                    if (key && key.indexOf(ns) === 0) {
-                        localStorage.removeItem(key);
-                    }
-                }
-            }
-        }
-    }
-};
-Solution["userData"] = {
-    test: function test() {
-        try {
-            return window.ActiveXObject && document.documentElement.addBehavior ? true : false;
-        } catch (e) {
-            return false;
-        }
-    },
-    methods: {
-        _owners: {},
-        init: function init(ns) {
-            if (!this._owners[ns]) {
-                if (document.getElementById(ns)) {
-                    this._owners[ns] = document.getElementById(ns);
-                } else {
-                    var el = document.createElement('script'),
-                        head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
-                    el.id = ns;
-                    el.style.display = 'none';
-                    el.addBehavior('#default#userdata');
-                    head.insertBefore(el, head.firstChild);
-                    this._owners[ns] = el;
-                }
-                try {
-                    this._owners[ns].load(ns);
-                } catch (e) {}
-                var _self = this;
-                window.attachEvent("onunload", function () {
-                    _self._owners[ns] = null;
-                });
-            }
-        },
-        set: function set(ns, key, value) {
-            if (this._owners[ns]) {
-                try {
-                    this._owners[ns].setAttribute(key, value);
-                    this._owners[ns].save(ns);
-                } catch (e) {
-                    throw e;
-                }
-            }
-        },
-        get: function get(ns, key) {
-            if (this._owners[ns]) {
-                this._owners[ns].load(ns);
-                return this._owners[ns].getAttribute(key) || null;
-            }
-            return null;
-        },
-        remove: function remove(ns, key) {
-            if (this._owners[ns]) {
-                this._owners[ns].removeAttribute(key);
-                this._owners[ns].save(ns);
-            }
-        },
-        clear: function clear(ns) {
-            if (this._owners[ns]) {
-                var attributes = this._owners[ns].XMLDocument.documentElement.attributes;
-                this._owners[ns].load(ns);
-                for (var i = 0, attr; attr = attributes[i]; i++) {
-                    this._owners[ns].removeAttribute(attr.name);
-                }
-                this._owners[ns].save(ns);
-            }
-        }
-    }
-};
-
-Solution["memory"] = {
-    test: function test() {
-        return true;
-    },
-    methods: {
-        init: function init(ns) {
-            _memoryStorage[ns] = {};
-        },
-        get: function get(ns, key) {
-            return _memoryStorage[ns][key];
-        },
-        set: function set(ns, key, value) {
-            _memoryStorage[ns][key] = value;
-        },
-        remove: function remove(ns, key) {
-            delete _memoryStorage[ns][key];
-        },
-        clear: function clear(ns) {
-            delete _memoryStorage[ns];
-        }
-    }
-};
-
-exports["default"] = Solution;
-
-/***/ }),
-/* 186 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _regenerator = __webpack_require__(187);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _asyncToGenerator2 = __webpack_require__(190);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-exports['default'] = {
-    request: function () {
-        var _ref = (0, _asyncToGenerator3['default'])( /*#__PURE__*/_regenerator2['default'].mark(function _callee(config) {
-            var baseParams;
-            return _regenerator2['default'].wrap(function _callee$(_context) {
-                while (1) {
-                    switch (_context.prev = _context.next) {
-                        case 0:
-                            // 给所有的get请求添加一个_t参数 
-                            baseParams = {
-                                _t: +new Date() //1314
-                            };
-                            return _context.abrupt('return', new _promise2['default'](function (resolve, reject) {
-                                var assignTarget = config.method === 'get' ? 'params' : 'data';
-                                config[assignTarget] = config[assignTarget] || {};
-                                (0, _assign2['default'])(config[assignTarget], baseParams);
-                                resolve(config);
-                            }));
-
-                        case 2:
-                        case 'end':
-                            return _context.stop();
-                    }
-                }
-            }, _callee, undefined);
-        }));
-
-        return function request(_x) {
-            return _ref.apply(this, arguments);
-        };
-    }()
-};
-
-/***/ }),
-/* 187 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(188);
-
-
-/***/ }),
-/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // This method of obtaining a reference to the global object needs to be
@@ -7316,7 +6772,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(189);
+module.exports = __webpack_require__(171);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -7332,7 +6788,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 189 */
+/* 171 */
 /***/ (function(module, exports) {
 
 /**
@@ -8068,7 +7524,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 190 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8076,7 +7532,7 @@ if (hadRuntime) {
 
 exports.__esModule = true;
 
-var _promise = __webpack_require__(5);
+var _promise = __webpack_require__(4);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -8112,1331 +7568,187 @@ exports.default = function (fn) {
 };
 
 /***/ }),
-/* 191 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _index = __webpack_require__(93);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _locale = __webpack_require__(201);
-
-var _locale2 = _interopRequireDefault(_locale);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var ErrorLocales = _locale2['default'].Errors;
-var ErrorType = _index2['default'].ErrorType,
-    Deferred = _index2['default'].Deferred,
-    createComboPromise = _index2['default'].createComboPromise;
-
-var BizCommonErrorLocales = ErrorLocales[ErrorType.BUSINESS]['COMMON'];
-var BizModulesErrorLocales = ErrorLocales[ErrorType.BUSINESS]['MODULES'];
-
-/* 给error 增加一个locale字段 */
-exports['default'] = {
-    request: function request(config) {
-        return _promise2['default'].resolve(config);
-    },
-    response: function response(result, config) {},
-    error: function error(_error, config) {
-
-        var defer = new Deferred();
-        var resolveDefer = function resolveDefer() {
-            defer.resolve(_error);
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(4), __webpack_require__(54), __webpack_require__(174)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(exports, require('babel-runtime/core-js/promise'), require('../../dist/index'), require('../locale'));
+    } else {
+        var mod = {
+            exports: {}
         };
-
-        if (_error.type === ErrorType.NETWORK) {
-            _error.locale = ErrorLocales[_error.type]['default'];
-        } else if (_error.type === ErrorType.TIMEOUT) {
-
-            _error.locale = ErrorLocales[_error.type]['default'];
-        } else if (_error.type === ErrorType.ABORT) {
-            _error.locale = ErrorLocales[_error.type]['default'];
-        } else if (_error.type === ErrorType.PARSER) {
-
-            _error.locale = ErrorLocales[_error.type]['default'];
-        } else {
-            // business Error
-            var locale = void 0;
-
-            if (_error.code && _error.subcode) {
-                // biz-modules 模块操作错误
-                var module = config.url.split('/')[0],
-                    moduleErrorLocales = BizModulesErrorLocales[module.toUpperCase()] || {};
-                locale = moduleErrorLocales[_error.subcode] || moduleErrorLocales['default'];
-            } else if (_error.code) {
-                // biz-common错误
-                locale = BizCommonErrorLocales[_error.code];
-            } else {
-                // 兜底文案
-                locale = _error.submessage || _error.message || BizCommonErrorLocales['default'];
-            }
-
-            _error.locale = locale;
-        }
-        resolveDefer(_error);
-
-        return defer.promise;
+        factory(mod.exports, global.promise, global.index, global.locale);
+        global.ErrorProcessor = mod.exports;
     }
-};
+})(this, function (exports, _promise, _index, _locale) {
+    'use strict';
 
-/***/ }),
-/* 192 */
-/***/ (function(module, exports, __webpack_require__) {
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
 
-"use strict";
+    var _promise2 = _interopRequireDefault(_promise);
 
+    var _index2 = _interopRequireDefault(_index);
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+    var _locale2 = _interopRequireDefault(_locale);
 
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _map = __webpack_require__(18);
-
-var _map2 = _interopRequireDefault(_map);
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _querystringEs = __webpack_require__(31);
-
-var _querystringEs2 = _interopRequireDefault(_querystringEs);
-
-var _Deferred = __webpack_require__(59);
-
-var _Deferred2 = _interopRequireDefault(_Deferred);
-
-var _CreateError = __webpack_require__(94);
-
-var _CreateError2 = _interopRequireDefault(_CreateError);
-
-var _ComboPromise = __webpack_require__(95);
-
-var _ComboPromise2 = _interopRequireDefault(_ComboPromise);
-
-var _config = __webpack_require__(193);
-
-var _config2 = _interopRequireDefault(_config);
-
-var _const = __webpack_require__(35);
-
-var _const2 = _interopRequireDefault(_const);
-
-var _Ajax = __webpack_require__(194);
-
-var _Ajax2 = _interopRequireDefault(_Ajax);
-
-var _Http = __webpack_require__(195);
-
-var _Http2 = _interopRequireDefault(_Http);
-
-var _MissionDispatcher = __webpack_require__(197);
-
-var _MissionDispatcher2 = _interopRequireDefault(_MissionDispatcher);
-
-var _utils = __webpack_require__(96);
-
-var _CacheData = __webpack_require__(198);
-
-var _CacheData2 = _interopRequireDefault(_CacheData);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var AppCache = new _CacheData2['default']('DATA_SOURCE_PROXY', 'v0.0.1');
-
-function mixConfig(requestConfig) {
-    return (0, _assign2['default'])({}, _config2['default'], requestConfig);
-}
-
-/* 生成cache key*/
-function getCacheKey() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : requestConfig,
-        url = _ref.url,
-        maxAge = _ref.maxAge,
-        params = _ref.params,
-        paramSerializerJQLikeEnabled = _ref.paramSerializerJQLikeEnabled;
-
-    var paramSerializer = (0, _utils.getParamSerializer)(paramSerializerJQLikeEnabled);
-    var cacheKey = null;
-    if (typeof maxAge === 'number') {
-        cacheKey = url + '_' + paramSerializer(params);
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
     }
-    return cacheKey;
-}
 
-function DataSource() {
-    var _this = this;
+    var ErrorLocales = _locale2.default.Errors;
+    var ErrorType = _index2.default.ErrorType,
+        Deferred = _index2.default.Deferred,
+        createComboPromise = _index2.default.createComboPromise;
 
-    var workerCount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+    var BizCommonErrorLocales = ErrorLocales[ErrorType.BUSINESS]['COMMON'];
+    var BizModulesErrorLocales = ErrorLocales[ErrorType.BUSINESS]['MODULES'];
 
-    var interceptors = {
-        request: [],
-        response: [],
-        error: []
-    };
-
-    var requestDefers = new _map2['default']();
-
-    var httpMD = new _MissionDispatcher2['default'](_Ajax2['default'], workerCount);
-    httpMD.start();
-
-    this.interceptors = {
-        request: {
-            use: function use() {
-                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                    args[_key] = arguments[_key];
-                }
-
-                Array.prototype.push.apply(interceptors.request, args);
-                return _this;
-            }
+    /* 给error 增加一个locale字段 */
+    exports.default = {
+        request: function request(config) {
+            return _promise2.default.resolve(config);
         },
-        response: {
-            use: function use() {
-                for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                    args[_key2] = arguments[_key2];
-                }
-
-                Array.prototype.push.apply(interceptors.response, args);
-                return _this;
-            }
-        },
-        error: {
-            use: function use() {
-                for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                    args[_key3] = arguments[_key3];
-                }
-
-                Array.prototype.push.apply(interceptors.error, args);
-                return _this;
-            }
-        }
-    };
-
-    this.start = function () {
-        httpMD.start();
-    };
-
-    this.stop = function () {
-        httpMD.stop();
-    };
-
-    this.request = function (requestConfig) {
-
-        return new _promise2['default'](function (resolve, reject) {
-
-            var cacheKey = getCacheKey(requestConfig);
-            var maxAge = requestConfig.maxAge,
-                ignoreExpires = requestConfig.ignoreExpires;
-
-            var cacheItem = void 0,
-                data = void 0;
-
-            if (cacheKey === null) {
-                // 没有maxAge配置，直接发起serverRequest
-                resolve(_this.serverRequest(requestConfig));
-            } else {
-                // 有maxAge配置，需要先检查cache
-                cacheItem = AppCache.item(cacheKey, { maxAge: maxAge, ignoreExpires: ignoreExpires });
-                data = cacheItem.get();
-
-                if (data === null) {
-                    //  cache中没取到数据 || 数据过期,  发起serverRequest
-                    _this.serverRequest(requestConfig).then(function (data) {
-                        cacheItem.set(data);
-                        resolve(data);
-                    })['catch'](function (err) {
-                        return reject(err);
-                    });
-                } else {
-                    // 命中缓存
-                    resolve(data);
-                }
-            }
-        });
-    };
-
-    this.serverRequest = function (requestConfig) {
-
-        var missionConfig = mixConfig(requestConfig || {});
-        var requestDefer = new _Deferred2['default']();
-
-        // 1. requestInterceptors
-        interceptors.request.reduce(function (configPromise, interceptor) {
-            return configPromise.then(interceptor);
-        }, _promise2['default'].resolve(missionConfig)).then(function (config) {
-            return config;
-        }, function (interceptorError) {
-            console.log('Request Intercept Fail ... ', interceptorError);
-            if (!interceptorError instanceof Error) {
-                interceptorError = (0, _CreateError2['default'])({ message: interceptorError });
-            }
-            throw interceptorError;
-        })
-        // 2. doRequest
-        .then(function (config) {
-            var mission = new _Http2['default'](config);
-            // 2.1 doRequest
-            httpMD.put(mission)
-            // 2.2. response or error
-            .then(function (result) {
-                // 2.2.1 responseInterceptors
-                interceptors.response.reduce(function (resultPromise, interceptor) {
-                    return resultPromise.then(function (result) {
-                        return interceptor(result, requestConfig);
-                    });
-                }, _promise2['default'].resolve(result)).then(function (result) {
-                    requestDefer.resolve(result);
-                }, function (error) {
-                    /* 
-                     * @TODO
-                     * error instanceof Error && requestDefer.reject(error); 
-                     */
-                    console.error('Response Intercept Exception ... ', error);
-                    throw error;
-                });
-            }, function (error) {
-                // 洗数据,约定： interceptorError instanceof Error
-                var transformedError = void 0;
-                if (error instanceof Error) {
-                    transformedError = error;
-                } else {
-                    transformedError = (0, _CreateError2['default'])({ message: error });
-                }
-                // 2.2.2. errorInterceptors
-                interceptors.error.reduce(function (errorPromise, interceptor) {
-                    return errorPromise.then(function (error) {
-                        return interceptor(error, requestConfig);
-                    });
-                }, _promise2['default'].resolve(transformedError)).then(function (errorOrData) {
-                    /*
-                     * 【注意！！！】
-                     *　处理过的异常, errorInterceptor可能把error转换为正常的数据(非Error类型)
-                     *  error(一定是一个Error类型的实例)
-                     */
-                    var handler = errorOrData instanceof Error ? 'reject' : 'resolve';
-                    requestDefer[handler](errorOrData);
-                }, function (exceptionError) {
-                    // 未处理异常
-                    console.log("Error Intercept Exception ... ", exceptionError);
-                    throw exceptionError;
-                });
-            });
-        })['catch'](function (err) {
-            requestDefer.reject(err);
-        });
-
-        return requestDefer.promise;
-    };
-}
-
-DataSource.ErrorType = _const2['default'].ERROR_TYPE;
-DataSource.Deferred = _Deferred2['default'];
-DataSource.createError = _CreateError2['default'];
-DataSource.createComboPromise = _ComboPromise2['default'];
-
-exports['default'] = DataSource;
-
-/***/ }),
-/* 193 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var DefaultConfig = {
-    // `url` is the server URL that will be used for the request
-    url: '',
-
-    // `method` is the request method to be used when making the request
-    method: 'get', // default
-
-    // `baseURL` will be prepended to `url` unless `url` is absolute.
-    // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
-    // to methods of that instance.
-    baseURL: '',
-
-    // `headers` are custom headers to be sent
-    headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-Forwarded-Host': 'weimengxi.xiangyun.org'
-    },
-
-    // `params` are the URL parameters to be sent with the request
-    // Must be a plain object or a URLSearchParams object
-    params: {},
-
-    // `data` is the data to be sent as the request body
-    // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
-    // When no `transformRequest` is set, must be of one of the following types:
-    // - string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams
-    // - Browser only: FormData, File, Blob
-    // - Node only: Stream
-    data: {},
-
-    // `responseType` indicates the type of data that the server will respond with
-    // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
-    responseType: 'text',
-
-    // `timeout` specifies the number of milliseconds before the request times out.
-    // If the request takes longer than `timeout`, the request will be aborted.
-    timeout: 5000, // default: 1000
-
-    // `withCredentials` indicates whether or not cross-site Access-Control requests
-    // should be made using credentials
-    withCredentials: false, // default: false
-
-
-    // 请求可合并
-    comboRequestEnabled: false,
-
-    // http://api.jquery.com/jquery.param/
-    // {key: ['v1', 'v2']} => key[]=v1&key=v2
-    paramSerializerJQLikeEnabled: false
-
-};
-
-exports['default'] = DefaultConfig;
-
-/***/ }),
-/* 194 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _promise = __webpack_require__(5);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _typeof2 = __webpack_require__(33);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-var _utils = __webpack_require__(96);
-
-var _axios = __webpack_require__(82);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _const = __webpack_require__(35);
-
-var _const2 = _interopRequireDefault(_const);
-
-var _CreateError = __webpack_require__(94);
-
-var _CreateError2 = _interopRequireDefault(_CreateError);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var ERROR_TYPE = _const2['default'].ERROR_TYPE;
-
-var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
-
-// 异常数据结构
-var errorResponseStruct = { httpStatusCode: NaN, code: NaN, message: '' };
-
-/**
- * Determine if a value is an Object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Object, otherwise false
- * @refer https://github.com/mzabriskie/axios/blob/master/lib/utils.js
- */
-var isObject = function isObject(val) {
-    return val !== null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3['default'])(val)) === 'object';
-};
-
-var transformMissionConfig = function transformMissionConfig(config) {
-
-    var paramSerializer = (0, _utils.getParamSerializer)(config.paramSerializerJQLikeEnabled);
-    var transformedConfig = (0, _assign2['default'])({}, config);
-
-    if (config.method === 'post' && isObject(transformedConfig.data)) {
-        transformedConfig.data = paramSerializer(transformedConfig.data);
-    }
-
-    return transformedConfig;
-};
-
-var AjaxWorkerFactory = function () {
-    function AjaxWorkerFactory() {
-        (0, _classCallCheck3['default'])(this, AjaxWorkerFactory);
-    }
-
-    (0, _createClass3['default'])(AjaxWorkerFactory, [{
-        key: 'do',
-        value: function _do(mission) {
-            return new _promise2['default'](function (resolve, reject) {
-                // axiosSchema: https://github.com/mzabriskie/axios
-                var transformedConfig = transformMissionConfig(mission.config);
-
-                _axios2['default'].request(transformedConfig).then(function (_ref) {
-                    var data = _ref.data,
-                        status = _ref.status,
-                        statusText = _ref.statusText,
-                        headers = _ref.headers,
-                        config = _ref.config,
-                        response = _ref.response;
-
-                    if (Object.prototype.toString.call(data) !== "[object Object]") {
-                        try {
-                            data = JSON.parse(data);
-                        } catch (e) {
-                            var message = "response is not a instance of JSON ";
-                            console.error("response of '%s' is not JSON ", config.url);
-                            var parserError = (0, _CreateError2['default'])({ message: message, type: ERROR_TYPE.PARSER });
-                            reject(parserError);
-                        }
-                    }
-
-                    // reslove 
-                    // [!important] 新增的 (data.code) 逻辑判断是为了兼容服务端api error返回结构争议
-                    if (data.code) {
-                        // 2. bizError
-                        var httpStatusCode = status;
-                        var rawError = (0, _assign2['default'])({}, data.error || data, { httpStatusCode: httpStatusCode });
-                        var businessError = (0, _CreateError2['default'])(rawError);
-                        reject(businessError);
-                    } else {
-                        resolve(data);
-                    }
-                }, function (error) {
-                    if (_axios2['default'].isCancel(error)) {
-                        // abort error
-                        // console.log('Request canceled', error.message);
-                        var abortError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code });
-                        reject(abortError);
-                    } else if (error.code === 'ECONNABORTED') {
-                        // timeout error
-                        var timeoutError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code });
-                        reject(timeoutError);
-                    } else if (error.response) {
-                        // network error 
-                        // The request was made, but the server responded with a status code
-                        // that falls out of the range of 2xx
-                        var networkError = void 0;
-                        var _error$response = error.response,
-                            status = _error$response.status,
-                            statusText = _error$response.statusText,
-                            headers = _error$response.headers,
-                            config = _error$response.config,
-                            _error$response$data = _error$response.data,
-                            data = _error$response$data === undefined ? {} : _error$response$data;
-                        var code = data.code,
-                            message = data.message;
-
-                        var responseDataError = data.error || {};
-                        var type = ERROR_TYPE.NETWORK,
-                            httpStatusCode = status;
-
-                        // 兼容data.code 和 data.error这两种标志异常的方式， 优先选用code
-                        code = code || responseDataError.code;
-                        message = message || responseDataError.message || statusText;
-
-                        networkError = (0, _CreateError2['default'])({ type: type, httpStatusCode: httpStatusCode, code: code, message: message });
-                        reject(networkError);
-                    } else {
-
-                        // console.error("unknown axios request error: ", error);
-                        var requestError = (0, _CreateError2['default'])({ message: error.message, type: ERROR_TYPE.NETWORK });
-                        reject(requestError);
-                    }
-                });
-            });
-        }
-    }]);
-    return AjaxWorkerFactory;
-}();
-
-exports['default'] = AjaxWorkerFactory;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(77)))
-
-/***/ }),
-/* 195 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _getPrototypeOf = __webpack_require__(89);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = __webpack_require__(90);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(91);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _Super = __webpack_require__(196);
-
-var _Super2 = _interopRequireDefault(_Super);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var HttpMission = function (_Mission) {
-    (0, _inherits3['default'])(HttpMission, _Mission);
-
-    function HttpMission(config) {
-        (0, _classCallCheck3['default'])(this, HttpMission);
-        return (0, _possibleConstructorReturn3['default'])(this, (HttpMission.__proto__ || (0, _getPrototypeOf2['default'])(HttpMission)).call(this, 'http', config));
-    }
-
-    return HttpMission;
-}(_Super2['default']);
-
-exports['default'] = HttpMission;
-
-/***/ }),
-/* 196 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _stringify = __webpack_require__(34);
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { "default": obj };
-}
-
-var Mission = function Mission(type, config) {
-    (0, _classCallCheck3["default"])(this, Mission);
-
-    this.type = type;
-    this.config = config;
-    //假设JSON.stringify序列化结果是稳定得
-    this.signature = (0, _stringify2["default"])({ type: type, config: config });
-    this.createTime = Date.now();
-};
-
-exports["default"] = Mission;
-
-/***/ }),
-/* 197 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _assign = __webpack_require__(9);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _map = __webpack_require__(18);
-
-var _map2 = _interopRequireDefault(_map);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _Deferred = __webpack_require__(59);
-
-var _Deferred2 = _interopRequireDefault(_Deferred);
-
-var _ComboPromise = __webpack_require__(95);
-
-var _events = __webpack_require__(92);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-// 会不会溢出？
-var serialNumber = 0;
-
-function makeMissionKey(mission) {
-    var missionKey = mission.config.comboRequestEnabled ? mission.signature : serialNumber++;
-    return missionKey;
-}
-
-/*
- * @param {WorkerFactory|Function} 生成worker的工厂
- * @param {count|countber} 生成worker的数量 
- */
-
-var MissionDispatcher = function () {
-    function MissionDispatcher(WorkerFactory, count) {
-        (0, _classCallCheck3['default'])(this, MissionDispatcher);
-        this._context = {
-            workers: [], // worker队列
-            missionQueue: [], // 任务队列 
-            // 持有相同defer的mission, 结构类似{missionDefer: mission} 
-            missionDefers: new _map2['default'](),
-            isRunning: false, // controller的运行状态 
-            emitter: new _events.EventEmitter()
-        };
-
-        for (var i = 0; i < count; i++) {
-            var worker = new WorkerFactory();
-            worker.id = i;
-            this._context.workers.push(worker);
-        }
-
-        this._context.emitter.on('mission:put', run.bind(this._context));
-        this._context.emitter.on('worker:add', run.bind(this._context));
-    }
-
-    // 【!!!约定】 以下划线开头的是私有变量，请不要调用 
-
-
-    (0, _createClass3['default'])(MissionDispatcher, [{
-        key: 'put',
-        value: function put(mission) {
-
-            var missionKey = makeMissionKey(mission),
-                missionDefer = (0, _ComboPromise.createComboDefer)(missionKey),
-                missionInQueue = (0, _assign2['default'])({}, mission, { defer: missionDefer });
-
-            if (this._context.missionDefers.has(missionDefer) === false) {
-                this._context.missionDefers.set(missionDefer, missionInQueue);
-                this._context.missionQueue.push(missionInQueue);
-                this._context.emitter.emit('mission:put', run);
-            }
-
-            return missionDefer.promise;
-        }
-    }, {
-        key: 'start',
-        value: function start() {
-            if (this._context.isRunning === false) {
-                this._context.isRunning = true;
-                run.bind(this._context)();
-            } else {
-                console.log(' MissionDispatcher is already Running ... ');
-            }
-        }
-    }, {
-        key: 'stop',
-        value: function stop() {
-            this._context.isRunning = false;
-        }
-    }]);
-    return MissionDispatcher;
-}();
-
-function run() {
-
-    var threadsCount = void 0,
-        context = this;
-
-    if (context.isRunning === false) {
-        console.warn(' MissionDispatcher is stopped ... ');
-        return;
-    }
-
-    if (context.missionQueue.length === 0) {
-        console.log(' No Mission ...  ');
-        return;
-    }
-
-    if (context.workers.length === 0) {
-        console.log(' No Avaliable workers ...  ');
-        return;
-    }
-
-    // realDo Mission ====
-    threadsCount = Math.min(context.workers.length, context.missionQueue.length);
-
-    while (threadsCount > 0) {
-        // 从map里出第一个
-        dispatch(context.workers.shift(), context.missionQueue.shift()); // FIFO
-        threadsCount--;
-    }
-
-    // 给worker分配任务, 合并请求
-    function dispatch(worker, mission) {
-
-        //console.log("%cSTART: workerId: %s, missionSignature: %s", "color:green", worker.id, mission.signature);
-
-        var finishHandler = function finishHandler() {
-            // 归还worker
-            context.workers.push(worker);
-            context.emitter.emit("worker:add");
-            // 删除 执行过的 missionDefer
-            context.missionDefers['delete'](mission.defer);
-        };
-
-        worker['do'](mission).then(function (data) {
-            mission.defer.resolve(data);
-            // console.log("%cResolve: m %s, w %s ", "color:blue", mission, worker.id);
-            finishHandler();
-        }, function (reason) {
-            mission.defer.reject(reason);
-            // console.log("%cReject: m %s, w %s ", "color:red", mission, worker.id);
-            finishHandler();
-        });
-    }
-}
-
-exports['default'] = MissionDispatcher;
-
-/***/ }),
-/* 198 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _Storage = __webpack_require__(199);
-
-var _Storage2 = _interopRequireDefault(_Storage);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _ins = {};
-
-var CacheData = function () {
-    function CacheData(ns) {
-        var signature = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-        var isMemory = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        (0, _classCallCheck3['default'])(this, CacheData);
-
-        var id = ns + "_" + signature;
-        // Singleton Pattern
-        if (!(_ins[id] instanceof CacheData)) {
-            _ins[id] = this;
-        } else {
-            return _ins[id];
-        }
-
-        this.id = id;
-        this.signature = signature;
-        //CacheData中只采取持久存储方案
-        this.storage = new _Storage2['default'](ns, isMemory);
-    }
-
-    (0, _createClass3['default'])(CacheData, [{
-        key: 'clear',
-        value: function clear() {
-            this.storage.clear();
-        }
-    }, {
-        key: 'item',
-        value: function item(key, opts) {
-            opts = opts || {};
-            return new CacheDataItem(this.storage, this.signature, key, opts);
-        }
-    }]);
-    return CacheData;
-}();
-
-var CacheDataItem = function () {
-    function CacheDataItem(storage, signature, key, opts) {
-        (0, _classCallCheck3['default'])(this, CacheDataItem);
-
-        // eg: url+参数序列化
-        this.key = key;
-        // 就是具体的存储方案， 调用它来clear, get , set
-        this.storage = storage;
-        // eg, v2.0
-        this.signature = signature;
-
-        this.maxAge = opts.maxAge || opts.maxage || null;
-
-        this.ignoreExpires = opts.ignoreExpires;
-
-        this.dataFormatter = {
-            getter: null,
-            setter: null
-        };
-    }
-
-    (0, _createClass3['default'])(CacheDataItem, [{
-        key: 'setFormatter',
-        value: function setFormatter(setter, getter) {
-            this.dataFormatter = {
-                setter: setter || null,
-                getter: getter || null
+        response: function response(result, config) {},
+        error: function error(_error, config) {
+
+            var defer = new Deferred();
+            var resolveDefer = function resolveDefer() {
+                defer.resolve(_error);
             };
-        }
-    }, {
-        key: 'set',
-        value: function set(data) {
-            if (this.dataFormatter && this.dataFormatter.setter) {
-                data = this.dataFormatter.setter(data);
-            }
-            var value = {
-                data: data,
-                time: new Date().getTime(),
-                signature: this.signature
-            };
-            if (this.maxAge) {
-                value.expires = new Date().getTime() + this.maxAge;
-            }
-            if (value.data) {
-                this.storage.set(this.key, value);
-            }
-        }
-    }, {
-        key: 'get',
-        value: function get() {
-            var data = this.storage.get(this.key);
-            if (data && data.signature === this.signature && (this.ignoreExpires || !data.expires || new Date().getTime() < data.expires)) {
-                data = data.data;
 
-                if (this.dataFormatter && this.dataFormatter.getter) {
-                    data = this.dataFormatter.getter(data);
-                }
-                return data;
-            }
-            return null;
-        }
-    }, {
-        key: 'remove',
-        value: function remove() {
-            this.storage.remove(this.key);
-        }
-    }, {
-        key: 'isExpired',
-        value: function isExpired() {
-            var data = this.storage.get(this.key);
-            return !!data && !!data.expires && new Date().getTime() >= data.expires;
-        }
-    }, {
-        key: 'getUpdatedTime',
-        value: function getUpdatedTime() {
-            var data = this.storage.get(this.key);
-            return data && data.time - 0;
-        }
-    }, {
-        key: 'getExpires',
-        value: function getExpires() {
-            var data = this.storage.get(this.key);
-            return data && data.expires;
-        }
-    }]);
-    return CacheDataItem;
-}();
+            if (_error.type === ErrorType.NETWORK) {
+                _error.locale = ErrorLocales[_error.type]['default'];
+            } else if (_error.type === ErrorType.TIMEOUT) {
 
-exports['default'] = CacheData;
+                _error.locale = ErrorLocales[_error.type]['default'];
+            } else if (_error.type === ErrorType.ABORT) {
+                _error.locale = ErrorLocales[_error.type]['default'];
+            } else if (_error.type === ErrorType.PARSER) {
 
-/***/ }),
-/* 199 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _stringify = __webpack_require__(34);
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
-var _classCallCheck2 = __webpack_require__(4);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(10);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _Solution = __webpack_require__(200);
-
-var _Solution2 = _interopRequireDefault(_Solution);
-
-var _const = __webpack_require__(35);
-
-var _const2 = _interopRequireDefault(_const);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-/**
- * [Storage description]
- * @param {[string]}  id       [惟一标识]
- * @param {Boolean} isMemory [是否使用内存级存储，默认为flase 即持久存储]
- */
-var _ins = {};
-var prefix = _const2['default'].NAMESPACE;
-
-var Storage = function () {
-    function Storage(id) {
-        var isMemory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        (0, _classCallCheck3['default'])(this, Storage);
-
-        // Singleton pattern
-        if (!(_ins[id] instanceof Storage)) {
-            _ins[id] = this;
-        } else {
-            return _ins[id];
-        }
-
-        this.id = id;
-        this.ns = prefix + "_" + id + "_";
-
-        this._methods = isMemory ? _Solution2['default'].memory.methods : function () {
-            if (_Solution2['default'].localStorage.test()) {
-                return _Solution2['default'].localStorage.methods;
-            }
-            if (_Solution2['default'].userData.test()) {
-                return _Solution2['default'].userData.methods;
-            }
-            return {
-                init: function init() {},
-                get: function get() {},
-                set: function set() {},
-                remove: function remove() {},
-                clear: function clear() {}
-            };
-        }();
-
-        if (this._methods) {
-            this._methods.init(this.ns);
-        }
-    }
-
-    (0, _createClass3['default'])(Storage, [{
-        key: 'encode',
-        value: function encode(data) {
-            return window.JSON ? (0, _stringify2['default'])(data) : data;
-        }
-    }, {
-        key: 'decode',
-        value: function decode(data) {
-            return window.JSON ? JSON.parse(data) : data;
-        }
-    }, {
-        key: 'set',
-        value: function set(key, value) {
-            try {
-                this._methods.set(this.ns, key, this.encode(value));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-    }, {
-        key: 'get',
-        value: function get(key) {
-            try {
-                return this.decode(this._methods.get(this.ns, key));
-            } catch (e) {}
-        }
-    }, {
-        key: 'remove',
-        value: function remove(key) {
-            try {
-                this._methods.remove(this.ns, key);
-            } catch (e) {}
-        }
-    }, {
-        key: 'clear',
-        value: function clear() {
-            try {
-                this._methods.clear(this.ns);
-            } catch (e) {}
-        }
-    }]);
-    return Storage;
-}();
-
-exports['default'] = Storage;
-
-/***/ }),
-/* 200 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-//存储服务
-var Solution = {};
-var _memoryStorage = {};
-
-Solution["localStorage"] = {
-    test: function test() {
-        try {
-            return window.localStorage ? true : false;
-        } catch (e) {
-            return false;
-        }
-    },
-    methods: {
-        init: function init(ns) {},
-        set: function set(ns, key, value) {
-            try {
-                localStorage.setItem(ns + key, value);
-            } catch (e) {
-                throw e;
-            }
-        }, //throw
-        get: function get(ns, key) {
-            return localStorage.getItem(ns + key);
-        },
-        remove: function remove(ns, key) {
-            localStorage.removeItem(ns + key);
-        },
-        clear: function clear(ns) {
-            if (!ns) {
-                localStorage.clear();
+                _error.locale = ErrorLocales[_error.type]['default'];
             } else {
-                for (var i = localStorage.length - 1, key; key = localStorage.key(i--);) {
-                    if (key && key.indexOf(ns) === 0) {
-                        localStorage.removeItem(key);
-                    }
-                }
-            }
-        }
-    }
-};
-Solution["userData"] = {
-    test: function test() {
-        try {
-            return window.ActiveXObject && document.documentElement.addBehavior ? true : false;
-        } catch (e) {
-            return false;
-        }
-    },
-    methods: {
-        _owners: {},
-        init: function init(ns) {
-            if (!this._owners[ns]) {
-                if (document.getElementById(ns)) {
-                    this._owners[ns] = document.getElementById(ns);
+                // business Error
+                var locale = void 0;
+
+                if (_error.code && _error.subcode) {
+                    // biz-modules 模块操作错误
+                    var module = config.url.split('/')[0],
+                        moduleErrorLocales = BizModulesErrorLocales[module.toUpperCase()] || {};
+                    locale = moduleErrorLocales[_error.subcode] || moduleErrorLocales['default'];
+                } else if (_error.code) {
+                    // biz-common错误
+                    locale = BizCommonErrorLocales[_error.code];
                 } else {
-                    var el = document.createElement('script'),
-                        head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
-                    el.id = ns;
-                    el.style.display = 'none';
-                    el.addBehavior('#default#userdata');
-                    head.insertBefore(el, head.firstChild);
-                    this._owners[ns] = el;
+                    // 兜底文案
+                    locale = _error.submessage || _error.message || BizCommonErrorLocales['default'];
                 }
-                try {
-                    this._owners[ns].load(ns);
-                } catch (e) {}
-                var _self = this;
-                window.attachEvent("onunload", function () {
-                    _self._owners[ns] = null;
-                });
+
+                _error.locale = locale;
             }
-        },
-        set: function set(ns, key, value) {
-            if (this._owners[ns]) {
-                try {
-                    this._owners[ns].setAttribute(key, value);
-                    this._owners[ns].save(ns);
-                } catch (e) {
-                    throw e;
-                }
-            }
-        },
-        get: function get(ns, key) {
-            if (this._owners[ns]) {
-                this._owners[ns].load(ns);
-                return this._owners[ns].getAttribute(key) || null;
-            }
-            return null;
-        },
-        remove: function remove(ns, key) {
-            if (this._owners[ns]) {
-                this._owners[ns].removeAttribute(key);
-                this._owners[ns].save(ns);
-            }
-        },
-        clear: function clear(ns) {
-            if (this._owners[ns]) {
-                var attributes = this._owners[ns].XMLDocument.documentElement.attributes;
-                this._owners[ns].load(ns);
-                for (var i = 0, attr; attr = attributes[i]; i++) {
-                    this._owners[ns].removeAttribute(attr.name);
-                }
-                this._owners[ns].save(ns);
-            }
+            resolveDefer(_error);
+
+            return defer.promise;
         }
-    }
-};
-
-Solution["memory"] = {
-    test: function test() {
-        return true;
-    },
-    methods: {
-        init: function init(ns) {
-            _memoryStorage[ns] = {};
-        },
-        get: function get(ns, key) {
-            return _memoryStorage[ns][key];
-        },
-        set: function set(ns, key, value) {
-            _memoryStorage[ns][key] = value;
-        },
-        remove: function remove(ns, key) {
-            delete _memoryStorage[ns][key];
-        },
-        clear: function clear(ns) {
-            delete _memoryStorage[ns];
-        }
-    }
-};
-
-exports["default"] = Solution;
-
-/***/ }),
-/* 201 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
+    };
 });
 
-var _defineProperty2 = __webpack_require__(202);
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-var _Errors; //本地化文案
-
-var _index = __webpack_require__(93);
-
-var _index2 = _interopRequireDefault(_index);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var ErrorType = _index2['default'].ErrorType,
-    Deferred = _index2['default'].Deferred,
-    createComboPromise = _index2['default'].createComboPromise;
-
-/* 业务-[通用|模块}'错误提示信息 */
-
-var Errors = (_Errors = {}, (0, _defineProperty3['default'])(_Errors, ErrorType.NETWORK, {
-    // 'default': '亲爱的用户现在网络异常，请检查网络连接或稍后重试!' 
-    'default': '亲爱的用户现在网络异常，请稍后重试!'
-}), (0, _defineProperty3['default'])(_Errors, ErrorType.ABORT, {
-    'default': '请求取消'
-}), (0, _defineProperty3['default'])(_Errors, ErrorType.TIMEOUT, {
-    'default': '请求超时，请稍后重试'
-}), (0, _defineProperty3['default'])(_Errors, ErrorType.PARSER, {
-    'default': '数据解析失败，请稍后重试'
-}), (0, _defineProperty3['default'])(_Errors, ErrorType.BUSINESS, {
-    // 通用错误, code, 首字符代表错误级别：4代表请求端错误，5带面server段发生错误）
-    COMMON: {
-        400: '参数内容错误', // 参数内容错误
-        401: '缺少必要参数', // 缺少必要参数
-        402: '未登录，请先登录', // 未登录
-        403: '表单重复提交', // 表单重复提交
-        404: '请求资源不存在', // 请求资源不存在
-        405: '无权操作', // 无权操作，受限
-        406: '', // 资源不满足请求条件
-        408: '请求超时，请稍后重试', // 请求超时
-        409: '', // 操作不满足超限(limit)
-        410: '请求的资源不可用', // 请求的资源不可用
-        502: '系统发生异常，请稍后重试', // 依赖的服务报错
-        503: '系统发生异常，请稍后重试', // 系统发生临时错误
-        504: '系统发生异常，请稍后重试', //系统发生致命错误
-        'default': '操作失败，请稍后重试' // 兜底文案
-    },
-    // 模块级错误， subcode
-    MODULES: {
-        // 商品
-        GOODS: {
-            1901: '商品不存在' // 商品不存在
-        }
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(175), __webpack_require__(54)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(exports, require('babel-runtime/helpers/defineProperty'), require('../../dist/index'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod.exports, global.defineProperty, global.index);
+        global.index = mod.exports;
     }
-}), _Errors);
+})(this, function (exports, _defineProperty2, _index) {
+    'use strict';
 
-exports['default'] = {
-    Errors: Errors
-};
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+    var _index2 = _interopRequireDefault(_index);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _Errors;
+
+    var ErrorType = _index2.default.ErrorType,
+        Deferred = _index2.default.Deferred,
+        createComboPromise = _index2.default.createComboPromise;
+
+
+    /* 业务-[通用|模块}'错误提示信息 */
+    var Errors = (_Errors = {}, (0, _defineProperty3.default)(_Errors, ErrorType.NETWORK, {
+        // 'default': '亲爱的用户现在网络异常，请检查网络连接或稍后重试!' 
+        'default': '亲爱的用户现在网络异常，请稍后重试!'
+    }), (0, _defineProperty3.default)(_Errors, ErrorType.ABORT, {
+        'default': '请求取消'
+    }), (0, _defineProperty3.default)(_Errors, ErrorType.TIMEOUT, {
+        'default': '请求超时，请稍后重试'
+    }), (0, _defineProperty3.default)(_Errors, ErrorType.PARSER, {
+        'default': '数据解析失败，请稍后重试'
+    }), (0, _defineProperty3.default)(_Errors, ErrorType.BUSINESS, {
+        // 通用错误, code, 首字符代表错误级别：4代表请求端错误，5带面server段发生错误）
+        COMMON: {
+            400: '参数内容错误', // 参数内容错误
+            401: '缺少必要参数', // 缺少必要参数
+            402: '未登录，请先登录', // 未登录
+            403: '表单重复提交', // 表单重复提交
+            404: '请求资源不存在', // 请求资源不存在
+            405: '无权操作', // 无权操作，受限
+            406: '', // 资源不满足请求条件
+            408: '请求超时，请稍后重试', // 请求超时
+            409: '', // 操作不满足超限(limit)
+            410: '请求的资源不可用', // 请求的资源不可用
+            502: '系统发生异常，请稍后重试', // 依赖的服务报错
+            503: '系统发生异常，请稍后重试', // 系统发生临时错误
+            504: '系统发生异常，请稍后重试', //系统发生致命错误
+            'default': '操作失败，请稍后重试' // 兜底文案
+        },
+        // 模块级错误， subcode
+        MODULES: {
+            // 商品
+            GOODS: {
+                1901: '商品不存在' // 商品不存在
+            }
+        }
+    }), _Errors);
+
+    exports.default = {
+        Errors: Errors
+    };
+});
 
 /***/ }),
-/* 202 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9444,7 +7756,7 @@ exports['default'] = {
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(73);
+var _defineProperty = __webpack_require__(176);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -9464,6 +7776,32 @@ exports.default = function (obj, key, value) {
 
   return obj;
 };
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(177), __esModule: true };
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(178);
+var $Object = __webpack_require__(0).Object;
+module.exports = function defineProperty(it, key, desc) {
+  return $Object.defineProperty(it, key, desc);
+};
+
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(3);
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export($export.S + $export.F * !__webpack_require__(8), 'Object', { defineProperty: __webpack_require__(6).f });
+
 
 /***/ })
 /******/ ]);

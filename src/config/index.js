@@ -12,8 +12,7 @@ const DefaultConfig = {
 
     // `headers` are custom headers to be sent
     headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-Forwarded-Host': 'weimengxi.xiangyun.org'
+        'X-Requested-With': 'XMLHttpRequest'
     },
 
     // `params` are the URL parameters to be sent with the request

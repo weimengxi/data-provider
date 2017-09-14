@@ -1,43 +1,28 @@
-import DataSourceProxy from './agent';
+import DataService from './data-service';
 
 const API = {
-    // getMenu: 'api/menu.json',
-    getMenu: 'api/menu',
-    listDealUntreated: 'order/rule/get',
-    listDealApproved: 'deal/approvelist'
+    getMenu: 'menu.json',
 }
 
-const DataService = {
+const MenuService = {
     // 获取最常使用的语言
     getMenu: function getMenu() {
-        let result = DataSourceProxy.get(API.getMenu);
-        return result;
-    },
-    listDealUntreated: function listDealUntreated() {
-        let ruleinfo = {
-            a: 1,
-            b: { 'bb': 'bb', 'bc': 'bc' }
-        }
-        let result = DataSourceProxy.post(API.listDealUntreated, ruleinfo);
-        return result;
-    },
-    listDealApproved: function listDealApproved(params) {
-        let result = DataSourceProxy.post(API.listDealApproved, { pn: 2 });
+        let result = DataService.get(API.getMenu);
         return result;
     }
 }
 
 const render = function render(data) {
     var $code = document.getElementsByTagName('code');
-    $code[0].textContent = data;
+    $code[0].textContent = JSON.stringify(data);
 }
 
-DataService.listDealUntreated()
-    .then(data => { console.log(data); return data.items || [] })
-    .then(render)
-    .catch(err => console.error(err))
-
-// DataService.listDealApproved()
-//     .then(data => { console.log(data); return data.items || [] })
-//     .then(render)
-//     .catch(err => console.error(err))
+MenuService.getMenu()
+    .then(data => {
+        console.log(data);
+        render(data)
+    })
+    .catch(err=>{
+        console.log(err);
+        alert(err.message);
+    })
