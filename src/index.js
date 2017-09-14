@@ -1,5 +1,3 @@
-import querystring from 'querystring-es3';
-
 import Deferred from './utils/Deferred';
 import createError from './utils/CreateError';
 import createComboPromise from './utils/ComboPromise';
@@ -11,24 +9,9 @@ import HttpWorkerFactory from './workers/Ajax';
 import HttpMission from './missions/Http';
 
 import MissionDispatcher from './MissionDispatcher';
-import { getParamSerializer } from './utils';
-
-import CacheData from './CacheData';
-
-const AppCache = new CacheData('DATA_SOURCE_PROXY', 'v0.0.1');
 
 function mixConfig(requestConfig) {
     return Object.assign({}, DefaultConfig, requestConfig);
-}
-
-/* 生成cache key*/
-function getCacheKey({ url, maxAge, params, paramSerializerJQLikeEnabled } = requestConfig) {
-    const paramSerializer = getParamSerializer(paramSerializerJQLikeEnabled);
-    let cacheKey = null;
-    if (typeof maxAge === 'number') {
-        cacheKey = url + '_' + paramSerializer(params);
-    }
-    return cacheKey;
 }
 
 function DataSource(workerCount = 10) {
@@ -76,41 +59,6 @@ function DataSource(workerCount = 10) {
 
     this.request = (requestConfig) => {
 
-        return new Promise((resolve, reject) => {
-
-            let cacheKey = getCacheKey(requestConfig);
-            let { maxAge, ignoreExpires } = requestConfig;
-            let cacheItem, data;
-
-            if (cacheKey === null) {
-                // 没有maxAge配置，直接发起serverRequest
-                resolve(this.serverRequest(requestConfig));
-            } else {
-                // 有maxAge配置，需要先检查cache
-                cacheItem = AppCache.item(cacheKey, { maxAge, ignoreExpires });
-                data = cacheItem.get();
-
-                if (data === null) {
-                    //  cache中没取到数据 || 数据过期,  发起serverRequest
-                    this.serverRequest(requestConfig)
-                        .then(data => {
-                            cacheItem.set(data);
-                            resolve(data);
-                        })
-                        .catch(err => reject(err))
-                } else {
-                    // 命中缓存
-                    resolve(data)
-                }
-            }
-
-        });
-
-    }
-
-
-    this.serverRequest = (requestConfig) => {
-
         let missionConfig = mixConfig(requestConfig || {});
         let requestDefer = new Deferred();
 
@@ -123,7 +71,9 @@ function DataSource(workerCount = 10) {
             }, (interceptorError) => {
                 console.log('Request Intercept Fail ... ', interceptorError);
                 if (!interceptorError instanceof Error) {
-                    interceptorError = createError({ message: interceptorError });
+                    interceptorError = createError({
+                        message: interceptorError
+                    });
                 }
                 throw interceptorError;
             })
@@ -156,7 +106,9 @@ function DataSource(workerCount = 10) {
                         if (error instanceof Error) {
                             transformedError = error;
                         } else {
-                            transformedError = createError({ message: error });
+                            transformedError = createError({
+                                message: error
+                            });
                         }
                         // 2.2.2. errorInterceptors
                         interceptors.error.reduce((errorPromise, interceptor) => {

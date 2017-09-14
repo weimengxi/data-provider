@@ -1,4 +1,4 @@
-import DataSource from '../../index';
+import DataSource from '../../dist/index';
 
 import Locale from '../locale';
 
