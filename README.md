@@ -1,11 +1,11 @@
 [TOC]
 
-# data-source-agent
+# data-provider
 
 ### Installation
 
 ```
-npm install data-source-agent
+npm install data-provider
 ```
 
 ### Features
@@ -15,7 +15,11 @@ npm install data-source-agent
 
 ### Example 
 
-参考`examples/data-source-gateway.js` 示例
+参考`examples/dataService.js` 示例, 运行examples命令
+
+```
+npm run dev
+```
 
 #### 拦截器的用法
 
@@ -51,16 +55,16 @@ export default {
 2.  在data-source-gateway中注册拦截器
 
 ```
-// example/data-source-gateway.js
+// example/dataService.js
 
-import DataSourceAgent from 'data-source-agent';
+import DataProvider from 'data-provider';
 import fixParamsInterceptor from './interceptors/FixParams';
 
-// 创建一个DataSourceAgent实例
-var agent = new DataSourceAgent();
+// 创建一个DataProvider实例
+var provider = new DataProvider();
 
 // 面向切面: 按顺序组装拦截器
-agent
+provider
     .interceptors.request.use(fixParamsInterceptor.request)
     .interceptors.error.use(errorProcessorInterceptor.error)
 
@@ -68,16 +72,16 @@ agent
 
 #### 控制频发请求是否合并
 
-`data-source-agent` 在配置中提供了一个开关 `comboRequestEnabled` 来决定是否合并频发请求。 
+`data-provider` 在配置中提供了一个开关 `comboRequestEnabled` 来决定是否合并频发请求。 
 
-可以在`data-source-agent.request(config)` 的基础上封装语法糖， 简化config的传入操作。
+可以在`data-provider.request(config)` 的基础上封装语法糖， 简化config的传入操作。
 
 以封装的data-source-gateway 为例：
 
 ```
-// example/data-source-gateway.js
+// example/dataService.js
 
-var DataSourceGateway = {
+var DataService = {
 
     post: function(uri, data) {
         var config = {
@@ -89,7 +93,7 @@ var DataSourceGateway = {
             data: data
         };
 
-        return DataSourceGateway.request(config);
+        return DataService.request(config);
 
     },
 
@@ -106,7 +110,7 @@ var DataSourceGateway = {
             comboRequestEnabled: true
         };
 
-        return DataSourceGateway.request(config);
+        return DataService.request(config);
     },
 
     // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled, maxAge, ignoreExpires} = config
@@ -114,16 +118,16 @@ var DataSourceGateway = {
     // paramSerializerJQLikeEnabled: 默认开启用jquery.param进行请求参数的序列化
         let mixedConfig = { paramSerializerJQLikeEnabled, ...config };
         return new Promise((resolve, reject) => {
-            agent.request(mixedConfig)
+            provider.request(mixedConfig)
                 .then(data => { resolve(data) }, err => { reject(err); })
         });
 
     },
     start: () => {
-        agent.start();
+        provider.start();
     },
     stop: () => {
-        agent.stop();
+        provider.stop();
     }
 
 }
@@ -145,7 +149,6 @@ var DataSourceGateway = {
 #### Static Properties
 
 - `ErrorType`
-
 - `Deferred`  一个延迟对象的构造函数
 
   ​
