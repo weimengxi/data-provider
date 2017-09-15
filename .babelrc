@@ -5,8 +5,12 @@
         }], "stage-2"
     ],
     "plugins": [
-        ["transform-runtime"], "add-module-exports",  ["transform-es2015-modules-umd", {
+        "transform-runtime",
+        "add-module-exports", ["transform-es2015-modules-umd", {
             "loose": true
-        }]
+        }],
+        "transform-class-properties",
+        "transform-es3-member-expression-literals",
+        "transform-es3-property-literals"
     ]
 }

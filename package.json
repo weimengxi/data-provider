@@ -8,27 +8,27 @@
     "interceptors",
     "debounce"
   ],
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "files": [
-    "dist",
+    "lib",
     "src",
     "test"
   ],
   "scripts": {
     "test": "node ./test/index.js",
-    "build": "rm -rf dist && babel src -d dist -s inline",
+    "build": "rm -rf lib && babel src -d lib -s inline",
     "dev": "npm run build && webpack-dev-server --hot --inline"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weimengxi/data-source-agent.git"
+    "url": "git+https://github.com/weimengxi/data-provider.git"
   },
   "author": "weimengxi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/weimengxi/data-source-agent/issues"
+    "url": "https://github.com/weimengxi/data-provider/issues"
   },
-  "homepage": "https://github.com/weimengxi/data-source-agent#readme",
+  "homepage": "https://github.com/weimengxi/data-provider#readme",
   "devDependencies": {
     "axios-mock-adapter": "^1.7.1",
     "axios-response-logger": "^0.1.0",

@@ -675,15 +675,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                "default": obj
             };
         }
 
         var Deferred = function () {
             function Deferred() {
-                (0, _classCallCheck3.default)(this, Deferred);
+                (0, _classCallCheck3["default"])(this, Deferred);
 
-                this.promise = new _promise2.default(function (resolve, reject) {
+                this.promise = new _promise2["default"](function (resolve, reject) {
                     this._resolve = resolve;
                     this._reject = reject;
                 }.bind(this));
@@ -700,7 +700,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             return Deferred;
         }();
 
-        exports.default = Deferred;
+        exports["default"] = Deferred;
         module.exports = exports["default"];
     });
 });
@@ -762,7 +762,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 PARSER: "parserError"
             }
         };
-        exports.default = Const;
+        exports["default"] = Const;
         module.exports = exports["default"];
     });
 });
@@ -955,7 +955,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             exports: {}
         };
         factory(mod.exports, global.promise, global.map, global.Deferred);
-        global.ComboPromise = mod.exports;
+        global.comboPromise = mod.exports;
     }
 })(this, function (exports) {
     'use strict';
@@ -973,7 +973,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 exports: {}
             };
             factory(mod.exports, global.promise, global.map, global.Deferred);
-            global.ComboPromise = mod.exports;
+            global.comboPromise = mod.exports;
         }
     })(undefined, function (exports, _promise, _map, _Deferred) {
         'use strict';
@@ -989,15 +989,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                'default': obj
             };
         }
 
         var _runnings = {};
 
-        var comboDefersMap = new _map2.default();
+        var comboDefersMap = new _map2['default']();
 
-        var comboPromisesMap = new _map2.default();
+        var comboPromisesMap = new _map2['default']();
 
         var isFunction = function isFunction(value) {
             return Object.prototype.toString.call(value) === '[object Function]';
@@ -1008,14 +1008,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
             var promise = comboPromisesMap.get(key);
 
-            if (!(promise instanceof _promise2.default)) {
-                promise = new _promise2.default(resolver);
+            if (!(promise instanceof _promise2['default'])) {
+                promise = new _promise2['default'](resolver);
                 comboPromisesMap.set(key, promise);
 
                 promise.then(function (data) {
-                    comboPromisesMap.delete(key);
+                    comboPromisesMap['delete'](key);
                 }, function (error) {
-                    comboPromisesMap.delete(key);
+                    comboPromisesMap['delete'](key);
                 });
             }
 
@@ -1028,15 +1028,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 comboDefer = comboDefersMap.get(deferKey);
 
             if (typeof comboDefer === 'undefined') {
-                comboDefer = new _Deferred2.default();
+                comboDefer = new _Deferred2['default']();
                 comboDefersMap.set(deferKey, comboDefer);
             }
 
             // 无论成功及失败， 都要删除对应的comboDefer, 然后再将成功或失败返回 
             comboDefer.promise.then(function (data) {
-                comboDefersMap.delete(deferKey);
+                comboDefersMap['delete'](deferKey);
             }, function (error) {
-                comboDefersMap.delete(deferKey);
+                comboDefersMap['delete'](deferKey);
             });
 
             return comboDefer;
@@ -1044,7 +1044,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         exports.createComboPromise = createComboPromise;
         exports.createComboDefer = createComboDefer;
-        exports.default = createComboPromise;
+        exports['default'] = createComboPromise;
     });
 });
 
@@ -1092,7 +1092,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             exports: {}
         };
         factory(mod, mod.exports, global.assign, global.objectWithoutProperties, global._const);
-        global.CreateError = mod.exports;
+        global.createError = mod.exports;
     }
 })(this, function (module, exports) {
     'use strict';
@@ -1110,13 +1110,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 exports: {}
             };
             factory(mod, mod.exports, global.assign, global.objectWithoutProperties, global._const);
-            global.CreateError = mod.exports;
+            global.createError = mod.exports;
         }
     })(undefined, function (module, exports, _assign, _objectWithoutProperties2, _const) {
         'use strict';
 
         exports.__esModule = true;
-        exports.default = createError;
+        exports['default'] = createError;
 
         var _assign2 = _interopRequireDefault(_assign);
 
@@ -1126,11 +1126,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                'default': obj
             };
         }
 
-        var ERROR_TYPE = _const2.default.ERROR_TYPE;
+        var ERROR_TYPE = _const2['default'].ERROR_TYPE;
 
         var DEFAULT_ERROR_MSG = 'undefined message';
         var DEFAULT_ERROR_TYPE = ERROR_TYPE.BUSINESS;
@@ -1142,13 +1142,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 message = _ref$message === undefined ? DEFAULT_ERROR_MSG : _ref$message,
                 _ref$type = _ref.type,
                 type = _ref$type === undefined ? ERROR_TYPE.BUSINESS : _ref$type,
-                args = (0, _objectWithoutProperties3.default)(_ref, ['code', 'message', 'type']);
+                args = (0, _objectWithoutProperties3['default'])(_ref, ['code', 'message', 'type']);
 
             // need a real Error 
             var error = new Error(message);
             error.type = type;
             error.code = code;
-            (0, _assign2.default)(error, args);
+            (0, _assign2['default'])(error, args);
             return error;
         }
         module.exports = exports['default'];
@@ -1511,12 +1511,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (typeof exports !== "undefined") {
-        factory(module, exports, require('babel-runtime/core-js/promise'), require('babel-runtime/core-js/map'), require('babel-runtime/core-js/object/assign'), require('./utils/Deferred'), require('./utils/CreateError'), require('./utils/ComboPromise'), require('./config'), require('./const'), require('./workers/Ajax'), require('./missions/Http'), require('./MissionDispatcher'));
+        factory(module, exports, require('babel-runtime/core-js/promise'), require('babel-runtime/core-js/map'), require('babel-runtime/core-js/object/assign'), require('./utils/Deferred'), require('./utils/createError'), require('./utils/comboPromise'), require('./config'), require('./const'), require('./workers/Ajax'), require('./missions/Http'), require('./MissionDispatcher'));
     } else {
         var mod = {
             exports: {}
         };
-        factory(mod, mod.exports, global.promise, global.map, global.assign, global.Deferred, global.CreateError, global.ComboPromise, global.config, global._const, global.Ajax, global.Http, global.MissionDispatcher);
+        factory(mod, mod.exports, global.promise, global.map, global.assign, global.Deferred, global.createError, global.comboPromise, global.config, global._const, global.Ajax, global.Http, global.MissionDispatcher);
         global.index = mod.exports;
     }
 })(this, function (module, exports) {
@@ -1534,10 +1534,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             var mod = {
                 exports: {}
             };
-            factory(mod, mod.exports, global.promise, global.map, global.assign, global.Deferred, global.CreateError, global.ComboPromise, global.config, global._const, global.Ajax, global.Http, global.MissionDispatcher);
+            factory(mod, mod.exports, global.promise, global.map, global.assign, global.Deferred, global.createError, global.comboPromise, global.config, global._const, global.Ajax, global.Http, global.MissionDispatcher);
             global.index = mod.exports;
         }
-    })(undefined, function (module, exports, _promise, _map, _assign, _Deferred, _CreateError, _ComboPromise, _config, _const, _Ajax, _Http, _MissionDispatcher) {
+    })(undefined, function (module, exports, _promise, _map, _assign, _Deferred, _createError, _comboPromise, _config, _const, _Ajax, _Http, _MissionDispatcher) {
         'use strict';
 
         exports.__esModule = true;
@@ -1550,9 +1550,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         var _Deferred2 = _interopRequireDefault(_Deferred);
 
-        var _CreateError2 = _interopRequireDefault(_CreateError);
+        var _createError2 = _interopRequireDefault(_createError);
 
-        var _ComboPromise2 = _interopRequireDefault(_ComboPromise);
+        var _comboPromise2 = _interopRequireDefault(_comboPromise);
 
         var _config2 = _interopRequireDefault(_config);
 
@@ -1566,12 +1566,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                'default': obj
             };
         }
 
         function mixConfig(requestConfig) {
-            return (0, _assign2.default)({}, _config2.default, requestConfig);
+            return (0, _assign2['default'])({}, _config2['default'], requestConfig);
         }
 
         function DataSource() {
@@ -1585,9 +1585,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 error: []
             };
 
-            var requestDefers = new _map2.default();
+            var requestDefers = new _map2['default']();
 
-            var httpMD = new _MissionDispatcher2.default(_Ajax2.default, workerCount);
+            var httpMD = new _MissionDispatcher2['default'](_Ajax2['default'], workerCount);
             httpMD.start();
 
             this.interceptors = {
@@ -1634,17 +1634,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             this.request = function (requestConfig) {
 
                 var missionConfig = mixConfig(requestConfig || {});
-                var requestDefer = new _Deferred2.default();
+                var requestDefer = new _Deferred2['default']();
 
                 // 1. requestInterceptors
                 interceptors.request.reduce(function (configPromise, interceptor) {
                     return configPromise.then(interceptor);
-                }, _promise2.default.resolve(missionConfig)).then(function (config) {
+                }, _promise2['default'].resolve(missionConfig)).then(function (config) {
                     return config;
                 }, function (interceptorError) {
                     console.log('Request Intercept Fail ... ', interceptorError);
                     if (!interceptorError instanceof Error) {
-                        interceptorError = (0, _CreateError2.default)({
+                        interceptorError = (0, _createError2['default'])({
                             message: interceptorError
                         });
                     }
@@ -1652,7 +1652,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 })
                 // 2. doRequest
                 .then(function (config) {
-                    var mission = new _Http2.default(config);
+                    var mission = new _Http2['default'](config);
                     // 2.1 doRequest
                     httpMD.put(mission)
                     // 2.2. response or error
@@ -1662,7 +1662,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                             return resultPromise.then(function (result) {
                                 return interceptor(result, requestConfig);
                             });
-                        }, _promise2.default.resolve(result)).then(function (result) {
+                        }, _promise2['default'].resolve(result)).then(function (result) {
                             requestDefer.resolve(result);
                         }, function (error) {
                             /* 
@@ -1678,7 +1678,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                         if (error instanceof Error) {
                             transformedError = error;
                         } else {
-                            transformedError = (0, _CreateError2.default)({
+                            transformedError = (0, _createError2['default'])({
                                 message: error
                             });
                         }
@@ -1687,7 +1687,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                             return errorPromise.then(function (error) {
                                 return interceptor(error, requestConfig);
                             });
-                        }, _promise2.default.resolve(transformedError)).then(function (errorOrData) {
+                        }, _promise2['default'].resolve(transformedError)).then(function (errorOrData) {
                             /*
                              * 【注意！！！】
                              *　处理过的异常, errorInterceptor可能把error转换为正常的数据(非Error类型)
@@ -1701,7 +1701,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                             throw exceptionError;
                         });
                     });
-                }).catch(function (err) {
+                })['catch'](function (err) {
                     requestDefer.reject(err);
                 });
 
@@ -1709,12 +1709,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             };
         }
 
-        DataSource.ErrorType = _const2.default.ERROR_TYPE;
-        DataSource.Deferred = _Deferred2.default;
-        DataSource.createError = _CreateError2.default;
-        DataSource.createComboPromise = _ComboPromise2.default;
+        DataSource.ErrorType = _const2['default'].ERROR_TYPE;
+        DataSource.Deferred = _Deferred2['default'];
+        DataSource.createError = _createError2['default'];
+        DataSource.createComboPromise = _comboPromise2['default'];
 
-        exports.default = DataSource;
+        exports['default'] = DataSource;
         module.exports = exports['default'];
     });
 });
@@ -2125,12 +2125,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (typeof exports !== "undefined") {
-        factory(module, exports, require('babel-runtime/core-js/object/assign'), require('babel-runtime/core-js/map'), require('babel-runtime/helpers/classCallCheck'), require('./utils/Deferred'), require('./utils/ComboPromise'), require('events'));
+        factory(module, exports, require('babel-runtime/core-js/object/assign'), require('babel-runtime/core-js/map'), require('babel-runtime/helpers/classCallCheck'), require('./utils/Deferred'), require('./utils/comboPromise'), require('events'));
     } else {
         var mod = {
             exports: {}
         };
-        factory(mod, mod.exports, global.assign, global.map, global.classCallCheck, global.Deferred, global.ComboPromise, global.events);
+        factory(mod, mod.exports, global.assign, global.map, global.classCallCheck, global.Deferred, global.comboPromise, global.events);
         global.MissionDispatcher = mod.exports;
     }
 })(this, function (module, exports) {
@@ -2148,10 +2148,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             var mod = {
                 exports: {}
             };
-            factory(mod, mod.exports, global.assign, global.map, global.classCallCheck, global.Deferred, global.ComboPromise, global.events);
+            factory(mod, mod.exports, global.assign, global.map, global.classCallCheck, global.Deferred, global.comboPromise, global.events);
             global.MissionDispatcher = mod.exports;
         }
-    })(undefined, function (module, exports, _assign, _map, _classCallCheck2, _Deferred, _ComboPromise, _events) {
+    })(undefined, function (module, exports, _assign, _map, _classCallCheck2, _Deferred, _comboPromise, _events) {
         'use strict';
 
         exports.__esModule = true;
@@ -2166,7 +2166,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                'default': obj
             };
         }
 
@@ -2185,12 +2185,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         var MissionDispatcher = function () {
             function MissionDispatcher(WorkerFactory, count) {
-                (0, _classCallCheck3.default)(this, MissionDispatcher);
+                (0, _classCallCheck3['default'])(this, MissionDispatcher);
                 this._context = {
                     workers: [], // worker队列
                     missionQueue: [], // 任务队列 
                     // 持有相同defer的mission, 结构类似{missionDefer: mission} 
-                    missionDefers: new _map2.default(),
+                    missionDefers: new _map2['default'](),
                     isRunning: false, // controller的运行状态 
                     emitter: new _events.EventEmitter()
                 };
@@ -2211,8 +2211,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             MissionDispatcher.prototype.put = function put(mission) {
 
                 var missionKey = makeMissionKey(mission),
-                    missionDefer = (0, _ComboPromise.createComboDefer)(missionKey),
-                    missionInQueue = (0, _assign2.default)({}, mission, { defer: missionDefer });
+                    missionDefer = (0, _comboPromise.createComboDefer)(missionKey),
+                    missionInQueue = (0, _assign2['default'])({}, mission, { defer: missionDefer });
 
                 if (this._context.missionDefers.has(missionDefer) === false) {
                     this._context.missionDefers.set(missionDefer, missionInQueue);
@@ -2278,10 +2278,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     context.workers.push(worker);
                     context.emitter.emit("worker:add");
                     // 删除 执行过的 missionDefer
-                    context.missionDefers.delete(mission.defer);
+                    context.missionDefers['delete'](mission.defer);
                 };
 
-                worker.do(mission).then(function (data) {
+                worker['do'](mission).then(function (data) {
                     mission.defer.resolve(data);
                     // console.log("%cResolve: m %s, w %s ", "color:blue", mission, worker.id);
                     finishHandler();
@@ -2293,7 +2293,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             }
         }
 
-        exports.default = MissionDispatcher;
+        exports['default'] = MissionDispatcher;
         module.exports = exports['default'];
     });
 });
@@ -2680,22 +2680,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                'default': obj
             };
         }
 
         var HttpMission = function (_Mission) {
-            (0, _inherits3.default)(HttpMission, _Mission);
+            (0, _inherits3['default'])(HttpMission, _Mission);
 
             function HttpMission(config) {
-                (0, _classCallCheck3.default)(this, HttpMission);
-                return (0, _possibleConstructorReturn3.default)(this, _Mission.call(this, 'http', config));
+                (0, _classCallCheck3['default'])(this, HttpMission);
+                return (0, _possibleConstructorReturn3['default'])(this, _Mission.call(this, 'http', config));
             }
 
             return HttpMission;
-        }(_Super2.default);
+        }(_Super2['default']);
 
-        exports.default = HttpMission;
+        exports['default'] = HttpMission;
         module.exports = exports['default'];
     });
 });
@@ -2748,21 +2748,21 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                "default": obj
             };
         }
 
         var Mission = function Mission(type, config) {
-            (0, _classCallCheck3.default)(this, Mission);
+            (0, _classCallCheck3["default"])(this, Mission);
 
             this.type = type;
             this.config = config;
             //假设JSON.stringify序列化结果是稳定得
-            this.signature = (0, _stringify2.default)({ type: type, config: config });
+            this.signature = (0, _stringify2["default"])({ type: type, config: config });
             this.createTime = Date.now();
         };
 
-        exports.default = Mission;
+        exports["default"] = Mission;
         module.exports = exports["default"];
     });
 });
@@ -2875,12 +2875,12 @@ exports.default = function (self, call) {
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (typeof exports !== "undefined") {
-        factory(module, exports, require('babel-runtime/core-js/promise'), require('babel-runtime/helpers/classCallCheck'), require('babel-runtime/core-js/object/assign'), require('babel-runtime/helpers/typeof'), require('../utils'), require('axios'), require('../const'), require('../utils/CreateError'));
+        factory(module, exports, require('babel-runtime/core-js/promise'), require('babel-runtime/helpers/classCallCheck'), require('babel-runtime/core-js/object/assign'), require('babel-runtime/helpers/typeof'), require('../utils'), require('axios'), require('../const'), require('../utils/createError'));
     } else {
         var mod = {
             exports: {}
         };
-        factory(mod, mod.exports, global.promise, global.classCallCheck, global.assign, global._typeof, global.utils, global.axios, global._const, global.CreateError);
+        factory(mod, mod.exports, global.promise, global.classCallCheck, global.assign, global._typeof, global.utils, global.axios, global._const, global.createError);
         global.Ajax = mod.exports;
     }
 })(this, function (module, exports) {
@@ -2898,10 +2898,10 @@ exports.default = function (self, call) {
             var mod = {
                 exports: {}
             };
-            factory(mod, mod.exports, global.promise, global.classCallCheck, global.assign, global._typeof, global.utils, global.axios, global._const, global.CreateError);
+            factory(mod, mod.exports, global.promise, global.classCallCheck, global.assign, global._typeof, global.utils, global.axios, global._const, global.createError);
             global.Ajax = mod.exports;
         }
-    })(undefined, function (module, exports, _promise, _classCallCheck2, _assign, _typeof2, _utils, _axios, _const, _CreateError) {
+    })(undefined, function (module, exports, _promise, _classCallCheck2, _assign, _typeof2, _utils, _axios, _const, _createError) {
         'use strict';
 
         exports.__esModule = true;
@@ -2918,15 +2918,15 @@ exports.default = function (self, call) {
 
         var _const2 = _interopRequireDefault(_const);
 
-        var _CreateError2 = _interopRequireDefault(_CreateError);
+        var _createError2 = _interopRequireDefault(_createError);
 
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
-                default: obj
+                'default': obj
             };
         }
 
-        var ERROR_TYPE = _const2.default.ERROR_TYPE;
+        var ERROR_TYPE = _const2['default'].ERROR_TYPE;
 
         var JSON = (typeof window === 'undefined' ? global : window).JSON || {};
 
@@ -2941,13 +2941,13 @@ exports.default = function (self, call) {
          * @refer https://github.com/mzabriskie/axios/blob/master/lib/utils.js
          */
         var isObject = function isObject(val) {
-            return val !== null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object';
+            return val !== null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3['default'])(val)) === 'object';
         };
 
         var transformMissionConfig = function transformMissionConfig(config) {
 
             var paramSerializer = (0, _utils.getParamSerializer)(config.paramSerializerJQLikeEnabled);
-            var transformedConfig = (0, _assign2.default)({}, config);
+            var transformedConfig = (0, _assign2['default'])({}, config);
 
             if (config.method === 'post' && isObject(transformedConfig.data)) {
                 transformedConfig.data = paramSerializer(transformedConfig.data);
@@ -2958,15 +2958,15 @@ exports.default = function (self, call) {
 
         var AjaxWorkerFactory = function () {
             function AjaxWorkerFactory() {
-                (0, _classCallCheck3.default)(this, AjaxWorkerFactory);
+                (0, _classCallCheck3['default'])(this, AjaxWorkerFactory);
             }
 
-            AjaxWorkerFactory.prototype.do = function _do(mission) {
-                return new _promise2.default(function (resolve, reject) {
+            AjaxWorkerFactory.prototype['do'] = function _do(mission) {
+                return new _promise2['default'](function (resolve, reject) {
                     // axiosSchema: https://github.com/mzabriskie/axios
                     var transformedConfig = transformMissionConfig(mission.config);
 
-                    _axios2.default.request(transformedConfig).then(function (_ref) {
+                    _axios2['default'].request(transformedConfig).then(function (_ref) {
                         var data = _ref.data,
                             status = _ref.status,
                             statusText = _ref.statusText,
@@ -2980,7 +2980,7 @@ exports.default = function (self, call) {
                             } catch (e) {
                                 var message = "response is not a instance of JSON ";
                                 console.error("response of '%s' is not JSON ", config.url);
-                                var parserError = (0, _CreateError2.default)({ message: message, type: ERROR_TYPE.PARSER });
+                                var parserError = (0, _createError2['default'])({ message: message, type: ERROR_TYPE.PARSER });
                                 reject(parserError);
                             }
                         }
@@ -2990,21 +2990,21 @@ exports.default = function (self, call) {
                         if (data.code) {
                             // 2. bizError
                             var httpStatusCode = status;
-                            var rawError = (0, _assign2.default)({}, data.error || data, { httpStatusCode: httpStatusCode });
-                            var businessError = (0, _CreateError2.default)(rawError);
+                            var rawError = (0, _assign2['default'])({}, data.error || data, { httpStatusCode: httpStatusCode });
+                            var businessError = (0, _createError2['default'])(rawError);
                             reject(businessError);
                         } else {
                             resolve(data);
                         }
                     }, function (error) {
-                        if (_axios2.default.isCancel(error)) {
+                        if (_axios2['default'].isCancel(error)) {
                             // abort error
                             // console.log('Request canceled', error.message);
-                            var abortError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code });
+                            var abortError = (0, _createError2['default'])({ message: error.message, type: ERROR_TYPE.ABORT, code: error.code });
                             reject(abortError);
                         } else if (error.code === 'ECONNABORTED') {
                             // timeout error
-                            var timeoutError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code });
+                            var timeoutError = (0, _createError2['default'])({ message: error.message, type: ERROR_TYPE.TIMEOUT, code: error.code });
                             reject(timeoutError);
                         } else if (error.response) {
                             // network error 
@@ -3029,12 +3029,12 @@ exports.default = function (self, call) {
                             code = code || responseDataError.code;
                             message = message || responseDataError.message || statusText;
 
-                            networkError = (0, _CreateError2.default)({ type: type, httpStatusCode: httpStatusCode, code: code, message: message });
+                            networkError = (0, _createError2['default'])({ type: type, httpStatusCode: httpStatusCode, code: code, message: message });
                             reject(networkError);
                         } else {
 
                             // console.error("unknown axios request error: ", error);
-                            var requestError = (0, _CreateError2.default)({ message: error.message, type: ERROR_TYPE.NETWORK });
+                            var requestError = (0, _createError2['default'])({ message: error.message, type: ERROR_TYPE.NETWORK });
                             reject(requestError);
                         }
                     });
@@ -3044,7 +3044,7 @@ exports.default = function (self, call) {
             return AjaxWorkerFactory;
         }();
 
-        exports.default = AjaxWorkerFactory;
+        exports['default'] = AjaxWorkerFactory;
         module.exports = exports['default'];
     });
 });
@@ -3581,7 +3581,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : {
-        default: obj
+        'default': obj
       };
     }
 
@@ -3592,7 +3592,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      */
     function getParamSerializer(paramSerializerJQLikeEnabled) {
 
-      var paramSerializerFn = paramSerializerJQLikeEnabled ? _jqueryParam2.default : _querystringEs2.default.stringify;
+      var paramSerializerFn = paramSerializerJQLikeEnabled ? _jqueryParam2['default'] : _querystringEs2['default'].stringify;
       return paramSerializerFn;
     }
   });
@@ -3767,7 +3767,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         };
 
-        exports.default = DefaultConfig;
+        exports['default'] = DefaultConfig;
         module.exports = exports['default'];
     });
 });
@@ -3783,7 +3783,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (typeof exports !== "undefined") {
-        factory(require('babel-runtime/core-js/json/stringify'), require('./data-service'));
+        factory(require('babel-runtime/core-js/json/stringify'), require('./dataService'));
     } else {
         var mod = {
             exports: {}
@@ -3811,20 +3811,20 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var MenuService = {
         // 获取最常使用的语言
         getMenu: function getMenu() {
-            var result = _dataService2.default.get(API.getMenu);
+            var result = _dataService2['default'].get(API.getMenu);
             return result;
         }
     };
 
     var render = function render(data) {
         var $code = document.getElementsByTagName('code');
-        $code[0].textContent = (0, _stringify2.default)(data);
+        $code[0].textContent = (0, _stringify2['default'])(data);
     };
 
     MenuService.getMenu().then(function (data) {
         console.log(data);
         render(data);
-    }).catch(function (err) {
+    })['catch'](function (err) {
         console.log(err);
         alert(err.message);
     });
@@ -3852,15 +3852,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (typeof exports !== "undefined") {
-        factory(exports, require('babel-runtime/core-js/promise'), require('babel-runtime/helpers/extends'), require('./config'), require('../dist/index'), require('./interceptors/FixParams'), require('./interceptors/ErrorProcessor'));
+        factory(exports, require('babel-runtime/core-js/promise'), require('babel-runtime/helpers/extends'), require('./config'), require('../lib/index'), require('./interceptors/fixParams'), require('./interceptors/errorProcessor'));
     } else {
         var mod = {
             exports: {}
         };
-        factory(mod.exports, global.promise, global._extends, global.config, global.index, global.FixParams, global.ErrorProcessor);
+        factory(mod.exports, global.promise, global._extends, global.config, global.index, global.fixParams, global.errorProcessor);
         global.dataService = mod.exports;
     }
-})(this, function (exports, _promise, _extends2, _config, _index, _FixParams, _ErrorProcessor) {
+})(this, function (exports, _promise, _extends2, _config, _index, _fixParams, _errorProcessor) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -3875,9 +3875,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
     var _index2 = _interopRequireDefault(_index);
 
-    var _FixParams2 = _interopRequireDefault(_FixParams);
+    var _fixParams2 = _interopRequireDefault(_fixParams);
 
-    var _ErrorProcessor2 = _interopRequireDefault(_ErrorProcessor);
+    var _errorProcessor2 = _interopRequireDefault(_errorProcessor);
 
     function _interopRequireDefault(obj) {
         return obj && obj.__esModule ? obj : {
@@ -3885,17 +3885,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         };
     }
 
-    var BASE_URL = _config2.default.BASE_URL,
-        PARAM_SERIALIZER_JQLIKE_ENABLED = _config2.default.PARAM_SERIALIZER_JQLIKE_ENABLED;
+    var BASE_URL = _config2['default'].BASE_URL,
+        PARAM_SERIALIZER_JQLIKE_ENABLED = _config2['default'].PARAM_SERIALIZER_JQLIKE_ENABLED;
 
     var baseURL = BASE_URL;
     var paramSerializerJQLikeEnabled = PARAM_SERIALIZER_JQLIKE_ENABLED;
 
-    // 创建一个DataSourceAgent实例
-    var agent = new _index2.default();
+    // 创建一个DataProvider实例
+    var provider = new _index2['default']();
 
     // 面向切面: 按顺序组装拦截器
-    agent.interceptors.request.use(_FixParams2.default.request).interceptors.error.use(_ErrorProcessor2.default.error);
+    provider.interceptors.request.use(_fixParams2['default'].request).interceptors.error.use(_errorProcessor2['default'].error);
 
     var DataService = {
 
@@ -3931,10 +3931,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled, maxAge, ignoreExpires} = config
         request: function request(config) {
 
-            var mixedConfig = (0, _extends3.default)({ paramSerializerJQLikeEnabled: paramSerializerJQLikeEnabled }, config);
+            var mixedConfig = (0, _extends3['default'])({ paramSerializerJQLikeEnabled: paramSerializerJQLikeEnabled }, config);
 
-            return new _promise2.default(function (resolve, reject) {
-                agent.request(mixedConfig).then(function (data) {
+            return new _promise2['default'](function (resolve, reject) {
+                provider.request(mixedConfig).then(function (data) {
                     resolve(data);
                 }, function (err) {
                     reject(err);
@@ -3942,17 +3942,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             });
         },
         start: function start() {
-            agent.start();
+            provider.start();
         },
         stop: function stop() {
-            agent.stop();
+            provider.stop();
         }
 
         // 错误类型的定义
-    };DataService.ErrorType = _index2.default.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-    DataService.createError = _index2.default.createError;
+    };DataService.ErrorType = _index2['default'].ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+    DataService.createError = _index2['default'].createError;
 
-    exports.default = DataService;
+    exports['default'] = DataService;
 });
 
 /***/ }),
@@ -4762,7 +4762,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		PARAM_SERIALIZER_JQLIKE_ENABLED: true
 	};
 
-	exports.default = config;
+	exports['default'] = config;
 });
 
 /***/ }),
@@ -6689,7 +6689,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             exports: {}
         };
         factory(mod.exports, global.regenerator, global.assign, global.promise, global.asyncToGenerator);
-        global.FixParams = mod.exports;
+        global.fixParams = mod.exports;
     }
 })(this, function (exports, _regenerator, _assign, _promise, _asyncToGenerator2) {
     'use strict';
@@ -6712,11 +6712,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         };
     }
 
-    exports.default = {
+    exports['default'] = {
         request: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(config) {
+            var _ref = (0, _asyncToGenerator3['default'])( /*#__PURE__*/_regenerator2['default'].mark(function _callee(config) {
                 var baseParams;
-                return _regenerator2.default.wrap(function _callee$(_context) {
+                return _regenerator2['default'].wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
@@ -6724,10 +6724,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                 baseParams = {
                                     _t: +new Date() //1314
                                 };
-                                return _context.abrupt('return', new _promise2.default(function (resolve, reject) {
+                                return _context.abrupt('return', new _promise2['default'](function (resolve, reject) {
                                     var assignTarget = config.method === 'get' ? 'params' : 'data';
                                     config[assignTarget] = config[assignTarget] || {};
-                                    (0, _assign2.default)(config[assignTarget], baseParams);
+                                    (0, _assign2['default'])(config[assignTarget], baseParams);
                                     resolve(config);
                                 }));
 
@@ -7578,13 +7578,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (typeof exports !== "undefined") {
-        factory(exports, require('babel-runtime/core-js/promise'), require('../../dist/index'), require('../locale'));
+        factory(exports, require('babel-runtime/core-js/promise'), require('../../lib/index'), require('../locale'));
     } else {
         var mod = {
             exports: {}
         };
         factory(mod.exports, global.promise, global.index, global.locale);
-        global.ErrorProcessor = mod.exports;
+        global.errorProcessor = mod.exports;
     }
 })(this, function (exports, _promise, _index, _locale) {
     'use strict';
@@ -7605,18 +7605,18 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         };
     }
 
-    var ErrorLocales = _locale2.default.Errors;
-    var ErrorType = _index2.default.ErrorType,
-        Deferred = _index2.default.Deferred,
-        createComboPromise = _index2.default.createComboPromise;
+    var ErrorLocales = _locale2['default'].Errors;
+    var ErrorType = _index2['default'].ErrorType,
+        Deferred = _index2['default'].Deferred,
+        createComboPromise = _index2['default'].createComboPromise;
 
     var BizCommonErrorLocales = ErrorLocales[ErrorType.BUSINESS]['COMMON'];
     var BizModulesErrorLocales = ErrorLocales[ErrorType.BUSINESS]['MODULES'];
 
     /* 给error 增加一个locale字段 */
-    exports.default = {
+    exports['default'] = {
         request: function request(config) {
-            return _promise2.default.resolve(config);
+            return _promise2['default'].resolve(config);
         },
         response: function response(result, config) {},
         error: function error(_error, config) {
@@ -7673,7 +7673,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (typeof exports !== "undefined") {
-        factory(exports, require('babel-runtime/helpers/defineProperty'), require('../../dist/index'));
+        factory(exports, require('babel-runtime/helpers/defineProperty'), require('../../lib/index'));
     } else {
         var mod = {
             exports: {}
@@ -7700,22 +7700,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
     var _Errors;
 
-    var ErrorType = _index2.default.ErrorType,
-        Deferred = _index2.default.Deferred,
-        createComboPromise = _index2.default.createComboPromise;
+    var ErrorType = _index2['default'].ErrorType,
+        Deferred = _index2['default'].Deferred,
+        createComboPromise = _index2['default'].createComboPromise;
 
 
     /* 业务-[通用|模块}'错误提示信息 */
-    var Errors = (_Errors = {}, (0, _defineProperty3.default)(_Errors, ErrorType.NETWORK, {
+    var Errors = (_Errors = {}, (0, _defineProperty3['default'])(_Errors, ErrorType.NETWORK, {
         // 'default': '亲爱的用户现在网络异常，请检查网络连接或稍后重试!' 
         'default': '亲爱的用户现在网络异常，请稍后重试!'
-    }), (0, _defineProperty3.default)(_Errors, ErrorType.ABORT, {
+    }), (0, _defineProperty3['default'])(_Errors, ErrorType.ABORT, {
         'default': '请求取消'
-    }), (0, _defineProperty3.default)(_Errors, ErrorType.TIMEOUT, {
+    }), (0, _defineProperty3['default'])(_Errors, ErrorType.TIMEOUT, {
         'default': '请求超时，请稍后重试'
-    }), (0, _defineProperty3.default)(_Errors, ErrorType.PARSER, {
+    }), (0, _defineProperty3['default'])(_Errors, ErrorType.PARSER, {
         'default': '数据解析失败，请稍后重试'
-    }), (0, _defineProperty3.default)(_Errors, ErrorType.BUSINESS, {
+    }), (0, _defineProperty3['default'])(_Errors, ErrorType.BUSINESS, {
         // 通用错误, code, 首字符代表错误级别：4代表请求端错误，5带面server段发生错误）
         COMMON: {
             400: '参数内容错误', // 参数内容错误
@@ -7742,7 +7742,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         }
     }), _Errors);
 
-    exports.default = {
+    exports['default'] = {
         Errors: Errors
     };
 });

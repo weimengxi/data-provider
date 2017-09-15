@@ -1,5 +1,5 @@
 import Deferred from './utils/Deferred';
-import { createComboDefer } from './utils/ComboPromise';
+import { createComboDefer } from './utils/comboPromise';
 import { EventEmitter } from 'events';
 
 // 会不会溢出？

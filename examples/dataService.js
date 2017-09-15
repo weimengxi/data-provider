@@ -1,18 +1,18 @@
 import Conf from './config';
-import DataSourceAgent from '../dist/index';
+import DataProvider from '../lib/index';
 
 const { BASE_URL, PARAM_SERIALIZER_JQLIKE_ENABLED } = Conf;
 const baseURL = BASE_URL;
 const paramSerializerJQLikeEnabled = PARAM_SERIALIZER_JQLIKE_ENABLED;
 
-// 创建一个DataSourceAgent实例
-var agent = new DataSourceAgent();
+// 创建一个DataProvider实例
+var provider = new DataProvider();
 
-import fixParamsInterceptor from './interceptors/FixParams';
-import errorProcessorInterceptor from './interceptors/ErrorProcessor';
+import fixParamsInterceptor from './interceptors/fixParams';
+import errorProcessorInterceptor from './interceptors/errorProcessor';
 
 // 面向切面: 按顺序组装拦截器
-agent
+provider
     .interceptors.request.use(fixParamsInterceptor.request)
     .interceptors.error.use(errorProcessorInterceptor.error)
 
@@ -54,22 +54,22 @@ var DataService = {
         let mixedConfig = { paramSerializerJQLikeEnabled, ...config };
 
         return new Promise((resolve, reject) => {
-            agent.request(mixedConfig)
+            provider.request(mixedConfig)
                 .then(data => { resolve(data) }, err => { reject(err); })
         });
 
     },
     start: () => {
-        agent.start();
+        provider.start();
     },
     stop: () => {
-        agent.stop();
+        provider.stop();
     }
 
 }
 
 // 错误类型的定义
-DataService.ErrorType = DataSourceAgent.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
-DataService.createError = DataSourceAgent.createError; 
+DataService.ErrorType = DataProvider.ErrorType; //{BUSINESS, NETWORK, TIMEOUT, ABORT, PARSER}
+DataService.createError = DataProvider.createError; 
 
 export default DataService;

@@ -1,7 +1,7 @@
 //本地化文案
-import DataSource from '../../dist/index';
+import DataProvider from '../../lib/index';
 
-const {ErrorType, Deferred, createComboPromise } = DataSource;
+const {ErrorType, Deferred, createComboPromise } = DataProvider;
 
 /* 业务-[通用|模块}'错误提示信息 */
 const Errors = {

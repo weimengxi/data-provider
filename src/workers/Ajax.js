@@ -2,7 +2,7 @@ import { getParamSerializer } from '../utils';
 import axios from 'axios';
 
 import Const from '../const';
-import createError from '../utils/CreateError';
+import createError from '../utils/createError';
 
 const ERROR_TYPE = Const.ERROR_TYPE;
 

@@ -1,9 +1,9 @@
-import DataSource from '../../dist/index';
+import DataProvider from '../../lib/index';
 
 import Locale from '../locale';
 
 const ErrorLocales = Locale.Errors;
-const {ErrorType, Deferred, createComboPromise } = DataSource;
+const {ErrorType, Deferred, createComboPromise } = DataProvider;
 const BizCommonErrorLocales = ErrorLocales[ErrorType.BUSINESS]['COMMON'];
 const BizModulesErrorLocales = ErrorLocales[ErrorType.BUSINESS]['MODULES'];
 

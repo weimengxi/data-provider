@@ -1,6 +1,6 @@
 import Deferred from './utils/Deferred';
-import createError from './utils/CreateError';
-import createComboPromise from './utils/ComboPromise';
+import createError from './utils/createError';
+import createComboPromise from './utils/comboPromise';
 
 import DefaultConfig from './config';
 import Const from './const';

@@ -1,4 +1,4 @@
-import DataService from './data-service';
+import DataService from './dataService';
 
 const API = {
     getMenu: 'menu.json',
