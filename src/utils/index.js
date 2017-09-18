@@ -8,7 +8,7 @@ import param from 'jquery-param';
  */
 export function getParamSerializer(paramSerializerJQLikeEnabled) {
 
-    let paramSerializerFn = paramSerializerJQLikeEnabled ? param : querystring.stringify;
-    return paramSerializerFn;
+  let paramSerializerFn = paramSerializerJQLikeEnabled ? param : querystring.stringify;
+  return paramSerializerFn;
 
 }
