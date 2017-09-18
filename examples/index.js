@@ -6,13 +6,13 @@ const API = {
 
 const MenuService = {
   // 获取最常使用的语言
-  getMenu: function getMenu(){
+  getMenu: function getMenu() {
     let result = DataService.get(API.getMenu);
     return result;
   }
 };
 
-const render = function render(data){
+const render = function render(data) {
   var $code = document.getElementsByTagName("code");
   $code[0].textContent = JSON.stringify(data);
 };

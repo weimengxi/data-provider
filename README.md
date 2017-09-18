@@ -5,7 +5,7 @@
 ### Installation
 
 ```
-npm install data-provider
+npm install @bbfe/data-provider
 ```
 
 ### Features
@@ -57,14 +57,14 @@ export default {
 ```
 // example/dataService.js
 
-import DataProvider from 'data-provider';
+import DataProvider from '@bbfe/data-provider';
 import fixParamsInterceptor from './interceptors/FixParams';
 
 // 创建一个DataProvider实例
-var provider = new DataProvider();
+var service = new DataProvider();
 
 // 面向切面: 按顺序组装拦截器
-provider
+service
     .interceptors.request.use(fixParamsInterceptor.request)
     .interceptors.error.use(errorProcessorInterceptor.error)
 
@@ -113,21 +113,21 @@ var DataService = {
         return DataService.request(config);
     },
 
-    // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled, maxAge, ignoreExpires} = config
+    // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled} = config
     request: function(config) {
     // paramSerializerJQLikeEnabled: 默认开启用jquery.param进行请求参数的序列化
         let mixedConfig = { paramSerializerJQLikeEnabled, ...config };
         return new Promise((resolve, reject) => {
-            provider.request(mixedConfig)
+            service.request(mixedConfig)
                 .then(data => { resolve(data) }, err => { reject(err); })
         });
 
     },
     start: () => {
-        provider.start();
+        service.start();
     },
     stop: () => {
-        provider.stop();
+        service.stop();
     }
 
 }
