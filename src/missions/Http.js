@@ -1,8 +1,8 @@
-import Mission from './Super';
+import Mission from "./Super";
 
 class HttpMission extends Mission {
   constructor(config) {
-    super('http', config);
+    super("http", config);
   }
 }
 

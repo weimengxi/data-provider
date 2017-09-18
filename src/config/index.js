@@ -1,18 +1,18 @@
 const DefaultConfig = {
   // `url` is the server URL that will be used for the request
-  url: '',
+  url: "",
 
   // `method` is the request method to be used when making the request
-  method: 'get', // default
+  method: "get", // default
 
   // `baseURL` will be prepended to `url` unless `url` is absolute.
   // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
   // to methods of that instance.
-  baseURL: '',
+  baseURL: "",
 
   // `headers` are custom headers to be sent
   headers: {
-    'X-Requested-With': 'XMLHttpRequest'
+    "X-Requested-With": "XMLHttpRequest"
   },
 
   // `params` are the URL parameters to be sent with the request
@@ -29,8 +29,7 @@ const DefaultConfig = {
 
   // `responseType` indicates the type of data that the server will respond with
   // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
-  responseType: 'text',
-
+  responseType: "text",
 
   // `timeout` specifies the number of milliseconds before the request times out.
   // If the request takes longer than `timeout`, the request will be aborted.
@@ -40,14 +39,12 @@ const DefaultConfig = {
   // should be made using credentials
   withCredentials: false, // default: false
 
-
   // 请求可合并
   comboRequestEnabled: false,
 
   // http://api.jquery.com/jquery.param/
   // {key: ['v1', 'v2']} => key[]=v1&key=v2
   paramSerializerJQLikeEnabled: false
-
-}
+};
 
 export default DefaultConfig;
