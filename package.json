@@ -1,6 +1,6 @@
 {
   "name": "@bbfe/data-provider",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "request manager with AOP interceptors and debouce abilities",
   "keywords": [
     "ajax",
