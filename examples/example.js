@@ -2922,12 +2922,9 @@ exports.default = function (self, call) {
     }
 
     var ERROR_TYPE = _const2["default"].ERROR_TYPE;
-
     var JSON = (typeof window === "undefined" ? global : window).JSON || {};
-
     // 异常数据结构
     var errorResponseStruct = { httpStatusCode: NaN, code: NaN, message: "" };
-
     /**
      * Determine if a value is an Object
      *
@@ -2938,15 +2935,12 @@ exports.default = function (self, call) {
     var isObject = function isObject(val) {
       return val !== null && (typeof val === "undefined" ? "undefined" : (0, _typeof3["default"])(val)) === "object";
     };
-
     var transformMissionConfig = function transformMissionConfig(config) {
       var paramSerializer = (0, _utils.getParamSerializer)(config.paramSerializerJQLikeEnabled);
       var transformedConfig = (0, _assign2["default"])({}, config);
-
       if (config.method === "post" && isObject(transformedConfig.data)) {
         transformedConfig.data = paramSerializer(transformedConfig.data);
       }
-
       return transformedConfig;
     };
 
@@ -2959,7 +2953,6 @@ exports.default = function (self, call) {
         return new _promise2["default"](function (resolve, reject) {
           // axiosSchema: https://github.com/mzabriskie/axios
           var transformedConfig = transformMissionConfig(mission.config);
-
           _axios2["default"].request(transformedConfig).then(function (_ref) {
             var data = _ref.data,
                 status = _ref.status,
@@ -2968,6 +2961,7 @@ exports.default = function (self, call) {
                 config = _ref.config,
                 response = _ref.response;
 
+            data = null;
             if (Object.prototype.toString.call(data) !== "[object Object]") {
               try {
                 data = JSON.parse(data);
@@ -2981,10 +2975,9 @@ exports.default = function (self, call) {
                 reject(parserError);
               }
             }
-
             // reslove
-            // [!important] 新增的 (data.code) 逻辑判断是为了兼容服务端api error返回结构争议
-            if (data.code) {
+            // data可能是null
+            if (data !== null && data.code) {
               // 2. bizError
               var httpStatusCode = status;
               var rawError = (0, _assign2["default"])({}, data.error || data, {
@@ -3031,11 +3024,9 @@ exports.default = function (self, call) {
               var responseDataError = data.error || {};
               var type = ERROR_TYPE.NETWORK,
                   httpStatusCode = status;
-
               // 兼容data.code 和 data.error这两种标志异常的方式， 优先选用code
               code = code || responseDataError.code;
               message = message || responseDataError.message || statusText;
-
               networkError = (0, _createError2["default"])({ type: type, httpStatusCode: httpStatusCode, code: code, message: message });
               reject(networkError);
             } else {
