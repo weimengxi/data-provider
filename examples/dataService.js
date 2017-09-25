@@ -1,10 +1,7 @@
 import Conf from "./config";
 import DataProvider from "../lib";
 
-const {
-  BASE_URL,
-  PARAM_SERIALIZER_JQLIKE_ENABLED
-} = Conf;
+const {BASE_URL, PARAM_SERIALIZER_JQLIKE_ENABLED} = Conf;
 const baseURL = BASE_URL;
 const paramSerializerJQLikeEnabled = PARAM_SERIALIZER_JQLIKE_ENABLED;
 
@@ -20,7 +17,7 @@ service.interceptors.request
   .interceptors.error.use(errorProcessorInterceptor.error);
 
 var DataService = {
-  post: function (uri, data) {
+  post: function(uri, data){
     var config = {
       url: uri,
       method: "post",
@@ -33,7 +30,7 @@ var DataService = {
     return DataService.request(config);
   },
 
-  get: function (uri, params) {
+  get: function(uri, params){
     var config = {
       url: uri,
       // to methods of that instance.
@@ -49,7 +46,7 @@ var DataService = {
   },
 
   // let {url, baseURL, method, params, comboRequestEnabled, paramSerializerJQLikeEnabled, maxAge, ignoreExpires} = config
-  request: function (config) {
+  request: function(config){
     let mixedConfig = {
       paramSerializerJQLikeEnabled,
       ...config

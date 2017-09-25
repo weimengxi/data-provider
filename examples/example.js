@@ -2961,7 +2961,6 @@ exports.default = function (self, call) {
                 config = _ref.config,
                 response = _ref.response;
 
-            data = null;
             if (Object.prototype.toString.call(data) !== "[object Object]") {
               try {
                 data = JSON.parse(data);
