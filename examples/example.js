@@ -973,7 +973,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         exports: {}
       };
       factory(mod.exports, global.promise, global.map, global.Deferred);
-      global.ComboPromise = mod.exports;
+      global.comboPromise = mod.exports;
     }
   })(undefined, function (exports, _promise, _map, _Deferred) {
     "use strict";
@@ -1108,7 +1108,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         exports: {}
       };
       factory(mod, mod.exports, global.assign, global.objectWithoutProperties, global._const);
-      global.CreateError = mod.exports;
+      global.createError = mod.exports;
     }
   })(undefined, function (module, exports, _assign, _objectWithoutProperties2, _const) {
     "use strict";
