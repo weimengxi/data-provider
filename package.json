@@ -19,7 +19,7 @@
     "build": "rm -rf lib && babel src -d lib -s inline",
     "dev": "npm run build && webpack-dev-server --hot --inline",
     "pretty": "prettier --no-config --write '{src,examples}/**/*.js'",
-    "prepublish": "npm run pretty"
+    "prepublish": "npm run pretty && npm run build"
   },
   "repository": {
     "type": "git",
