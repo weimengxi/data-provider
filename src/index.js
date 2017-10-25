@@ -14,16 +14,16 @@ function mixConfig(requestConfig){
   return Object.assign({}, DefaultConfig, requestConfig);
 }
 
-function DataSource(workerCount = 10){
+function DataSource(workerCount = 10, strategy = null){
   var interceptors = {
     request: [],
     response: [],
     error: []
   };
 
-  var requestDefers = new Map();
+  //var requestDefers = new Map();
 
-  var httpMD = new MissionDispatcher(HttpWorkerFactory, workerCount);
+  var httpMD = new MissionDispatcher(HttpWorkerFactory, workerCount, strategy);
   httpMD.start();
 
   this.interceptors = {
@@ -99,9 +99,9 @@ function DataSource(workerCount = 10){
                     requestDefer.resolve(result);
                   },
                   error => {
-                    /* 
+                    /*
                  * @TODO
-                 * error instanceof Error && requestDefer.reject(error); 
+                 * error instanceof Error && requestDefer.reject(error);
                  */
                     console.error("Response Intercept Exception ... ", error);
                     throw error;

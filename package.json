@@ -1,6 +1,6 @@
 {
   "name": "@bbfe/data-provider",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "request manager with AOP interceptors and debouce abilities",
   "keywords": [
     "ajax",
@@ -23,9 +23,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weimengxi/data-provider.git"
+    "url": "git+https://github.com/g-bbfe/data-provider.git"
   },
-  "author": "weimengxi",
+  "author": "bbfe",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/weimengxi/data-provider/issues"

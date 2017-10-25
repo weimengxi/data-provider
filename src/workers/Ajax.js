@@ -27,6 +27,32 @@ const transformMissionConfig = function transformMissionConfig(config){
   return transformedConfig;
 };
 class AjaxWorkerFactory {
+  constructor(strategy){
+    this.injectStrategy(strategy);
+  }
+
+  injectStrategy(strategy){
+    if(strategy != null){
+      if(strategy.businessError){
+        this.businessErrorStrategy = strategy.businessError;
+      }
+    }
+  }
+
+  defaultBizErrorStrategy(data, status, resolve, reject){
+    if (data !== null && data.code) {
+      // 2. bizError
+      let httpStatusCode = status;
+      let rawError = Object.assign({}, data.error || data, {
+        httpStatusCode
+      });
+      let businessError = createError(rawError);
+      reject(businessError);
+    } else {
+      resolve(data);
+    }
+  }
+
   do(mission) {
     return new Promise((resolve, reject) => {
       // axiosSchema: https://github.com/mzabriskie/axios
@@ -48,17 +74,10 @@ class AjaxWorkerFactory {
           }
           // reslove
           // data可能是null
-          if (data !== null && data.code) {
-            // 2. bizError
-            let httpStatusCode = status;
-            let rawError = Object.assign({}, data.error || data, {
-              httpStatusCode
-            });
-            let businessError = createError(rawError);
-            reject(businessError);
-          } else {
-            resolve(data);
+          if(!this.businessErrorStrategy){
+            this.businessErrorStrategy = this.defaultBizErrorStrategy;
           }
+          this.businessErrorStrategy(data, status, resolve, reject);
         },
         error => {
           if (axios.isCancel(error)) {
@@ -90,6 +109,13 @@ class AjaxWorkerFactory {
               config,
               data = {}
             } = error.response;
+
+            if(!this.businessErrorStrategy){
+              this.businessErrorStrategy = this.defaultBizErrorStrategy;
+            }
+            this.businessErrorStrategy(data, status, resolve, reject);
+
+
             let {code, message} = data;
             let responseDataError = data.error || {};
             let type = ERROR_TYPE.NETWORK,

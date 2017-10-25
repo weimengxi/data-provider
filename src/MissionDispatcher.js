@@ -14,7 +14,7 @@ function makeMissionKey(mission){
 
 /*
  * @param {WorkerFactory|Function} 生成worker的工厂
- * @param {count|countber} 生成worker的数量 
+ * @param {count|countber} 生成worker的数量
  */
 class MissionDispatcher {
   // 【!!!约定】 以下划线开头的是私有变量，请不要调用
@@ -27,9 +27,9 @@ class MissionDispatcher {
     emitter: new EventEmitter()
   };
 
-  constructor(WorkerFactory, count) {
+  constructor(WorkerFactory, count, strategy) {
     for (let i = 0; i < count; i++) {
-      let worker = new WorkerFactory();
+      let worker = new WorkerFactory(strategy);
       worker.id = i;
       this._context.workers.push(worker);
     }

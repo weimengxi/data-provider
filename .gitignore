@@ -58,4 +58,12 @@ typings/
 .env
 
 # Transpiled codes
-lib/*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swo
+*.swp
