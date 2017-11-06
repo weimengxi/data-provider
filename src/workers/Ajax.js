@@ -27,26 +27,34 @@ const transformMissionConfig = function transformMissionConfig(config){
   return transformedConfig;
 };
 class AjaxWorkerFactory {
-  constructor(strategy){
+  constructor(strategy) {
     this.injectStrategy(strategy);
   }
 
-  injectStrategy(strategy){
-    if(strategy != null){
-      if(strategy.businessError){
+  injectStrategy(strategy) {
+    if (strategy != null) {
+      if (strategy.businessError) {
         this.businessErrorStrategy = strategy.businessError;
       }
     }
   }
 
-  defaultBizErrorStrategy(data, status, resolve, reject){
-    if (data !== null && data.code) {
-      // 2. bizError
+  isUnValidateStatus(httpStatus) {
+    // not 2xx or
+    return httpStatus >= 300 || httpStatus < 200;
+  }
+
+  isErrorData(data) {
+    // code exist and != 0
+    return data && (data.error || (data.code && data.code !== 0));
+  }
+
+  defaultBizErrorStrategy(data, status, resolve, reject) {
+    if (this.isUnValidateStatus(status) || this.isErrorData(data)) {
       let httpStatusCode = status;
-      let rawError = Object.assign({}, data.error || data, {
-        httpStatusCode
-      });
-      let businessError = createError(rawError);
+      let {code, message} = data.error || data;
+
+      let businessError = createError({code, message, httpStatusCode});
       reject(businessError);
     } else {
       resolve(data);
@@ -57,8 +65,9 @@ class AjaxWorkerFactory {
     return new Promise((resolve, reject) => {
       // axiosSchema: https://github.com/mzabriskie/axios
       let transformedConfig = transformMissionConfig(mission.config);
-      axios.request(transformedConfig).then(
-        ({data, status, statusText, headers, config, response}) => {
+      axios
+        .request(transformedConfig)
+        .then(({data, status, statusText, headers, config, response}) => {
           if (Object.prototype.toString.call(data) !== "[object Object]") {
             try {
               data = JSON.parse(data);
@@ -72,14 +81,13 @@ class AjaxWorkerFactory {
               reject(parserError);
             }
           }
-          // reslove
-          // data可能是null
-          if(!this.businessErrorStrategy){
+          //has data.error or data.code
+          if (!this.businessErrorStrategy) {
             this.businessErrorStrategy = this.defaultBizErrorStrategy;
           }
           this.businessErrorStrategy(data, status, resolve, reject);
-        },
-        error => {
+        })
+        .catch(error => {
           if (axios.isCancel(error)) {
             // abort error
             // console.log('Request canceled', error.message);
@@ -98,26 +106,19 @@ class AjaxWorkerFactory {
             });
             reject(timeoutError);
           } else if (error.response) {
-            // network error
+            // biz error
             // The request was made, but the server responded with a status code
             // that falls out of the range of 2xx
             let networkError;
-            let {
-              status,
-              statusText,
-              headers,
-              config,
-              data = {}
-            } = error.response;
+            let {status, statusText, headers, config, data} = error.response;
 
-            if(!this.businessErrorStrategy){
+            if (!this.businessErrorStrategy) {
               this.businessErrorStrategy = this.defaultBizErrorStrategy;
             }
             this.businessErrorStrategy(data, status, resolve, reject);
 
-
-            let {code, message} = data;
-            let responseDataError = data.error || {};
+            let {code, message} = data || {};
+            let responseDataError = (data && data.error) || {};
             let type = ERROR_TYPE.NETWORK,
               httpStatusCode = status;
             // 兼容data.code 和 data.error这两种标志异常的方式， 优先选用code
@@ -126,15 +127,15 @@ class AjaxWorkerFactory {
             networkError = createError({type, httpStatusCode, code, message});
             reject(networkError);
           } else {
-            // console.error("unknown axios request error: ", error);
+            // The request was made but no response was received
+            // Something happened in setting up the request that triggered an Error
             let requestError = createError({
               message: error.message,
               type: ERROR_TYPE.NETWORK
             });
             reject(requestError);
           }
-        }
-      );
+        });
     });
   }
 }

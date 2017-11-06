@@ -5,7 +5,7 @@ var webpack = require('webpack');
 module.exports = {
 
     entry: {
-        'examples/example': './examples/index.js'
+        'example': './examples/index.js'
     },
 
     output: {
@@ -39,7 +39,7 @@ module.exports = {
         stats: 'minimal',
         inline: true,
         open: true,
-        https: true,
+        // https: true,
         proxy: {
             // 工单管理
             "/api": {

@@ -135,6 +135,13 @@ var DataService = {
 
 ### API
 
+data-provider 判断请求是否成功的标准为 response httpCode 是否为 2xx
+
+#### Constructor Params
+- `workerCount` 默认是 10
+- `strategy` response 处理策略，类型是 Function，参数为(data, status, resolve, reject)，内置默认策略，
+http 2xx 如果返回值中存在 error 属性或 code 属性，则标记为 Biz Error
+
 #### Instance Methods
 
 - `request`开始一个请求流程
