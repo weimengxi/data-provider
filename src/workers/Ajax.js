@@ -70,7 +70,11 @@ class AjaxWorkerFactory {
         .then(({data, status, statusText, headers, config, response}) => {
           if (Object.prototype.toString.call(data) !== "[object Object]") {
             try {
-              data = JSON.parse(data);
+              /*
+               * @description  [补丁]
+               * restful 接口 返回 204 时，data 为 空字符串， 直接返回空字符串， 否则JSON.parse("")会抛出异常
+               */
+              data = status === 204 ? data : JSON.parse(data);
             } catch (e) {
               let message = "response is not a instance of JSON ";
               console.error("response of '%s' is not JSON ", config.url);
