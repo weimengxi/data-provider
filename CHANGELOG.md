@@ -1,5 +1,18 @@
 ## 更新日志
 
+### 0.0.9
+*2017-12-07*
+
+**NEW FEATURE**
+- 支持设置自定义header头
+  ```
+	config: {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+	}
+	```
+
 ### 0.0.8
 *2017-12-04*
 

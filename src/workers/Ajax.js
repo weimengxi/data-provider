@@ -16,16 +16,37 @@ const errorResponseStruct = {httpStatusCode: NaN, code: NaN, message: ""};
 const isObject = function isObject(val){
   return val !== null && typeof val === "object";
 };
+
 const transformMissionConfig = function transformMissionConfig(config){
+  /**
+   * @PATCH 
+   * 
+   * @description 支持传入自定义headers, 配置axios.default.headers
+   * @date 2017-12-07
+   * @author weimengxi   
+   */
+
+  let defaultHeaders = axios.defaults.headers;
+  let headers = config.headers;
+  let specialMethods = ['post', 'put', 'patch'];
+
+  if(isObject(headers)) {
+    specialMethods.forEach( method => {
+      Object.assign(defaultHeaders[method],  headers);
+    })
+  }
+  
   const paramSerializer = getParamSerializer(
     config.paramSerializerJQLikeEnabled
   );
+
   let transformedConfig = Object.assign({}, config);
-  if (config.method === "post" && isObject(transformedConfig.data)) {
+  if (specialMethods.indexOf(config.method) > -1 && isObject(transformedConfig.data)) {
     transformedConfig.data = paramSerializer(transformedConfig.data);
   }
   return transformedConfig;
 };
+
 class AjaxWorkerFactory {
   constructor(strategy) {
     this.injectStrategy(strategy);
